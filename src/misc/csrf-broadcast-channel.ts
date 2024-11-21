@@ -1,0 +1,1 @@
+export const csrfBroadcastChannel = () => new BroadcastChannel('csrf')

@@ -1,0 +1,124 @@
+/* global.scss */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #ffffff;
+
+    .MuiAppBar-root {
+      background-color: #333333;
+    }
+
+    .MuiDrawer-paper {
+      background-color: #1e1e1e;
+    }
+
+    .MuiTypography-root,
+    .MuiListItemIcon-root {
+      color: #ffffff;
+    }
+
+    /* Adjust styles for TextField in dark mode */
+    .MuiTextField-root, 
+    .MuiFormControl-root,
+    .MuiFormGroup-root {
+      & .MuiInputBase-root {
+        color: #ffffff; // Text color
+        background-color: #1e1e1e; // Background color
+      }
+
+      & .MuiInputLabel-root {
+        color: #ffffff; // Label color
+      }
+
+      & .MuiOutlinedInput-notchedOutline {
+        border-color: #ffffff; // Border color
+      }
+
+      & .MuiInput-underline:before {
+        border-bottom-color: #ffffff; // Underline color before focus
+      }
+
+      & .MuiInput-underline:after {
+        border-bottom-color: #ffffff; // Underline color after focus
+      }
+
+      &:hover .MuiOutlinedInput-notchedOutline {
+        border-color: #b0b0b0; // Light gray border color on hover
+      }
+
+      & .MuiSvgIcon-root {
+        fill:white;
+      }
+    }
+
+    /* Adjust styles for IconButton in dark mode */
+    .MuiIconButton-root, .MuiTableCell-root {
+      color: #ffffff; // Icon color
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1); // Lighter background on hover
+      }
+    }
+
+    /* Adjust styles for Snackbar in dark mode */
+    .MuiSnackbar-root {
+      .MuiPaper-root {
+        background-color: #c62828; // Dark background color of the snackbar
+        color: #ffffff; // Light text color
+
+        .MuiSvgIcon-root, .MuiIconButton-root {
+          color: #ffffff; // Bright color for the close icon
+        }
+      }
+    }
+
+    /* Adjust styles for Card in dark mode */
+    .MuiCard-root {
+      background-color: #1e1e1e; // Dark background color for the card
+    }
+
+    .MuiCardContent-root {
+      color: #ffffff; // Text color for the card content
+    }
+
+    /* Adjust styles for ListItem and ListItemButton in dark mode on hover */
+    .MuiListItem-root:hover,
+    .MuiListItemButton-root:hover {
+      background-color: rgba(255, 255, 255, 0.1); // Lighter background on hover
+    }
+
+    /* Adjust styles for CartContent in dark mode on hover */
+    .MuiCard-root:hover {
+      background-color: rgba(255, 255, 255, 0.1); // Lighter background on hover
+    }
+
+    /* Ensure the bin icon is visible in dark mode */
+    .MuiSvgIcon-root[data-testid="DeleteIcon"] {
+      color: #ff4d4d; // Bright red color for the delete icon
+
+      &:hover {
+        background-color: rgba(255, 77, 77, 0.1); // Lighter red background on hover
+      }
+    }
+
+    /* Adjust styles for Divider in dark mode */
+    .MuiDivider-root {
+      background-color: #ffffff; // White color for the divider
+    }
+
+    .MuiTableCell-root {
+      border: 1px solid white;
+    }
+
+    // .MuiTableRow-root:nth-child(even) {
+    //   background-color: #333333;
+    // }
+
+    /* Add more styles as needed */
+  }
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
