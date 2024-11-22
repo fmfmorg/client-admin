@@ -29,6 +29,6 @@ jobs:
     - name: Install dependencies
       if: steps.cache-restore.outputs.cache-hit != 'true'
       run: npm ci
-    - run: npm run build --if-present
+    - run: npm run build #--if-present
       env:
         FM_CLIENT_ADMIN_API_URL : ${{ env.FM_CLIENT_ADMIN_API_URL }}
