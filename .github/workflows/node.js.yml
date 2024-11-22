@@ -4,8 +4,8 @@
 name: Node.js CI
 
 on:
-  # push:
-  #   branches: [ "main" ]
+  push:
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -16,15 +16,29 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        vps-ip: 
+          - ${{ secrets.VPS_IP_FIRST }}
 
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js 20
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 20
         cache: 'npm'
-    - run: npm ci
+        cache-dependency-path: package-lock.json
+    - name: Dependency restore
+      id: cache-restore
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: js-depend-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+    - name: Install dependencies
+      if: steps.cache-restore.outputs.cache-hit != 'true'
+      run: npm ci
     - run: npm run build --if-present
+    - run: |
+          ssh ${{ secrets.VPS_USERNAME }}@${{ matrix.vps-ip }} -p ${{ secrets.VPS_SSH_PORT }} 'cd /projects && git pull && npm install && npm run start'
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          FM_CLIENT_ADMIN_API_URL : ${{ env.FM_CLIENT_ADMIN_API_URL }}
