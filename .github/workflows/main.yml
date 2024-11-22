@@ -11,16 +11,13 @@ on:
 
 jobs:
   build:
-
     runs-on: self-hosted
-    # runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js 20
+    - name: Use Node.js 22
       uses: actions/setup-node@v4
       with:
-        node-version: 20
+        node-version: 22
         cache: 'npm'
         cache-dependency-path: package-lock.json
     - name: Dependency restore
@@ -35,13 +32,3 @@ jobs:
     - run: npm run build --if-present
       env:
         FM_CLIENT_ADMIN_API_URL : ${{ env.FM_CLIENT_ADMIN_API_URL }}
-    # - name: Add VPS Host Key
-    #   run: |
-    #     mkdir -p ~/.ssh
-    #     ssh-keyscan -H ${{ secrets.VPS_IP_FIRST }} >> ~/.ssh/known_hosts
-    #     chmod 600 ~/.ssh/known_hosts
-    # - run: |
-    #     ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP_FIRST }} -p ${{ secrets.VPS_SSH_PORT }} 'pm2 stop client-admin && cd ~/projects && git pull && npm install && pm2 start npm --name "client-admin" -- start'
-    #   env:
-    #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-    #     FM_CLIENT_ADMIN_API_URL : ${{ env.FM_CLIENT_ADMIN_API_URL }}
