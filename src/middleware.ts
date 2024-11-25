@@ -8,17 +8,6 @@ export async function middleware(request: NextRequest) {
     const response = NextResponse.next()
     const sessionCookie = request.cookies.get('sessionID')
     const currentSessionID = sessionCookie ? sessionCookie.value : ""
-    const csrfToken = crypto.randomUUID()
-
-    console.log(csrfToken)
-    response.headers.set('X-CSRF',csrfToken)
-    response.cookies.set({
-        name: 'csrf',
-        value: csrfToken,
-        path: '/',
-        httpOnly: true,
-        sameSite:true,
-    })
 
     const encodedPathname = encodeURIComponent( pathname + search )
     
@@ -125,6 +114,18 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL(`/sign-in?rd=${ encodedPathname }`, request.url))
         }
     }
+
+    const csrfToken = crypto.randomUUID()
+
+    
+    response.headers.set('X-CSRF',csrfToken)
+    response.cookies.set({
+        name: 'csrf',
+        value: csrfToken,
+        path: '/',
+        httpOnly: true,
+        sameSite:true,
+    })
 
     return response
 }
