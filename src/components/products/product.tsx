@@ -21,7 +21,7 @@ const Product = ({ product }: { product: IProductPageItemDetails }) => {
                         paddingTop: '100%', // 1:1 aspect ratio
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                        backgroundImage: `url(${product.adminImageUrl + product.adminImageExt})`,
+                        backgroundImage: `url(${process.env.NEXT_PUBLIC_FM_ADMIN_IMAGE_URL_PREFIX + product.adminImageUrl + product.adminImageExt})`,
                     }}
                     alt={product.id}
                 />
