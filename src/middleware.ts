@@ -7,25 +7,28 @@ export async function middleware(request: NextRequest) {
     const { pathname, search } = request.nextUrl
     const response = NextResponse.next()
     const sessionCookie = request.cookies.get('sessionID')
+    const csrfCokkie = request.cookies.get('csrf')
     const currentSessionID = sessionCookie ? sessionCookie.value : ""
+    const currentCsrfToken  = csrfCokkie ? csrfCokkie.value : ''
+
+    if (!!currentCsrfToken) {
+        response.headers.set('X-CSRF',currentCsrfToken)
+    } else {
+        const csrfToken = crypto.randomUUID()
+        response.headers.set('X-CSRF',csrfToken)
+        response.cookies.set({
+            name: 'csrf',
+            value: csrfToken,
+            path: '/',
+            httpOnly: true,
+            sameSite:true,
+        })
+    }
 
     const encodedPathname = encodeURIComponent( pathname + search )
-
-    const csrfToken = crypto.randomUUID()
-
-    console.log(csrfToken)
     
     if (pathname === '/sign-in'){
-        if (currentSessionID === ""){
-            response.headers.set('X-CSRF',csrfToken)
-            response.cookies.set({
-                name: 'csrf',
-                value: csrfToken,
-                path: '/',
-                httpOnly: true,
-                sameSite:true,
-            })
-        } else {
+        if (currentSessionID !== ""){
             const 
                 resp = await fetch(`${process.env.FM_CLIENT_ADMIN_API_URL}/admin/sign-in-page-init`,{
                     headers:httpRequestHeader(true,'SSR',false,'',currentSessionID)
@@ -37,14 +40,6 @@ export async function middleware(request: NextRequest) {
                 const { signedIn } = await resp.json() as { signedIn: boolean }
                 if (signedIn) return NextResponse.redirect(new URL('/dashboard', request.url))
             } else {
-                response.headers.set('X-CSRF',csrfToken)
-                response.cookies.set({
-                    name: 'csrf',
-                    value: csrfToken,
-                    path: '/',
-                    httpOnly: true,
-                    sameSite:true,
-                })
                 response.cookies.set({
                     name: 'sessionID',
                     value: '',
@@ -56,17 +51,7 @@ export async function middleware(request: NextRequest) {
             }
         }
     } else if ( pathname === '/' ){
-        if (currentSessionID === "") {
-            response.headers.set('X-CSRF',csrfToken)
-            response.cookies.set({
-                name: 'csrf',
-                value: csrfToken,
-                path: '/',
-                httpOnly: true,
-                sameSite:true,
-            })
-            return NextResponse.redirect(new URL('/sign-in', request.url)) 
-        }
+        if (currentSessionID === "") return NextResponse.redirect(new URL('/sign-in', request.url)) 
         const 
             resp = await fetch(`${process.env.FM_CLIENT_ADMIN_API_URL}/admin/sign-in-page-init`,{
                 headers:httpRequestHeader(true,'SSR',true,'',currentSessionID)
@@ -75,25 +60,8 @@ export async function middleware(request: NextRequest) {
 
         if (ok){
             const { signedIn } = await resp.json() as { signedIn: boolean }
-            if (signedIn) {
-                response.headers.set('X-CSRF',csrfToken)
-                response.cookies.set({
-                    name: 'csrf',
-                    value: csrfToken,
-                    path: '/',
-                    httpOnly: true,
-                    sameSite:true,
-                })
-                return NextResponse.redirect(new URL('/dashboard', request.url))
-            } else {
-                response.headers.set('X-CSRF',csrfToken)
-                response.cookies.set({
-                    name: 'csrf',
-                    value: csrfToken,
-                    path: '/',
-                    httpOnly: true,
-                    sameSite:true,
-                })
+            if (signedIn) return NextResponse.redirect(new URL('/dashboard', request.url))
+            else {
                 response.cookies.set({
                     name: 'sessionID',
                     value: '',
@@ -105,14 +73,6 @@ export async function middleware(request: NextRequest) {
                 return NextResponse.redirect(new URL('/sign-in', request.url))
             }
         } else {
-            response.headers.set('X-CSRF',csrfToken)
-            response.cookies.set({
-                name: 'csrf',
-                value: csrfToken,
-                path: '/',
-                httpOnly: true,
-                sameSite:true,
-            })
             response.cookies.set({
                 name: 'sessionID',
                 value: '',
@@ -124,17 +84,7 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL('/sign-in', request.url))
         }
     } else {
-        if (currentSessionID === "") {
-            response.headers.set('X-CSRF',csrfToken)
-            response.cookies.set({
-                name: 'csrf',
-                value: csrfToken,
-                path: '/',
-                httpOnly: true,
-                sameSite:true,
-            })
-            return NextResponse.redirect(new URL(`/sign-in?rd=${ encodedPathname }`, request.url)) 
-        }
+        if (currentSessionID === "") return NextResponse.redirect(new URL(`/sign-in?rd=${ encodedPathname }`, request.url)) 
         const 
             resp = await fetch(`${process.env.FM_CLIENT_ADMIN_API_URL}/admin/sign-in-page-init`,{
                 headers:httpRequestHeader(true,'SSR',true,'',currentSessionID)
@@ -150,14 +100,6 @@ export async function middleware(request: NextRequest) {
             }
 
             if (signedIn) {
-                response.headers.set('X-CSRF',csrfToken)
-                response.cookies.set({
-                    name: 'csrf',
-                    value: csrfToken,
-                    path: '/',
-                    httpOnly: true,
-                    sameSite:true,
-                })
                 response.cookies.set({
                     name: 'sessionID',
                     value: sessionID,
@@ -168,14 +110,6 @@ export async function middleware(request: NextRequest) {
                     sameSite: true,
                 })
             } else {
-                response.headers.set('X-CSRF',csrfToken)
-                response.cookies.set({
-                    name: 'csrf',
-                    value: csrfToken,
-                    path: '/',
-                    httpOnly: true,
-                    sameSite:true,
-                })
                 response.cookies.set({
                     name: 'sessionID',
                     value: '',
@@ -186,14 +120,6 @@ export async function middleware(request: NextRequest) {
                 return NextResponse.redirect(new URL(`/sign-in?rd=${ encodedPathname }`, request.url))
             }
         } else {
-            response.headers.set('X-CSRF',csrfToken)
-            response.cookies.set({
-                name: 'csrf',
-                value: csrfToken,
-                path: '/',
-                httpOnly: true,
-                sameSite:true,
-            })
             response.cookies.set({
                 name: 'sessionID',
                 value: '',
