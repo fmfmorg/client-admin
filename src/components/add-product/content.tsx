@@ -26,21 +26,26 @@ const AddProductContent = (
     const productIdRef = useRef<HTMLInputElement>(null);
     const nameRef = useRef<HTMLInputElement>(null);
     const priceRef = useRef<HTMLInputElement>(null);
-    const materialIdRef = useRef<HTMLSelectElement>(null);
-    const metalColorIdRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
     const urlRef = useRef<HTMLInputElement>(null);
-    const productTypeIdRef = useRef<HTMLInputElement>(null);
     const publicImageRef = useRef<HTMLInputElement>(null);
     const adminImageRef = useRef<HTMLInputElement>(null);
     const imageExtAccepted = useRef<string[]>(['jpeg','jpg','png'])
     const { csrfToken } = useContext(CsrfContext)
+
+    const [materialID, setMaterialID] = useState(0)
+    const [metalColorID, setMetalColorID] = useState(0)
     
     const [productMainType, setProductMainType] = useState(0)
+    const [productSubType, setProductSubType] = useState(0)
+    
     const productMainTypes = useMemo(()=>!!productTypes ? Object.entries(productTypes).map(([id,spec])=>({id:+id,name:spec.name} as ISpecification)) : [],[])
     const productSubTypes = useMemo(()=>!!productTypes && !!productTypes[productMainType] ? productTypes[productMainType].subtypes : [],[productMainType])
 
     const productMainTypeOnChange = (ev:SelectChangeEvent) => setProductMainType(+ev.target.value)
+    const productSubTypeOnChange = (ev:SelectChangeEvent) => setProductSubType(+ev.target.value)
+    const materialOnChange = (ev:SelectChangeEvent) => setMaterialID(+ev.target.value)
+    const metalColorOnChange = (ev:SelectChangeEvent) => setMetalColorID(+ev.target.value)
 
     const verifyImageFilenames = (filenameStr:string, section:string) => {
         const filenames = filenameStr.split('\n').map(e=>e.trim())
@@ -67,16 +72,18 @@ const AddProductContent = (
         const adminImages = verifyImageFilenames(adminImageRef.current?.value as string,'admin')
         if (!adminImages.length) return
 
+        // if (!materialID || !metalColorID || !productSubType) return
+
         const formData = new FormData();
         formData.append('product', JSON.stringify({
             productID: productIdRef.current?.value.trim(),
             name: nameRef.current?.value.trim(),
             price: Number(priceRef.current?.value.trim()) * 100,
-            materialID: Number(materialIdRef.current?.value.trim()),
-            metal_colorID: Number(metalColorIdRef.current?.value.trim()),
+            materialID,
+            metal_colorID: metalColorID,
             description: descriptionRef.current?.value.trim(),
             url: urlRef.current?.value.trim(),
-            productTypeID: Number(productTypeIdRef.current?.value.trim()),
+            productTypeID: productSubType,
             publicImages,
             adminImages,
         }));
@@ -114,7 +121,7 @@ const AddProductContent = (
                 <Grid xs={12} sm={6} md={3} paddingRight={{sm:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='product-main-type-id'>Product Main Type</InputLabel>
-                        <Select labelId='product-main-type-id' label='Product Main Type' onChange={productMainTypeOnChange}>
+                        <Select required labelId='product-main-type-id' label='Product Main Type' onChange={productMainTypeOnChange}>
                             {productMainTypes.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
@@ -122,7 +129,7 @@ const AddProductContent = (
                 <Grid xs={12} sm={6} md={3} paddingLeft={{sm:1}} paddingRight={{md:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='product-sub-type-id'>Product Subtype</InputLabel>
-                        <Select labelId='product-sub-type-id' label='Product Subtype' inputRef={productTypeIdRef}>
+                        <Select required labelId='product-sub-type-id' label='Product Subtype' onChange={productSubTypeOnChange}>
                             {productSubTypes.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
@@ -130,7 +137,7 @@ const AddProductContent = (
                 <Grid xs={12} sm={6} md={3} paddingLeft={{md:1}} paddingRight={{sm:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='material-id'>Material</InputLabel>
-                        <Select labelId='material-id' label='Material' inputRef={materialIdRef}>
+                        <Select required labelId='material-id' label='Material' onChange={materialOnChange}>
                             {materials.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
@@ -138,7 +145,7 @@ const AddProductContent = (
                 <Grid xs={12} sm={6} md={3} paddingLeft={{sm:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='metal-color-id'>Metal Colour</InputLabel>
-                        <Select labelId='metal-color-id' label='Metal Colour' inputRef={metalColorIdRef}>
+                        <Select required labelId='metal-color-id' label='Metal Colour' onChange={metalColorOnChange}>
                             {metalColors.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
