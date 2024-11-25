@@ -11,7 +11,6 @@ export async function middleware(request: NextRequest) {
     const csrfToken = crypto.randomUUID()
 
     console.log(csrfToken)
-
     response.headers.set('X-CSRF',csrfToken)
     response.cookies.set({
         name: 'csrf',
