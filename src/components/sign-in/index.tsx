@@ -67,9 +67,10 @@ const SignInForm = ({csrf}:{csrf:string}) => {
         window.location.href = '/dashboard';
       }
     } else {
-      const text = (await resp.text()).split('\n')[0];
-      setErrorMessage(text);
-      setOpenSnackbar(true);
+      // const text = (await resp.text()).split('\n')[0];
+      // setErrorMessage(text);
+      // setOpenSnackbar(true);
+      console.log(resp.status)
     }
   
     disableFields(false);
