@@ -19,8 +19,8 @@ const AddProductPage = async () => {
     return (
         <AddProduct {...{
             csrf,
-            materials,
-            metalColors,
+            materials:materials || [],
+            metalColors:metalColors || [],
             productTypes,
         }} />
     )

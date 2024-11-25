@@ -37,8 +37,8 @@ const AddProductContent = (
     const { csrfToken } = useContext(CsrfContext)
     
     const [productMainType, setProductMainType] = useState(0)
-    const productMainTypes = useMemo(()=>Object.entries(productTypes).map(([id,spec])=>({id:+id,name:spec.name} as ISpecification)),[])
-    const productSubTypes = useMemo(()=>!!productTypes[productMainType] ? productTypes[productMainType].subtypes : [],[productMainType])
+    const productMainTypes = useMemo(()=>!!productTypes ? Object.entries(productTypes).map(([id,spec])=>({id:+id,name:spec.name} as ISpecification)) : [],[])
+    const productSubTypes = useMemo(()=>!!productTypes && !!productTypes[productMainType] ? productTypes[productMainType].subtypes : [],[productMainType])
 
     const productMainTypeOnChange = (ev:SelectChangeEvent) => setProductMainType(+ev.target.value)
 

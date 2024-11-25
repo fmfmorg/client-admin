@@ -23,9 +23,9 @@ const OrdersPage = async() => {
         <Orders {...{
             csrf,
             initialOrderStatus:orderStatus,
-            orderStatuses, 
-            overviewItems, 
-            deliveryMethods,
+            orderStatuses:orderStatuses || [], 
+            overviewItems:overviewItems || [], 
+            deliveryMethods:deliveryMethods || [],
         }} />
     )
 }
