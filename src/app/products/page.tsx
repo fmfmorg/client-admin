@@ -29,7 +29,7 @@ const ProductsPage = async () => {
     if (!signedIn) redirect(`/sign-in?rd=${encodeURIComponent('/products')}`)
 
     return (
-        <Products {...{products,csrf}} />
+        <Products {...{products:products || [],csrf}} />
     )
 }
 
