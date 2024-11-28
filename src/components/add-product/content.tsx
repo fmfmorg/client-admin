@@ -95,7 +95,7 @@ const AddProductContent = (
         });
     
         if (response.ok) {
-            alert('Product added successfully');
+            window.location.assign('/products')
         } else {
             alert('Failed to add product');
         }
