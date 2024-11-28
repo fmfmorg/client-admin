@@ -71,6 +71,8 @@ const Product = (
                         </TableBody>
                     </Table>
                 </TableContainer>
+                {!!product.stockQuantities && !!product.stockQuantities.length && 
+                <>
                 <Typography variant='h6' marginLeft={2} marginTop={4}>Stock Level</Typography>
                 <TableContainer>
                     <Table>
@@ -84,6 +86,7 @@ const Product = (
                         </TableBody>
                     </Table>
                 </TableContainer>
+                </>}
                 <Typography variant="h6" marginLeft={2} marginTop={4}>Discount History</Typography>
                 <TableContainer>
                     <Table>
@@ -95,7 +98,7 @@ const Product = (
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {product.discounts.map(({amount,startDT,endDT},i)=>(
+                            {!!product.discounts && !!product.discounts.length && product.discounts.map(({amount,startDT,endDT},i)=>(
                                 <TableRow key={i}>
                                     <TableCell>{formatDate(startDT)}</TableCell>
                                     <TableCell>{!!endDT ? formatDate(endDT) : 'No end date set'}</TableCell>
