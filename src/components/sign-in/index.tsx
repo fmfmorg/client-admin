@@ -23,7 +23,7 @@ const SignInForm = ({csrf}:{csrf:string}) => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -66,12 +66,7 @@ const SignInForm = ({csrf}:{csrf:string}) => {
       } else {
         window.location.href = '/dashboard';
       }
-    } else {
-      // const text = (await resp.text()).split('\n')[0];
-      // setErrorMessage(text);
-      // setOpenSnackbar(true);
-      console.log(resp.status)
-    }
+    } else console.log(resp.status)
   
     disableFields(false);
   };

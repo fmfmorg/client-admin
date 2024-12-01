@@ -33,7 +33,7 @@ const AddProductContent = (
     const imageExtAccepted = useRef<string[]>(['jpeg','jpg','png'])
     const { csrfToken } = useContext(CsrfContext)
 
-    const [materialID, setMaterialID] = useState(0)
+    const [materialIDs, setMaterialIDs] = useState<number[]>([])
     const [metalColorID, setMetalColorID] = useState(0)
     
     const [productMainType, setProductMainType] = useState(0)
@@ -44,7 +44,11 @@ const AddProductContent = (
 
     const productMainTypeOnChange = (ev:SelectChangeEvent) => setProductMainType(+ev.target.value)
     const productSubTypeOnChange = (ev:SelectChangeEvent) => setProductSubType(+ev.target.value)
-    const materialOnChange = (ev:SelectChangeEvent) => setMaterialID(+ev.target.value)
+    const materialOnChange = (ev:SelectChangeEvent) => {
+        const { value } = ev.target
+        // typeof value === 'string' ? setMaterialIDs(value.split(',').map(e=>+e)) : setMaterialIDs(value)
+        setMaterialIDs(typeof value === 'string' ? value.split(',').map(e=>+e) : value)
+    }
     const metalColorOnChange = (ev:SelectChangeEvent) => setMetalColorID(+ev.target.value)
 
     const verifyImageFilenames = (filenameStr:string, section:string) => {
@@ -72,14 +76,12 @@ const AddProductContent = (
         const adminImages = verifyImageFilenames(adminImageRef.current?.value as string,'admin')
         if (!adminImages.length) return
 
-        // if (!materialID || !metalColorID || !productSubType) return
-
         const formData = new FormData();
         formData.append('product', JSON.stringify({
             productID: productIdRef.current?.value.trim(),
             name: nameRef.current?.value.trim(),
             price: Number(priceRef.current?.value.trim()) * 100,
-            materialID,
+            materialIDs,
             metal_colorID: metalColorID,
             description: descriptionRef.current?.value.trim(),
             url: urlRef.current?.value.trim(),
@@ -95,7 +97,8 @@ const AddProductContent = (
         });
     
         if (response.ok) {
-            window.location.assign('/products')
+            // window.location.assign('/products')
+            alert('OK');
         } else {
             alert('Failed to add product');
         }
@@ -134,19 +137,19 @@ const AddProductContent = (
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid xs={12} sm={6} md={3} paddingLeft={{md:1}} paddingRight={{sm:1}}>
-                    <FormControl fullWidth required>
-                        <InputLabel id='material-id'>Material</InputLabel>
-                        <Select required labelId='material-id' label='Material' onChange={materialOnChange}>
-                            {materials.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
-                        </Select>
-                    </FormControl>
-                </Grid>
                 <Grid xs={12} sm={6} md={3} paddingLeft={{sm:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='metal-color-id'>Metal Colour</InputLabel>
                         <Select required labelId='metal-color-id' label='Metal Colour' onChange={metalColorOnChange}>
                             {metalColors.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid xs={12} sm={6} md={3} paddingLeft={{md:1}} paddingRight={{sm:1}}>
+                    <FormControl fullWidth>
+                        <InputLabel id='material-id'>Material</InputLabel>
+                        <Select multiple labelId='material-id' label='Material' value={materialIDs} onChange={materialOnChange}>
+                            {materials.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
                 </Grid>

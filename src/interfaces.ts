@@ -30,7 +30,7 @@ export interface IProduct {
     id: string;
     name: string;
     description: string;
-    materialID: number;
+    materialIDs: number[];
     metalColorID: number;
     productTypeID: number;
     price: number;

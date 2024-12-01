@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 import './global.scss'
 
 export default function RootLayout({children}:{children:ReactNode}) {

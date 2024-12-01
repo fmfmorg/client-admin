@@ -25,9 +25,13 @@ const ProductPage = async (
         product:IProduct;
     }
 
-    const material = materials.find(e=>e.id === product.materialID)?.name || ''
+    const materialArray = !!product.materialIDs && !!product.materialIDs.length ? product.materialIDs.map(e=>materials.find(f=>f.id === e)?.name || '').filter(e=>!!e) : []
+    const material = !!materialArray.length ? materialArray.join(', ') : ''
     const metalColor = metalColors.find(e=>e.id === product.metalColorID)?.name || ''
-    const productMainType = Object.entries(productTypes).find(([id,{name,subtypes}])=>subtypes.findIndex(e=>e.id === product.productTypeID) !== -1)
+    const productMainType = Object.entries(productTypes).find(e=>{
+      const {subtypes} = e[1]
+      return subtypes.findIndex(f=>f.id === product.productTypeID) !== -1
+    })
     const productMainTypeName = !!productMainType ? productMainType[1].name : ''
     const productSubTypeName = !!productMainType ? productMainType[1].subtypes.find(e=>e.id === product.productTypeID)?.name || '' : ''
 

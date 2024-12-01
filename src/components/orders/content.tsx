@@ -15,8 +15,6 @@ import { useContext, useMemo, useState } from 'react';
 import { formatDate, formatPrice, httpRequestHeader } from '@misc';
 import { CsrfContext } from '@context';
 
-const currencyFormat = Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'})
-
 const OverviewItem = (
     {
         orderID,
