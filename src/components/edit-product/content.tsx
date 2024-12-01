@@ -68,11 +68,7 @@ const EditProductContent = (
     const productMainTypeOnChange = (ev:SelectChangeEvent) => setProductMainType(+ev.target.value)
     const productSubTypeOnChange = (ev:SelectChangeEvent) => setProductSubType(+ev.target.value)
 
-    const materialOnChange = (ev:SelectChangeEvent) => {
-        const { value } = ev.target
-        // typeof value === 'string' ? setMaterialIDs(value.split(',').map(e=>+e)) : setMaterialIDs(value)
-        setMaterialIDs(typeof value === 'string' ? value.split(',').map(e=>+e) : value)
-    }
+    const materialOnChange = (ev:SelectChangeEvent<number[]>) => setMaterialIDs([...ev.target.value as number[]])
     const metalColorOnChange = (ev:SelectChangeEvent) => setMetalColorID(+ev.target.value)
 
     const verifyImageFilenames = (filenameStr:string, section:string) => {
@@ -190,7 +186,7 @@ const EditProductContent = (
                 <Grid xs={12} sm={6} md={3} paddingLeft={{md:1}} paddingRight={{sm:1}}>
                     <FormControl fullWidth>
                         <InputLabel id='material-id'>Material</InputLabel>
-                        <Select multiple value={materialIDs/*materialIDs.map(e=>`${e}`).join(',')*/} labelId='material-id' label='Material' onChange={materialOnChange}>
+                        <Select multiple value={materialIDs} labelId='material-id' label='Material' onChange={materialOnChange}>
                             {materials.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
