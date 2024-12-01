@@ -147,7 +147,7 @@ const AddProductContent = (
                 <Grid xs={12} sm={6} md={3} paddingLeft={{md:1}} paddingRight={{sm:1}}>
                     <FormControl fullWidth>
                         <InputLabel id='material-id'>Material</InputLabel>
-                        <Select multiple labelId='material-id' label='Material' value={materialIDs.map(e=>`${e}`).join(',')} onChange={materialOnChange}>
+                        <Select multiple labelId='material-id' label='Material' value={materialIDs/*materialIDs.map(e=>`${e}`).join(',')*/} onChange={materialOnChange}>
                             {materials.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
