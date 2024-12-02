@@ -51,7 +51,7 @@ const EditProductContent = (
     const { csrfToken } = useContext(CsrfContext)
 
     const [materialIDs, setMaterialIDs] = useState<number[]>(product.materialIDs)
-    const [metalColorID, setMetalColorID] = useState(0)
+    const [metalColorID, setMetalColorID] = useState(product.metalColorID)
     
     const [productMainType, setProductMainType] = useState(()=>{
         const entries = Object.entries(productTypes)

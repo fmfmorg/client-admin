@@ -25,7 +25,7 @@ const ProductPage = async (
         product:IProduct;
     }
 
-    const materialArray = !!product.materialIDs && !!product.materialIDs.length ? product.materialIDs.map(e=>materials.find(f=>f.id === e)?.name || '').filter(e=>!!e) : []
+    const materialArray = (!!product.materialIDs && !!product.materialIDs.length) ? product.materialIDs.map(e=>materials.find(f=>f.id === e)?.name || '').filter(e=>!!e) : []
     const material = !!materialArray.length ? materialArray.join(', ') : ''
     const metalColor = metalColors.find(e=>e.id === product.metalColorID)?.name || ''
     const productMainType = Object.entries(productTypes).find(e=>{
@@ -34,6 +34,8 @@ const ProductPage = async (
     })
     const productMainTypeName = !!productMainType ? productMainType[1].name : ''
     const productSubTypeName = !!productMainType ? productMainType[1].subtypes.find(e=>e.id === product.productTypeID)?.name || '' : ''
+
+    
 
     return (
         <Product {...{
