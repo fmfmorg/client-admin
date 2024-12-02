@@ -219,7 +219,7 @@ const EditProductContent = (
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {product.stockQuantities.map(({name,quantity},i)=>(
+                                {!!product.stockQuantities && !!product.stockQuantities.length && product.stockQuantities.map(({name,quantity},i)=>(
                                     <TableRow key={i}>
                                         <TableCell>{name}</TableCell>
                                         <TableCell align='right'>{quantity}</TableCell>
@@ -254,7 +254,7 @@ const EditProductContent = (
                                         </TableCell>
                                     </TableRow>
                                 </LocalizationProvider>
-                                {product.discounts.map(({amount,startDT,endDT},i)=>(
+                                {!!product.discounts && !!product.discounts.length && product.discounts.map(({amount,startDT,endDT},i)=>(
                                     <TableRow key={i}>
                                         <TableCell>{formatDate(startDT)}</TableCell>
                                         <TableCell>{!!endDT ? formatDate(endDT) : 'No end date set'}</TableCell>
