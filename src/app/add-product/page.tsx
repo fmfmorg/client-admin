@@ -10,9 +10,10 @@ const AddProductPage = async () => {
         cache: 'no-store',
     })
 
-    const {materials,metalColors,productTypes} = await resp.json() as {
+    const {materials,metalColors,suppliers,productTypes} = await resp.json() as {
         materials:ISpecification[];
         metalColors:ISpecification[];
+        suppliers:ISpecification[];
         productTypes:IProductTypes;
     }
 
@@ -21,6 +22,7 @@ const AddProductPage = async () => {
             csrf,
             materials:materials || [],
             metalColors:metalColors || [],
+            suppliers:suppliers || [],
             productTypes,
         }} />
     )

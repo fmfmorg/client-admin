@@ -60,6 +60,10 @@
       }
     }
 
+    .MuiAccordion-root {
+      background-color: transparent;
+    }
+
     /* Adjust styles for Snackbar in dark mode */
     .MuiSnackbar-root {
       .MuiPaper-root {

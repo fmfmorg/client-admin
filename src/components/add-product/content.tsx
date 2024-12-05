@@ -17,10 +17,12 @@ const AddProductContent = (
         materials,
         metalColors,
         productTypes,
+        suppliers,
     }:{
         materials:ISpecification[];
         metalColors:ISpecification[];
         productTypes:IProductTypes;
+        suppliers:ISpecification[];
     }
 ) => {
     const productIdRef = useRef<HTMLInputElement>(null);
@@ -35,6 +37,7 @@ const AddProductContent = (
 
     const [materialIDs, setMaterialIDs] = useState<number[]>([])
     const [metalColorID, setMetalColorID] = useState(0)
+    const [supplier,setSupplier] = useState(0)
     
     const [productMainType, setProductMainType] = useState(0)
     const [productSubType, setProductSubType] = useState(0)
@@ -42,10 +45,11 @@ const AddProductContent = (
     const productMainTypes = useMemo(()=>!!productTypes ? Object.entries(productTypes).map(([id,spec])=>({id:+id,name:spec.name} as ISpecification)) : [],[])
     const productSubTypes = useMemo(()=>!!productTypes && !!productTypes[productMainType] ? productTypes[productMainType].subtypes : [],[productMainType])
 
-    const productMainTypeOnChange = (ev:SelectChangeEvent) => setProductMainType(+ev.target.value)
-    const productSubTypeOnChange = (ev:SelectChangeEvent) => setProductSubType(+ev.target.value)
+    const productMainTypeOnChange = (ev:SelectChangeEvent<number>) => setProductMainType(ev.target.value as number)
+    const productSubTypeOnChange = (ev:SelectChangeEvent<number>) => setProductSubType(ev.target.value as number)
     const materialOnChange = (ev:SelectChangeEvent<number[]>) => setMaterialIDs([...ev.target.value as number[]])
-    const metalColorOnChange = (ev:SelectChangeEvent) => setMetalColorID(+ev.target.value)
+    const metalColorOnChange = (ev:SelectChangeEvent<number>) => setMetalColorID(ev.target.value as number)
+    const supplierOnChange = (ev:SelectChangeEvent<number>) => setSupplier(ev.target.value as number)
 
     const verifyImageFilenames = (filenameStr:string, section:string) => {
         const filenames = filenameStr.split('\n').map(e=>e.trim())
@@ -74,11 +78,12 @@ const AddProductContent = (
 
         const formData = new FormData();
         formData.append('product', JSON.stringify({
-            productID: productIdRef.current?.value.trim(),
+            productID: productIdRef.current?.value.trim().toUpperCase(),
             name: nameRef.current?.value.trim(),
             price: Number(priceRef.current?.value.trim()) * 100,
             materialIDs,
-            metal_colorID: metalColorID,
+            metalColorID,
+            supplier,
             description: descriptionRef.current?.value.trim(),
             url: urlRef.current?.value.trim(),
             productTypeID: productSubType,
@@ -116,6 +121,14 @@ const AddProductContent = (
                 <Grid xs={12} sm={6} paddingLeft={{sm:1}}>
                     <TextField fullWidth inputRef={priceRef} name="price" label="Price (£)" type="number" required />
                 </Grid>
+                <Grid xs={12}>
+                    <FormControl fullWidth required>
+                        <InputLabel id='supplier-id'>Supplier</InputLabel>
+                        <Select required labelId='supplier-id' label='Supplier' onChange={supplierOnChange}>
+                            {suppliers.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
+                        </Select>
+                    </FormControl>
+                </Grid>
                 <Grid xs={12} sm={6} md={3} paddingRight={{sm:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='product-main-type-id'>Product Main Type</InputLabel>
@@ -132,7 +145,7 @@ const AddProductContent = (
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid xs={12} sm={6} md={3} paddingLeft={{sm:1}}>
+                <Grid xs={12} sm={6} md={3} paddingLeft={{sm:1}} paddingRight={{md:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='metal-color-id'>Metal Colour</InputLabel>
                         <Select required labelId='metal-color-id' label='Metal Colour' onChange={metalColorOnChange}>
@@ -140,7 +153,7 @@ const AddProductContent = (
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid xs={12} sm={6} md={3} paddingLeft={{md:1}} paddingRight={{sm:1}}>
+                <Grid xs={12} sm={6} md={3} paddingLeft={{md:1}}>
                     <FormControl fullWidth>
                         <InputLabel id='material-id'>Material</InputLabel>
                         <Select multiple labelId='material-id' label='Material' value={materialIDs} onChange={materialOnChange}>

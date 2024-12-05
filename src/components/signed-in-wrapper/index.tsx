@@ -17,6 +17,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import Link from 'next/link';
 import { CsrfContext } from '@context';
 import { csrfBroadcastChannel } from '@misc';
+import { IMenuItem } from './interfaces';
+import AccordionMenu from './accordion-menu';
 
 const drawerWidth = 240;
 
@@ -24,11 +26,6 @@ interface Props {
     window?: () => Window;
     children: React.ReactNode;
     csrf:string;
-}
-
-interface IMenuItem {
-    name: string;
-    pathname: string;
 }
 
 const menuList:IMenuItem[] = [
@@ -39,6 +36,13 @@ const menuList:IMenuItem[] = [
     {
         name: 'Orders',
         pathname: '/orders',
+    }
+]
+
+const inventoryMenu:IMenuItem[] = [
+    {
+        name: 'Goods Received',
+        pathname: '/goods-received'
     }
 ]
 
@@ -79,6 +83,7 @@ export default function SignedInWrapper(props: Props) {
                         </ListItemButton>
                     </ListItem>
                 ))}
+                <AccordionMenu title='Inventory' menuList={inventoryMenu} />
             </List>
         </div>
     );

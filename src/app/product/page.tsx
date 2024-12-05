@@ -18,10 +18,11 @@ const ProductPage = async (
       cache: 'no-store',
     })
 
-    const {materials,metalColors,productTypes,product} = await resp.json() as {
+    const {materials,metalColors,productTypes,suppliers,product} = await resp.json() as {
         materials:ISpecification[];
         metalColors:ISpecification[];
         productTypes:IProductTypes;
+        suppliers:ISpecification[];
         product:IProduct;
     }
 
@@ -35,7 +36,7 @@ const ProductPage = async (
     const productMainTypeName = !!productMainType ? productMainType[1].name : ''
     const productSubTypeName = !!productMainType ? productMainType[1].subtypes.find(e=>e.id === product.productTypeID)?.name || '' : ''
 
-    
+    const supplier = (!!suppliers && !!suppliers.length && !!product.supplierID) ? (suppliers.find(({id})=>id === product.supplierID)?.name || '') : ''
 
     return (
         <Product {...{
@@ -43,6 +44,7 @@ const ProductPage = async (
           product,
           material,
           metalColor,
+          supplier,
           productMainTypeName,
           productSubTypeName,
         }} />

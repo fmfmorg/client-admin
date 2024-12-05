@@ -30,11 +30,13 @@ const EditProductContent = (
         metalColors,
         productTypes,
         product,
+        suppliers,
     }:{
         materials:ISpecification[];
         metalColors:ISpecification[];
         productTypes:IProductTypes;
         product:IProduct;
+        suppliers:ISpecification[];
     }
 ) => {
     const nameRef = useRef<HTMLInputElement>(null);
@@ -52,6 +54,7 @@ const EditProductContent = (
 
     const [materialIDs, setMaterialIDs] = useState<number[]>(!!product.materialIDs && !!product.materialIDs.length ? product.materialIDs : [])
     const [metalColorID, setMetalColorID] = useState(product.metalColorID)
+    const [supplierID, setSupplierID] = useState(product.supplierID)
     
     const [productMainType, setProductMainType] = useState(()=>{
         const entries = Object.entries(productTypes)
@@ -65,11 +68,12 @@ const EditProductContent = (
     const productMainTypes = useMemo(()=>Object.entries(productTypes).map(([id,spec])=>({id:+id,name:spec.name} as ISpecification)),[])
     const productSubTypes = useMemo(()=>!!productTypes[productMainType] ? productTypes[productMainType].subtypes : [],[productMainType])
 
-    const productMainTypeOnChange = (ev:SelectChangeEvent) => setProductMainType(+ev.target.value)
-    const productSubTypeOnChange = (ev:SelectChangeEvent) => setProductSubType(+ev.target.value)
+    const productMainTypeOnChange = (ev:SelectChangeEvent<number>) => setProductMainType(ev.target.value as number)
+    const productSubTypeOnChange = (ev:SelectChangeEvent<number>) => setProductSubType(ev.target.value as number)
 
     const materialOnChange = (ev:SelectChangeEvent<number[]>) => setMaterialIDs([...ev.target.value as number[]])
-    const metalColorOnChange = (ev:SelectChangeEvent) => setMetalColorID(+ev.target.value)
+    const metalColorOnChange = (ev:SelectChangeEvent<number>) => setMetalColorID(ev.target.value as number)
+    const supplierOnChange = (ev:SelectChangeEvent<number>) => setSupplierID(ev.target.value as number)
 
     const verifyImageFilenames = (filenameStr:string, section:string) => {
         const filenames = filenameStr.split('\n').map(e=>e.trim())
@@ -130,7 +134,8 @@ const EditProductContent = (
             discountStartDT,
             discountEndDT,
             discountAmount,
-            isRetired:!!retiredRef.current?.checked
+            isRetired:!!retiredRef.current?.checked,
+            supplierID,
         }));
     
         const response = await fetch('/api/admin/edit-product', {
@@ -165,12 +170,17 @@ const EditProductContent = (
                     <TextField defaultValue={product.price * 0.01} fullWidth inputRef={priceRef} name="price" label="Price (£)" type="number" required />
                 </Grid>
                 <Grid xs={12} sm={6} paddingLeft={{sm:1}}>
-                    <></>
+                    <FormControl fullWidth required>
+                        <InputLabel id='supplier-id'>Suppliers</InputLabel>
+                        <Select value={supplierID} labelId='supplier-id' label='Supplier' onChange={supplierOnChange}>
+                            {suppliers.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
+                        </Select>
+                    </FormControl>
                 </Grid>
                 <Grid xs={12} sm={6} md={3} paddingRight={{sm:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='product-main-type-id'>Product Main Type</InputLabel>
-                        <Select defaultValue={`${productMainType}`} labelId='product-main-type-id' label='Product Main Type' onChange={productMainTypeOnChange}>
+                        <Select value={productMainType} labelId='product-main-type-id' label='Product Main Type' onChange={productMainTypeOnChange}>
                             {productMainTypes.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
@@ -178,7 +188,7 @@ const EditProductContent = (
                 <Grid xs={12} sm={6} md={3} paddingLeft={{sm:1}} paddingRight={{md:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='product-sub-type-id'>Product Subtype</InputLabel>
-                        <Select value={`${productSubType}`} labelId='product-sub-type-id' label='Product Subtype' onChange={productSubTypeOnChange}>
+                        <Select value={productSubType} labelId='product-sub-type-id' label='Product Subtype' onChange={productSubTypeOnChange}>
                             {productSubTypes.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
@@ -194,7 +204,7 @@ const EditProductContent = (
                 <Grid xs={12} sm={6} md={3} paddingLeft={{sm:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='metal-color-id'>Metal Colour</InputLabel>
-                        <Select value={`${metalColorID}`} labelId='metal-color-id' label='Metal Colour' onChange={metalColorOnChange}>
+                        <Select value={metalColorID} labelId='metal-color-id' label='Metal Colour' onChange={metalColorOnChange}>
                             {metalColors.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>

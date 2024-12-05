@@ -1,5 +1,10 @@
 // /Users/cindyho/fairymade/system_v2/client-admin/src/components/products/product.tsx
-import { Card, CardMedia, CardContent, Typography, IconButton } from "@mui/material";
+
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
 import { IProductPageItemDetails } from "./interfaces";
 import EditIcon from '@mui/icons-material/Edit';
 import Link from 'next/link';

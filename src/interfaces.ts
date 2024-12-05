@@ -41,6 +41,7 @@ export interface IProduct {
     stockQuantities: IStockQuantity[];
     createdAt: number;
     isRetired: boolean;
+    supplierID:number;
 }
 
 export interface IOrderOverviewItem {
@@ -88,4 +89,9 @@ export interface IOrder {
     dispatchDT: number;
     receiptDT: number;
     orderDetails: string;
+}
+
+export interface IProductImage {
+    productID:string;
+    filename:string;
 }

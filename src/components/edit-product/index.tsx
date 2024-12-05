@@ -11,12 +11,14 @@ const EditProduct = (
         metalColors,
         productTypes,
         product,
+        suppliers,
     }:{
         csrf:string;
         materials:ISpecification[];
         metalColors:ISpecification[];
         productTypes:IProductTypes;
         product:IProduct;
+        suppliers:ISpecification[];
     }
 ) => {
     return (
@@ -26,6 +28,7 @@ const EditProduct = (
                 metalColors,
                 productTypes,
                 product,
+                suppliers,
             }} />
         </SignedInWrapper>
     )

@@ -14,12 +14,10 @@ const Order = (
         orderStatuses:ISpecification[];
         order:IOrder;
     }
-) => {
-    return (
-        <SignedInWrapper {...{csrf}}>
-            <OrderContent {...{orderStatuses,order}} />
-        </SignedInWrapper>
-    )
-}
+) => (
+    <SignedInWrapper {...{csrf}}>
+        <OrderContent {...{orderStatuses,order}} />
+    </SignedInWrapper>
+)
 
 export default Order

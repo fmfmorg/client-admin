@@ -19,6 +19,7 @@ const Product = (
         metalColor,
         productMainTypeName,
         productSubTypeName,
+        supplier,
     }:{
         csrf:string;
         product:IProduct;
@@ -26,6 +27,7 @@ const Product = (
         metalColor:string;
         productMainTypeName:string;
         productSubTypeName:string;
+        supplier:string;
     }
 ) => (
     <SignedInWrapper {...{csrf}}>
@@ -49,6 +51,10 @@ const Product = (
                             <TableRow>
                                 <TableCell>Price</TableCell>
                                 <TableCell>£ {product.price * 0.01}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Supplier</TableCell>
+                                <TableCell>{supplier}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>Product Type</TableCell>

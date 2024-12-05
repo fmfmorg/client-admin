@@ -10,11 +10,13 @@ const AddProduct = (
         csrf,
         materials,
         metalColors,
+        suppliers,
         productTypes,
     }:{
         csrf:string;
         materials:ISpecification[];
         metalColors:ISpecification[];
+        suppliers:ISpecification[];
         productTypes:IProductTypes;
     }
 ) => (
@@ -23,6 +25,7 @@ const AddProduct = (
             materials,
             metalColors,
             productTypes,
+            suppliers,
         }} />
     </SignedInWrapper>
 )
