@@ -52,7 +52,7 @@ const EditProductContent = (
     const discountAmountRef = useRef<HTMLInputElement>(null)
     const { csrfToken } = useContext(CsrfContext)
 
-    const [materialIDs, setMaterialIDs] = useState<number[]>(!!product.materialIDs && !!product.materialIDs.length ? product.materialIDs : [])
+    const [materialIDs, setMaterialIDs] = useState<number[]>((!!product.materialIDs && !!product.materialIDs.length) ? product.materialIDs : [])
     const [metalColorID, setMetalColorID] = useState(product.metalColorID)
     const [supplierID, setSupplierID] = useState(product.supplierID)
     
