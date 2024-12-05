@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useContext, useEffect, useRef, useState } from 'react';
+import { FormEvent, useContext, useRef, useState } from 'react';
 import Grid from '@mui/material/Grid'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -37,7 +37,7 @@ const GoodsReceivedRow = (
 
     const [imageFilename, setImagefilename] = useState('')
     
-    const onChange = (_:any, newValue:string|null) => {
+    const onChange = (_: any, newValue:string|null) => {
         if (!!newValue) setImagefilename(imageMap.get(newValue) || '')
     }
 
