@@ -17,6 +17,11 @@ const EditProductPage = async (
         cache: 'no-store',
     })
 
+    if (!resp.ok) {
+      console.log(resp.status)
+      console.log(await resp.text())
+    }
+
     const {materials,metalColors,productTypes,suppliers,product} = await resp.json() as {
         materials:ISpecification[];
         metalColors:ISpecification[];
@@ -24,8 +29,6 @@ const EditProductPage = async (
         suppliers:ISpecification[];
         product:IProduct;
     }
-
-    console.log(suppliers)
     
     return (
       <EditProduct {...{
