@@ -149,8 +149,7 @@ const GoodsReceivedContent = (
         })
 
         if (resp.ok){
-            setRowIDs([])
-            alert('Update successful')
+            window.location.reload()
         } else {
             const { status } = resp
             const errorMsg = await resp.text()
