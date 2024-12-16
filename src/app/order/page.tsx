@@ -1,6 +1,6 @@
 import { httpRequestHeader } from "@misc"
 import { fetchCSRF } from "../fetch-csrf"
-import { IOrder, ISpecification } from "src/interfaces"
+import { IOrder, IOrderProduct, ISpecification } from "src/interfaces"
 import Order from "@components/order"
 
 const OrderPage = async (
@@ -19,13 +19,14 @@ const OrderPage = async (
         body:JSON.stringify({orderID:+(id as string)})
     })
 
-    const {orderStatuses,order} = await resp.json() as {
+    const {orderStatuses,order,products} = await resp.json() as {
         orderStatuses:ISpecification[];
         order:IOrder;
+        products:IOrderProduct[];
     }
 
     return (
-        <Order {...{csrf,order,orderStatuses}} />
+        <Order {...{csrf,order,orderStatuses,products}} />
     )
 }
 

@@ -1,4 +1,4 @@
-import Grid from '@mui/material/Grid';
+import Grid2 from '@mui/material/Grid2';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -32,10 +32,10 @@ const OverviewItem = (
 ) => (
     <TableRow>
         <TableCell><Link href={`/order?id=${orderID}`}>{orderID}</Link></TableCell>
-        <TableCell>{orderStatus}</TableCell>
-        <TableCell>{formatDate(orderDate)}</TableCell>
-        <TableCell>{formatPrice(totalOrderAmountExDelivery)}</TableCell>
-        <TableCell>{deliveryMethod}</TableCell>
+        <TableCell><Link href={`/order?id=${orderID}`}>{orderStatus}</Link></TableCell>
+        <TableCell><Link href={`/order?id=${orderID}`}>{formatDate(orderDate)}</Link></TableCell>
+        <TableCell><Link href={`/order?id=${orderID}`}>{formatPrice(totalOrderAmountExDelivery)}</Link></TableCell>
+        <TableCell><Link href={`/order?id=${orderID}`}>{deliveryMethod}</Link></TableCell>
     </TableRow>
 )
 
@@ -79,7 +79,7 @@ const OrdersPageContent = (
     }
 
     return (
-        <Grid container rowGap={2}>
+        <Grid2 container rowGap={2}>
             <FormControl>
                 <InputLabel id="order-status-select-menu">Order Status</InputLabel>
                 <Select
@@ -115,7 +115,7 @@ const OrdersPageContent = (
                     </TableBody>
                 </Table>
             </TableContainer>
-        </Grid>
+        </Grid2>
     )
 }
 

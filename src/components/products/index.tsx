@@ -1,6 +1,6 @@
 'use client'
 
-import Grid from '@mui/material/Grid'
+import Grid2 from '@mui/material/Grid2'
 import Button from '@mui/material/Button'
 import AddIcon from '@mui/icons-material/Add';
 import SignedInWrapper from "../signed-in-wrapper"
@@ -9,8 +9,8 @@ import Product from "./product"
 
 const Products = ({products,csrf}:{products:IProductPageItemDetails[];csrf:string;}) => (
     <SignedInWrapper {...{csrf}}>
-        <Grid container spacing={2}>
-            <Grid item xs={12} style={{ textAlign: 'right' }}>
+        <Grid2 container spacing={2}>
+            <Grid2 size={{xs:12}} style={{ textAlign: 'right' }}>
                 <Button
                     variant="contained"
                     color="primary"
@@ -19,13 +19,13 @@ const Products = ({products,csrf}:{products:IProductPageItemDetails[];csrf:strin
                 >
                     Add Product
                 </Button>
-            </Grid>
+            </Grid2>
             {products.map((p, i) => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
+                <Grid2 size={{xs:12,sm:6,md:4,lg:3}} key={i}>
                     <Product product={p} />
-                </Grid>
+                </Grid2>
             ))}
-        </Grid>
+        </Grid2>
     </SignedInWrapper>
 )
 

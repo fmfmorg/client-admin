@@ -89,9 +89,22 @@ export interface IOrder {
     dispatchDT: number;
     receiptDT: number;
     orderDetails: string;
+    isDirectDelivery:boolean;
 }
 
 export interface IProductImage {
     productID:string;
     filename:string;
+}
+
+export interface IOrderProductLocationQuantity {
+    location:string;
+    quantityAtLocation:number;
+}
+
+export interface IOrderProduct {
+    productID:string;
+    imageFilename:string;
+    quantitySold:number;
+    locationQuantities:IOrderProductLocationQuantity[];
 }

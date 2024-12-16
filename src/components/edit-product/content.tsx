@@ -7,7 +7,7 @@ import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
-import Grid from '@mui/material/Grid'
+import Grid2 from '@mui/material/Grid2'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
@@ -153,72 +153,72 @@ const EditProductContent = (
 
     return (
         <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Grid container rowGap={2}>
-                <Grid xs={12} sm={6} paddingRight={{sm:1}}>
+            <Grid2 container rowGap={2}>
+                <Grid2 size={{xs:12,sm:6}} paddingRight={{sm:1}}>
                     <Typography variant="h4">Edit Product - {product.id}</Typography>
-                </Grid>
-                <Grid xs={12} sm={6} paddingLeft={{sm:1}}>
+                </Grid2>
+                <Grid2 size={{xs:12,sm:6}} paddingLeft={{sm:1}}>
                     <Typography align='right'>Created at: {formatDate(product.createdAt)}</Typography>
-                </Grid>
-                <Grid xs={12} sm={6} paddingRight={{sm:1}}>
+                </Grid2>
+                <Grid2 size={{xs:12,sm:6}} paddingRight={{sm:1}}>
                     <TextField defaultValue={product.name} fullWidth inputRef={nameRef} name="name" label="Name" required />
-                </Grid>
-                <Grid xs={12} sm={6} paddingLeft={{sm:1}}>
+                </Grid2>
+                <Grid2 size={{xs:12,sm:6}} paddingLeft={{sm:1}}>
                     <TextField defaultValue={product.url} fullWidth inputRef={urlRef} name="url" label="URL" required />
-                </Grid>
-                <Grid xs={12} sm={6} paddingRight={{sm:1}}>
+                </Grid2>
+                <Grid2 size={{xs:12,sm:6}} paddingRight={{sm:1}}>
                     <TextField defaultValue={product.price * 0.01} fullWidth inputRef={priceRef} name="price" label="Price (£)" type="number" required />
-                </Grid>
-                <Grid xs={12} sm={6} paddingLeft={{sm:1}}>
+                </Grid2>
+                <Grid2 size={{xs:12,sm:6}} paddingLeft={{sm:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='supplier-id'>Suppliers</InputLabel>
                         <Select value={supplierID} labelId='supplier-id' label='Supplier' onChange={supplierOnChange}>
                             {suppliers.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
-                </Grid>
-                <Grid xs={12} sm={6} md={3} paddingRight={{sm:1}}>
+                </Grid2>
+                <Grid2 size={{xs:12,sm:6,md:3}} paddingRight={{sm:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='product-main-type-id'>Product Main Type</InputLabel>
                         <Select value={productMainType} labelId='product-main-type-id' label='Product Main Type' onChange={productMainTypeOnChange}>
                             {productMainTypes.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
-                </Grid>
-                <Grid xs={12} sm={6} md={3} paddingLeft={{sm:1}} paddingRight={{md:1}}>
+                </Grid2>
+                <Grid2 size={{xs:12,sm:6,md:3}} paddingLeft={{sm:1}} paddingRight={{md:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='product-sub-type-id'>Product Subtype</InputLabel>
                         <Select value={productSubType} labelId='product-sub-type-id' label='Product Subtype' onChange={productSubTypeOnChange}>
                             {productSubTypes.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
-                </Grid>
-                <Grid xs={12} sm={6} md={3} paddingLeft={{md:1}} paddingRight={{sm:1}}>
+                </Grid2>
+                <Grid2 size={{xs:12,sm:6,md:3}} paddingLeft={{md:1}} paddingRight={{sm:1}}>
                     <FormControl fullWidth>
                         <InputLabel id='material-id'>Material</InputLabel>
                         <Select multiple value={materialIDs} labelId='material-id' label='Material' onChange={materialOnChange}>
                             {materials.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
-                </Grid>
-                <Grid xs={12} sm={6} md={3} paddingLeft={{sm:1}}>
+                </Grid2>
+                <Grid2 size={{xs:12,sm:6,md:3}} paddingLeft={{sm:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='metal-color-id'>Metal Colour</InputLabel>
                         <Select value={metalColorID} labelId='metal-color-id' label='Metal Colour' onChange={metalColorOnChange}>
                             {metalColors.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
             <TextField defaultValue={product.description} inputRef={descriptionRef} name="description" label="Description" multiline rows={4} required />
-            <Grid container rowGap={2}>
-                <Grid xs={12} sm={6} paddingRight={{sm:1}}>
+            <Grid2 container rowGap={2}>
+                <Grid2 size={{xs:12,sm:6}} paddingRight={{sm:1}}>
                     <TextField defaultValue={product.publicImages.join('\n')} fullWidth inputRef={publicImageRef} multiline name="public_images" label="Public Images" rows={4} required />
-                </Grid>
-                <Grid xs={12} sm={6} paddingLeft={{sm:1}}>
+                </Grid2>
+                <Grid2 size={{xs:12,sm:6}} paddingLeft={{sm:1}}>
                     <TextField defaultValue={product.adminImages.join('\n')} fullWidth inputRef={adminImageRef} multiline name="admin_images" label="Admin Images" rows={4} required />
-                </Grid>
-                <Grid xs={12} sm={6} paddingRight={{sm:1}}>
+                </Grid2>
+                <Grid2 size={{xs:12,sm:6}} paddingRight={{sm:1}}>
                     <Typography variant="h6">Stock Level</Typography>
                     <TableContainer>
                         <Table>
@@ -238,8 +238,8 @@ const EditProductContent = (
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </Grid>
-                <Grid xs={12} sm={6} paddingLeft={{sm:1}}>
+                </Grid2>
+                <Grid2 size={{xs:12,sm:6}} paddingLeft={{sm:1}}>
                     <Typography variant="h6">Discount History</Typography>
                     <TableContainer>
                         <Table>
@@ -274,8 +274,8 @@ const EditProductContent = (
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
             <FormGroup>
                 <FormControlLabel control={<Checkbox inputRef={retiredRef} defaultChecked={product.isRetired} />} label='Retired' />
             </FormGroup>

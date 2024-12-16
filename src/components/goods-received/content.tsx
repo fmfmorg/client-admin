@@ -1,5 +1,5 @@
 import { FormEvent, useContext, useRef, useState } from 'react';
-import Grid from '@mui/material/Grid'
+import Grid2 from '@mui/material/Grid2'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableHead from '@mui/material/TableHead';
@@ -158,7 +158,7 @@ const GoodsReceivedContent = (
     }
 
     return (
-        <Grid container spacing={2} component='form' onSubmit={onSubmit}
+        <Grid2 container spacing={2} component='form' onSubmit={onSubmit}
             sx={{
                 '& td:first-of-type':{
                     fontWeight:'bold'
@@ -174,7 +174,7 @@ const GoodsReceivedContent = (
                 }
             }}
         >
-            <Grid item xs={12} lg={8}>
+            <Grid2 size={{xs:12,lg:8}}>
                 {!!invMvmtTypes && !!invMvmtTypes.length && <FormControl fullWidth  sx={{marginBottom:2}}>
                     <InputLabel id='inv-mvmt-type-id'>Select Order Type</InputLabel>
                     <Select 
@@ -217,12 +217,12 @@ const GoodsReceivedContent = (
                         </GoodsReceivedContext.Provider>
                     </Table>
                 </TableContainer>
-            </Grid>
-            <Grid item xs={12} lg={8}>
+            </Grid2>
+            <Grid2 size={{xs:12,lg:8}}>
                 <Button variant='outlined' fullWidth onClick={addRow} startIcon={<AddIcon />}>Add Row</Button>
                 <Button variant='contained' fullWidth type='submit' sx={{marginTop:2}}>Submit</Button>
-            </Grid>
-        </Grid>
+            </Grid2>
+        </Grid2>
     )
 }
 

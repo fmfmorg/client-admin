@@ -1,5 +1,5 @@
 import ReactMarkdown from 'react-markdown'
-import Grid from '@mui/material/Grid'
+import Grid2 from '@mui/material/Grid2'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -31,8 +31,8 @@ const Product = (
     }
 ) => (
     <SignedInWrapper {...{csrf}}>
-        <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} lg={4}>
+        <Grid2 container spacing={2}>
+            <Grid2 size={{xs:12,sm:6,lg:4}}>
                 <TableContainer>
                     <Table>
                         <TableBody>
@@ -115,8 +115,8 @@ const Product = (
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </Grid>
-        </Grid>
+            </Grid2>
+        </Grid2>
     </SignedInWrapper>
 )
 

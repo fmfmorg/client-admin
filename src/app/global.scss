@@ -76,6 +76,17 @@
       }
     }
 
+    .MuiDialog-container {
+      .MuiPaper-root {
+        background-color: #1e1e1e; // Dark background color of the snackbar
+        color: #ffffff; // Light text color
+
+        .MuiSvgIcon-root, .MuiIconButton-root {
+          color: #ffffff; // Bright color for the close icon
+        }
+      }
+    }
+
     /* Adjust styles for Card in dark mode */
     .MuiCard-root {
       background-color: #1e1e1e; // Dark background color for the card

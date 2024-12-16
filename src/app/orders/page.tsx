@@ -4,7 +4,7 @@ import { IDeliveryMethod, IOrderOverviewItem, ISpecification } from "src/interfa
 import Orders from "@components/orders"
 
 const OrdersPage = async() => {
-    const orderStatus = 1
+    const orderStatus = 0
     const csrf = await fetchCSRF() || ''
     const resp = await fetch(`${process.env.FM_CLIENT_ADMIN_API_URL}/admin/orders-init`,{
         method:"POST",

@@ -1,7 +1,7 @@
 'use client'
 
 import SignedInWrapper from "@components/signed-in-wrapper";
-import { IOrder, ISpecification } from "src/interfaces";
+import { IOrder, IOrderProduct, ISpecification } from "src/interfaces";
 import OrderContent from "./content";
 
 const Order = (
@@ -9,14 +9,16 @@ const Order = (
         csrf,
         orderStatuses,
         order,
+        products,
     }:{
         csrf:string;
         orderStatuses:ISpecification[];
         order:IOrder;
+        products:IOrderProduct[];
     }
 ) => (
     <SignedInWrapper {...{csrf}}>
-        <OrderContent {...{orderStatuses,order}} />
+        <OrderContent {...{orderStatuses,order,products:products || []}} />
     </SignedInWrapper>
 )
 
