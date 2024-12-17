@@ -49,11 +49,13 @@ const OrderContent = (
             else {
                 const text = await resp.text()
                 alert(`Error: ${text}`)
+                setLoading(false)
             }
         } else {
             const dispatchDT = new Date(dispatchTime.trim().replace(' ','T')).valueOf()
             if (isNaN(dispatchDT)) {
                 alert('Invalid dispatch time')
+                setLoading(false)
                 return
             }
 
@@ -61,6 +63,7 @@ const OrderContent = (
                 const filenameSplitParts = trackingOrPhotoField.trim().split('.')
                 if (filenameSplitParts.length < 2 || filenameSplitParts[filenameSplitParts.length - 1] !== 'jpg') {
                     alert('Invalid file name')
+                    setLoading(false)
                     return
                 }
             }
@@ -78,6 +81,7 @@ const OrderContent = (
             else {
                 const text = await resp.text()
                 alert(`Error: ${text}`)
+                setLoading(false)
             }
         }
         setLoading(false)
