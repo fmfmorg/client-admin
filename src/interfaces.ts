@@ -30,6 +30,7 @@ export interface IProduct {
     id: string;
     name: string;
     description: string;
+    specification:string;
     materialIDs: number[];
     metalColorID: number;
     productTypeID: number;
