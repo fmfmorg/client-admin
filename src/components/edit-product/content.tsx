@@ -110,6 +110,9 @@ const EditProductContent = (
         const adminImages = verifyImageFilenames(adminImageRef.current?.value as string,'admin')
         if (!adminImages.length) return
 
+        const gmcImages = verifyImageFilenames(gmcImageRef.current?.value as string,'GMC')
+        if (!gmcImages.length) return
+
         const discountStartDtSTr = (discountStartDateRef.current?.value || '').trim()
         const discountEndDtSTr = (discountEndDateRef.current?.value || '').trim()
         const discountAmountStr = (discountAmountRef.current?.value || '').trim()
@@ -135,6 +138,7 @@ const EditProductContent = (
             productTypeID: productSubType,
             publicImages,
             adminImages,
+            gmcImages,
             discountStartDT,
             discountEndDT,
             discountAmount,
