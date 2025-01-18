@@ -18,6 +18,12 @@ const ProductPage = async (
       cache: 'no-store',
     })
 
+    if (!resp.ok){
+      console.log(await resp.text())
+      console.log(resp.status)
+      return new Response(null,{status:500})
+    }
+
     const {materials,metalColors,productTypes,suppliers,product} = await resp.json() as {
         materials:ISpecification[];
         metalColors:ISpecification[];
