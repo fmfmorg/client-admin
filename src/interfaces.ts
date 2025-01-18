@@ -40,6 +40,7 @@ export interface IProduct {
     url: string;
     publicImages: string[];
     adminImages: string[];
+    gmcImages: string[];
     stockQuantities: IStockQuantity[];
     createdAt: number;
     isRetired: boolean;

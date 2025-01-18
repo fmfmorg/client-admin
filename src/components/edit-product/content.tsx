@@ -47,6 +47,7 @@ const EditProductContent = (
     const urlRef = useRef<HTMLInputElement>(null);
     const publicImageRef = useRef<HTMLInputElement>(null);
     const adminImageRef = useRef<HTMLInputElement>(null);
+    const gmcImageRef = useRef<HTMLInputElement>(null);
     const retiredRef = useRef<HTMLInputElement>(null);
     const imageExtAccepted = useRef<string[]>(['jpeg','jpg','png'])
     const discountStartDateRef = useRef<HTMLInputElement>(null)
@@ -222,9 +223,12 @@ const EditProductContent = (
                     <TextField defaultValue={product.publicImages.join('\n')} fullWidth inputRef={publicImageRef} multiline name="public_images" label="Public Images" rows={4} required />
                 </Grid2>
                 <Grid2 size={{xs:12,sm:6}} paddingLeft={{sm:1}}>
-                    <TextField defaultValue={product.adminImages.join('\n')} fullWidth inputRef={adminImageRef} multiline name="admin_images" label="Admin Images" rows={4} required />
+                    <TextField defaultValue={product.gmcImages.join('\n')} fullWidth inputRef={gmcImageRef} multiline name="gmc_images" label="GMC Images" rows={4} required />
                 </Grid2>
                 <Grid2 size={{xs:12,sm:6}} paddingRight={{sm:1}}>
+                    <TextField defaultValue={product.adminImages.join('\n')} fullWidth inputRef={adminImageRef} multiline name="admin_images" label="Admin Images" rows={4} required />
+                </Grid2>
+                <Grid2 size={{xs:12,sm:6}} paddingLeft={{sm:1}}>
                     <Typography variant="h6">Stock Level</Typography>
                     <TableContainer>
                         <Table>
@@ -245,7 +249,7 @@ const EditProductContent = (
                         </Table>
                     </TableContainer>
                 </Grid2>
-                <Grid2 size={{xs:12,sm:6}} paddingLeft={{sm:1}}>
+                <Grid2 size={{xs:12,sm:6}} paddingRight={{sm:1}}>
                     <Typography variant="h6">Discount History</Typography>
                     <TableContainer>
                         <Table>

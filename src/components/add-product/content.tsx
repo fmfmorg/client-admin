@@ -34,6 +34,7 @@ const AddProductContent = (
     const urlRef = useRef<HTMLInputElement>(null);
     const publicImageRef = useRef<HTMLInputElement>(null);
     const adminImageRef = useRef<HTMLInputElement>(null);
+    const gmcImageRef = useRef<HTMLInputElement>(null);
     const imageExtAccepted = useRef<string[]>(['jpeg','jpg','png'])
     const { csrfToken } = useContext(CsrfContext)
 
@@ -78,6 +79,9 @@ const AddProductContent = (
         const adminImages = verifyImageFilenames(adminImageRef.current?.value as string,'admin')
         if (!adminImages.length) return
 
+        const gmcImages = verifyImageFilenames(gmcImageRef.current?.value as string,'GMC')
+        if (!gmcImages.length) return
+
         const formData = new FormData();
         formData.append('product', JSON.stringify({
             productID: productIdRef.current?.value.trim().toUpperCase(),
@@ -91,6 +95,7 @@ const AddProductContent = (
             url: urlRef.current?.value.trim(),
             productTypeID: productSubType,
             publicImages,
+            gmcImages,
             adminImages,
             metaDescription: metaDescriptionRef.current?.value.trim(),
         }));
@@ -174,6 +179,9 @@ const AddProductContent = (
                     <TextField fullWidth inputRef={publicImageRef} multiline name="public_images" label="Public Images" rows={4} required />
                 </Grid2>
                 <Grid2 size={{xs:12,sm:6}} paddingLeft={{sm:1}}>
+                    <TextField fullWidth inputRef={gmcImageRef} multiline name="gmc_images" label="GMC Images" rows={4} required />
+                </Grid2>
+                <Grid2 size={{xs:12,sm:6}} paddingRight={{sm:1}}>
                     <TextField fullWidth inputRef={adminImageRef} multiline name="admin_images" label="Admin Images" rows={4} required />
                 </Grid2>
             </Grid2>
