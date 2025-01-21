@@ -74,12 +74,6 @@ const Product = (
                                     <ReactMarkdown>{product.description}</ReactMarkdown>
                                 </TableCell>
                             </TableRow>
-                            <TableRow>
-                                <TableCell colSpan={2}>
-                                    <Typography variant='h6'>Specification</Typography>
-                                    <ReactMarkdown>{product.specification}</ReactMarkdown>
-                                </TableCell>
-                            </TableRow>
                         </TableBody>
                     </Table>
                 </TableContainer>

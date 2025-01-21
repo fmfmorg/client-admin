@@ -44,7 +44,6 @@ const EditProductContent = (
     const priceRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
     const metaDescriptionRef = useRef<HTMLInputElement>(null);
-    const specificationRef = useRef<HTMLInputElement>(null);
     const urlRef = useRef<HTMLInputElement>(null);
     const publicImageRef = useRef<HTMLInputElement>(null);
     const adminImageRef = useRef<HTMLInputElement>(null);
@@ -118,7 +117,6 @@ const EditProductContent = (
             materialIDs,
             metalColorID,
             description: descriptionRef.current?.value.trim(),
-            specification: specificationRef.current?.value.trim(),
             url: urlRef.current?.value.trim(),
             productTypeID: productSubType,
             publicImages,
@@ -209,7 +207,6 @@ const EditProductContent = (
             <TextField defaultValue={product.description} inputRef={descriptionRef} name="description" label="Description" multiline rows={4} required />
             <TextField defaultValue={product.metaDescription} inputRef={metaDescriptionRef} name="meta_description" label="Meta Description" multiline rows={4} required />
             <MeasurementTable measurements={product.measurements || []} />
-            <TextField defaultValue={product.specification} inputRef={specificationRef} name="specification" label="Specification" multiline rows={4} />
             <Grid2 container rowGap={2}>
                 <Grid2 size={{xs:12,sm:6}} paddingRight={{sm:1}}>
                     <TextField defaultValue={product.publicImages.join('\n')} fullWidth inputRef={publicImageRef} multiline name="public_images" label="Public Images" rows={4} required />

@@ -31,7 +31,6 @@ export interface IProduct {
     name: string;
     description: string;
     metaDescription: string;
-    specification:string;
     materialIDs: number[];
     metalColorID: number;
     productTypeID: number;
