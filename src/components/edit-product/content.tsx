@@ -23,7 +23,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { CsrfContext } from '@context';
 import { IProduct, IProductTypes, ISpecification } from 'src/interfaces';
 import { formatDate, formatPrice, httpRequestHeader, verifyImageFilenames } from '@misc';
-import { getMeasurementInput } from '@misc/measurement-table';
+import MeasurementTable, { getMeasurementInput } from '@misc/measurement-table';
 
 const EditProductContent = (
     {
@@ -208,6 +208,7 @@ const EditProductContent = (
             </Grid2>
             <TextField defaultValue={product.description} inputRef={descriptionRef} name="description" label="Description" multiline rows={4} required />
             <TextField defaultValue={product.metaDescription} inputRef={metaDescriptionRef} name="meta_description" label="Meta Description" multiline rows={4} required />
+            <MeasurementTable measurements={product.measurements || []} />
             <TextField defaultValue={product.specification} inputRef={specificationRef} name="specification" label="Specification" multiline rows={4} />
             <Grid2 container rowGap={2}>
                 <Grid2 size={{xs:12,sm:6}} paddingRight={{sm:1}}>
