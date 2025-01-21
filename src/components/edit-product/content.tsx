@@ -131,6 +131,7 @@ const EditProductContent = (
             supplierID,
             metaDescription: metaDescriptionRef.current?.value.trim(),
             measurements: getMeasurementInput(),
+            soldAsPair:!!soldAsPairRef.current?.checked
         }));
     
         const response = await fetch('/api/admin/edit-product', {
