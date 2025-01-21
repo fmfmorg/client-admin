@@ -8,9 +8,13 @@ import InputLabel from '@mui/material/InputLabel'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Grid2 from '@mui/material/Grid2'
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import { CsrfContext } from '@context';
 import { IProductTypes, ISpecification } from 'src/interfaces';
-import { httpRequestHeader } from '@misc';
+import { httpRequestHeader, verifyImageFilenames } from '@misc';
+import MeasurementTable, { getMeasurementInput, newMeasurementItem } from '@misc/measurement-table';
 
 const AddProductContent = (
     {
@@ -35,7 +39,7 @@ const AddProductContent = (
     const publicImageRef = useRef<HTMLInputElement>(null);
     const adminImageRef = useRef<HTMLInputElement>(null);
     const gmcImageRef = useRef<HTMLInputElement>(null);
-    const imageExtAccepted = useRef<string[]>(['jpeg','jpg','png'])
+    const soldAsPairRef = useRef<HTMLInputElement>(null);
     const { csrfToken } = useContext(CsrfContext)
 
     const [materialIDs, setMaterialIDs] = useState<number[]>([])
@@ -54,21 +58,7 @@ const AddProductContent = (
     const metalColorOnChange = (ev:SelectChangeEvent<number>) => setMetalColorID(ev.target.value as number)
     const supplierOnChange = (ev:SelectChangeEvent<number>) => setSupplier(ev.target.value as number)
 
-    const verifyImageFilenames = (filenameStr:string, section:string) => {
-        const filenames = filenameStr.split('\n').map(e=>e.trim())
-        const filenamesWithErr = filenames.filter(e=>{
-            const parts = e.split('.')
-            const len = parts.length
-            if (len < 2) return true
-            const ext = parts[len-1].toLowerCase()
-            return imageExtAccepted.current.indexOf(ext) === -1
-        })
-
-        if (!!filenamesWithErr.length) {
-            alert(`Invalid ${section} images:\n${filenamesWithErr.join('\n')}`)
-            return []
-        } else return filenames
-    }
+    
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -98,6 +88,8 @@ const AddProductContent = (
             gmcImages,
             adminImages,
             metaDescription: metaDescriptionRef.current?.value.trim(),
+            measurements: getMeasurementInput(),
+            soldAsPair:!!soldAsPairRef.current?.checked
         }));
     
         const response = await fetch('/api/admin/add-product', {
@@ -173,6 +165,7 @@ const AddProductContent = (
             </Grid2>
             <TextField inputRef={descriptionRef} name="description" label="Description" multiline rows={4} required />
             <TextField inputRef={metaDescriptionRef} name="meta_description" label="Meta Description" multiline rows={4} />
+            <MeasurementTable measurements={[newMeasurementItem()]} />
             <TextField inputRef={specificationRef} name="specification" label="Specification" multiline rows={4} />
             <Grid2 container marginX={0} marginTop={0} rowGap={2}>
                 <Grid2 size={{xs:12,sm:6}} paddingRight={{sm:1}}>
@@ -183,6 +176,11 @@ const AddProductContent = (
                 </Grid2>
                 <Grid2 size={{xs:12,sm:6}} paddingRight={{sm:1}}>
                     <TextField fullWidth inputRef={adminImageRef} multiline name="admin_images" label="Admin Images" rows={4} required />
+                </Grid2>
+                <Grid2 size={{xs:12,sm:6}} paddingLeft={{sm:1}}>
+                    <FormGroup>
+                        <FormControlLabel inputRef={soldAsPairRef} control={<Checkbox defaultChecked />} label="Sold as pair" />
+                    </FormGroup>
                 </Grid2>
             </Grid2>
             <Button type="submit" variant="contained" color="primary">Submit</Button>

@@ -22,7 +22,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { CsrfContext } from '@context';
 import { IProduct, IProductTypes, ISpecification } from 'src/interfaces';
-import { formatDate, formatPrice, httpRequestHeader } from '@misc';
+import { formatDate, formatPrice, httpRequestHeader, verifyImageFilenames } from '@misc';
+import { getMeasurementInput } from '@misc/measurement-table';
 
 const EditProductContent = (
     {
@@ -49,7 +50,7 @@ const EditProductContent = (
     const adminImageRef = useRef<HTMLInputElement>(null);
     const gmcImageRef = useRef<HTMLInputElement>(null);
     const retiredRef = useRef<HTMLInputElement>(null);
-    const imageExtAccepted = useRef<string[]>(['jpeg','jpg','png'])
+    const soldAsPairRef = useRef<HTMLInputElement>(null);
     const discountStartDateRef = useRef<HTMLInputElement>(null)
     const discountEndDateRef = useRef<HTMLInputElement>(null)
     const discountAmountRef = useRef<HTMLInputElement>(null)
@@ -77,22 +78,6 @@ const EditProductContent = (
     const materialOnChange = (ev:SelectChangeEvent<number[]>) => setMaterialIDs([...ev.target.value as number[]])
     const metalColorOnChange = (ev:SelectChangeEvent<number>) => setMetalColorID(ev.target.value as number)
     const supplierOnChange = (ev:SelectChangeEvent<number>) => setSupplierID(ev.target.value as number)
-
-    const verifyImageFilenames = (filenameStr:string, section:string) => {
-        const filenames = filenameStr.split('\n').map(e=>e.trim())
-        const filenamesWithErr = filenames.filter(e=>{
-            const parts = e.split('.')
-            const len = parts.length
-            if (len < 2) return true
-            const ext = parts[len-1].toLowerCase()
-            return imageExtAccepted.current.indexOf(ext) === -1
-        })
-
-        if (!!filenamesWithErr.length) {
-            alert(`Invalid ${section} images:\n${filenamesWithErr.join('\n')}`)
-            return []
-        } else return filenames
-    }
 
     const strToUnixMilli = (str:string,isEnd:boolean) => {
         const dt = new Date(str)
@@ -145,6 +130,7 @@ const EditProductContent = (
             isRetired:!!retiredRef.current?.checked,
             supplierID,
             metaDescription: metaDescriptionRef.current?.value.trim(),
+            measurements: getMeasurementInput(),
         }));
     
         const response = await fetch('/api/admin/edit-product', {
@@ -232,7 +218,8 @@ const EditProductContent = (
                 <Grid2 size={{xs:12,sm:6}} paddingRight={{sm:1}}>
                     <TextField defaultValue={product.adminImages.join('\n')} fullWidth inputRef={adminImageRef} multiline name="admin_images" label="Admin Images" rows={4} required />
                 </Grid2>
-                <Grid2 size={{xs:12,sm:6}} paddingLeft={{sm:1}}>
+                <Grid2 size={{xs:12,sm:6}} paddingLeft={{sm:1}}></Grid2>
+                <Grid2 size={{xs:12,sm:6}} paddingRight={{sm:1}}>
                     <Typography variant="h6">Stock Level</Typography>
                     <TableContainer>
                         <Table>
@@ -253,7 +240,7 @@ const EditProductContent = (
                         </Table>
                     </TableContainer>
                 </Grid2>
-                <Grid2 size={{xs:12,sm:6}} paddingRight={{sm:1}}>
+                <Grid2 size={{xs:12,sm:6}} paddingLeft={{sm:1}}>
                     <Typography variant="h6">Discount History</Typography>
                     <TableContainer>
                         <Table>
@@ -291,6 +278,7 @@ const EditProductContent = (
                 </Grid2>
             </Grid2>
             <FormGroup>
+                <FormControlLabel inputRef={soldAsPairRef} control={<Checkbox inputRef={soldAsPairRef} defaultChecked={product.soldAsPair} />} label="Sold as pair" />
                 <FormControlLabel control={<Checkbox inputRef={retiredRef} defaultChecked={product.isRetired} />} label='Retired' />
             </FormGroup>
             <Button type="submit" variant="contained" color="primary">Submit</Button>

@@ -28,3 +28,5 @@ jobs:
       env:
         FM_CLIENT_ADMIN_API_URL: ${{ vars.FM_CLIENT_ADMIN_API_URL }}
         NEXT_PUBLIC_FM_ADMIN_IMAGE_URL_PREFIX: ${{ vars.NEXT_PUBLIC_FM_ADMIN_IMAGE_URL_PREFIX }}
+    - name: Reload PM2 process
+      run: pm2 reload client-webshop --update-env

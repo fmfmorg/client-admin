@@ -45,6 +45,8 @@ export interface IProduct {
     createdAt: number;
     isRetired: boolean;
     supplierID:number;
+    measurements:IProductMeasurement[];
+    soldAsPair:boolean;
 }
 
 export interface IOrderOverviewItem {
@@ -110,4 +112,12 @@ export interface IOrderProduct {
     imageFilename:string;
     quantitySold:number;
     locationQuantities:IOrderProductLocationQuantity[];
+}
+
+export interface IProductMeasurement {
+    id?:string;
+    width:number;
+    depth:number;
+    height:number;
+    weight:number;
 }
