@@ -46,13 +46,13 @@ const AddProductContent = (
     const [supplier,setSupplier] = useState(0)
     
     const [productMainType, setProductMainType] = useState(0)
-    const [productSubType, setProductSubType] = useState(0)
+    const [productSubTypeIDs, setProductSubTypeIDs] = useState<number[]>([])
     
     const productMainTypes = useMemo(()=>!!productTypes ? Object.entries(productTypes).map(([id,spec])=>({id:+id,name:spec.name} as ISpecification)) : [],[])
     const productSubTypes = useMemo(()=>!!productTypes && !!productTypes[productMainType] ? productTypes[productMainType].subtypes : [],[productMainType])
 
     const productMainTypeOnChange = (ev:SelectChangeEvent<number>) => setProductMainType(ev.target.value as number)
-    const productSubTypeOnChange = (ev:SelectChangeEvent<number>) => setProductSubType(ev.target.value as number)
+    const productSubTypeOnChange = (ev:SelectChangeEvent<number[]>) => setProductSubTypeIDs([...ev.target.value as number[]])
     const materialOnChange = (ev:SelectChangeEvent<number[]>) => setMaterialIDs([...ev.target.value as number[]])
     const metalColorOnChange = (ev:SelectChangeEvent<number>) => setMetalColorID(ev.target.value as number)
     const supplierOnChange = (ev:SelectChangeEvent<number>) => setSupplier(ev.target.value as number)
@@ -81,7 +81,7 @@ const AddProductContent = (
             supplier,
             description: descriptionRef.current?.value.trim(),
             url: urlRef.current?.value.trim(),
-            productTypeID: productSubType,
+            productTypeIDs: productSubTypeIDs,
             publicImages,
             gmcImages,
             adminImages,
@@ -139,7 +139,7 @@ const AddProductContent = (
                 <Grid2 size={{xs:12,sm:6,md:3}} paddingLeft={{sm:1}} paddingRight={{md:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='product-sub-type-id'>Product Subtype</InputLabel>
-                        <Select required labelId='product-sub-type-id' label='Product Subtype' onChange={productSubTypeOnChange}>
+                        <Select multiple required labelId='product-sub-type-id' label='Product Subtype' onChange={productSubTypeOnChange}>
                             {productSubTypes.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>

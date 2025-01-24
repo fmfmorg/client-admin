@@ -63,16 +63,16 @@ const EditProductContent = (
         const entries = Object.entries(productTypes)
         for (const entry of entries) {
             const [mainTypeID, {subtypes}] = entry
-            if (subtypes.findIndex(e=>e.id === product.productTypeID) !== -1) return +mainTypeID
+            if (subtypes.findIndex(e=>e.id === product.productTypeIDs[0]) !== -1) return +mainTypeID
         }
         return 0
     })
-    const [productSubType, setProductSubType] = useState(product.productTypeID)
+    const [productSubTypeIDs, setProductSubTypeIDs] = useState(product.productTypeIDs)
     const productMainTypes = useMemo(()=>Object.entries(productTypes).map(([id,spec])=>({id:+id,name:spec.name} as ISpecification)),[])
     const productSubTypes = useMemo(()=>!!productTypes[productMainType] ? productTypes[productMainType].subtypes : [],[productMainType])
 
     const productMainTypeOnChange = (ev:SelectChangeEvent<number>) => setProductMainType(ev.target.value as number)
-    const productSubTypeOnChange = (ev:SelectChangeEvent<number>) => setProductSubType(ev.target.value as number)
+    const productSubTypeOnChange = (ev:SelectChangeEvent<number[]>) => setProductSubTypeIDs([...ev.target.value as number[]])
 
     const materialOnChange = (ev:SelectChangeEvent<number[]>) => setMaterialIDs([...ev.target.value as number[]])
     const metalColorOnChange = (ev:SelectChangeEvent<number>) => setMetalColorID(ev.target.value as number)
@@ -118,7 +118,7 @@ const EditProductContent = (
             metalColorID,
             description: descriptionRef.current?.value.trim(),
             url: urlRef.current?.value.trim(),
-            productTypeID: productSubType,
+            productTypeIDs: productSubTypeIDs,
             publicImages,
             adminImages,
             gmcImages,
@@ -182,7 +182,7 @@ const EditProductContent = (
                 <Grid2 size={{xs:12,sm:6,md:3}} paddingLeft={{sm:1}} paddingRight={{md:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='product-sub-type-id'>Product Subtype</InputLabel>
-                        <Select value={productSubType} labelId='product-sub-type-id' label='Product Subtype' onChange={productSubTypeOnChange}>
+                        <Select multiple value={productSubTypeIDs} labelId='product-sub-type-id' label='Product Subtype' onChange={productSubTypeOnChange}>
                             {productSubTypes.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>

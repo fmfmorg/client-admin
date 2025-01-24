@@ -37,10 +37,10 @@ const ProductPage = async (
     const metalColor = metalColors.find(e=>e.id === product.metalColorID)?.name || ''
     const productMainType = Object.entries(productTypes).find(e=>{
       const {subtypes} = e[1]
-      return subtypes.findIndex(f=>f.id === product.productTypeID) !== -1
+      return subtypes.findIndex(f=>f.id === product.productTypeIDs[0]) !== -1
     })
     const productMainTypeName = !!productMainType ? productMainType[1].name : ''
-    const productSubTypeName = !!productMainType ? productMainType[1].subtypes.find(e=>e.id === product.productTypeID)?.name || '' : ''
+    const productSubTypeNames = !!productMainType ? productMainType[1].subtypes.filter(({id})=>product.productTypeIDs.includes(id)).map(({name})=>name) : []
 
     const supplier = (!!suppliers && !!suppliers.length && !!product.supplierID) ? (suppliers.find(({id})=>id === product.supplierID)?.name || '') : ''
 
@@ -52,7 +52,7 @@ const ProductPage = async (
           metalColor,
           supplier,
           productMainTypeName,
-          productSubTypeName,
+          productSubTypeNames,
         }} />
     )
 }

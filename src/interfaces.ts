@@ -33,7 +33,7 @@ export interface IProduct {
     metaDescription: string;
     materialIDs: number[];
     metalColorID: number;
-    productTypeID: number;
+    productTypeIDs: number[];
     price: number;
     discounts: IDiscount[];
     url: string;

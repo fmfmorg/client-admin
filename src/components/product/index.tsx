@@ -18,7 +18,7 @@ const Product = (
         material,
         metalColor,
         productMainTypeName,
-        productSubTypeName,
+        productSubTypeNames,
         supplier,
     }:{
         csrf:string;
@@ -26,7 +26,7 @@ const Product = (
         material:string;
         metalColor:string;
         productMainTypeName:string;
-        productSubTypeName:string;
+        productSubTypeNames:string[];
         supplier:string;
     }
 ) => (
@@ -58,7 +58,7 @@ const Product = (
                             </TableRow>
                             <TableRow>
                                 <TableCell>Product Type</TableCell>
-                                <TableCell>{productMainTypeName} - {productSubTypeName}</TableCell>
+                                <TableCell>{productMainTypeName} - {productSubTypeNames.join(', ')}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>Metal Color</TableCell>
