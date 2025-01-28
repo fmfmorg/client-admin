@@ -131,7 +131,7 @@ const AddProductContent = (
                 <Grid2 size={{xs:12,sm:6,md:3}} paddingRight={{sm:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='product-main-type-id'>Product Main Type</InputLabel>
-                        <Select required labelId='product-main-type-id' label='Product Main Type' onChange={productMainTypeOnChange}>
+                        <Select required labelId='product-main-type-id' label='Product Main Type' value={productMainType} onChange={productMainTypeOnChange}>
                             {productMainTypes.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
