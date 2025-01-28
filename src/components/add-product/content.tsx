@@ -139,7 +139,7 @@ const AddProductContent = (
                 <Grid2 size={{xs:12,sm:6,md:3}} paddingLeft={{sm:1}} paddingRight={{md:1}}>
                     <FormControl fullWidth required>
                         <InputLabel id='product-sub-type-id'>Product Subtype</InputLabel>
-                        <Select multiple required labelId='product-sub-type-id' label='Product Subtype' onChange={productSubTypeOnChange}>
+                        <Select multiple required labelId='product-sub-type-id' label='Product Subtype' value={productSubTypeIDs} onChange={productSubTypeOnChange}>
                             {productSubTypes.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>
