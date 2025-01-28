@@ -69,7 +69,8 @@ const EditProductContent = (
     })
     const [productSubTypeIDs, setProductSubTypeIDs] = useState(product.productTypeIDs)
     const productMainTypes = useMemo(()=>Object.entries(productTypes).map(([id,spec])=>({id:+id,name:spec.name} as ISpecification)),[])
-    const productSubTypes = useMemo(()=>!!productTypes[productMainType] ? productTypes[productMainType].subtypes : [],[productMainType])
+    // const productSubTypes = useMemo(()=>!!productTypes[productMainType] ? productTypes[productMainType].subtypes : [],[productMainType])
+    const productSubTypes = useMemo(()=>(!!productTypes && !!productMainType && !!productTypes[productMainType]) ? productTypes[productMainType].subtypes : [],[productMainType])
 
     const productMainTypeOnChange = (ev:SelectChangeEvent<number>) => setProductMainType(ev.target.value as number)
     const productSubTypeOnChange = (ev:SelectChangeEvent<number[]>) => setProductSubTypeIDs([...ev.target.value as number[]])
