@@ -51,9 +51,7 @@ export default function SignedInWrapper(props: Props) {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [csrfToken, setCsrfToken] = useState(csrf)
 
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
+    const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
     useEffect(()=>{
         const csrfBcChannel = csrfBroadcastChannel()
