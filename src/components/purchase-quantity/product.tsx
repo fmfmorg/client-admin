@@ -29,10 +29,10 @@ const Product = ({id}:{id:string}) => {
 }
 
 const Description = ({id}:{id:string}) => {
-    const qty = useAppSelector(state => state.purchaseQuantityReducer.internalItems.find(e=>e.internalSkuID === id)?.quantityTemp.toString() || '0')
+    const qty = useAppSelector(state => state.purchaseQuantityReducer.internalItems.find(e=>e.internalSkuID === id)?.quantity.toString() || '0')
     return (
         <Stack direction='column'>
-            <Typography variant='body2'>{id} - {qty}</Typography>
+            <Typography variant='body2'>{id} - {qty}pc</Typography>
             <EditQuantityField {...{id}} />
         </Stack>
     )
@@ -48,6 +48,10 @@ const EditQuantityField = ({id}:{id:string}) => {
         const qty = +e.target.value
         dispatch(updateQuantityTemp({id,qty:isNaN(qty) ? 0 : qty}))
     }
+    const edited = useAppSelector(state => {
+        const item = state.purchaseQuantityReducer.internalItems.find(e => e.internalSkuID === id)
+        return !!item ? item.quantity !== item.quantityTemp : false
+    })
     
     return (
         <TextField 
@@ -58,6 +62,7 @@ const EditQuantityField = ({id}:{id:string}) => {
             slotProps={{htmlInput:{step:1}}} 
             sx={{marginTop:1}} 
             onChange={onChange}
+            color={edited ? 'warning' : 'primary'}
         />
     )
 }

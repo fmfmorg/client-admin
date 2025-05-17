@@ -15,6 +15,10 @@ export interface IState {
 export type IStateMaster = IState & {
     columns:number;
     editItemID:string;
+    filterMode:boolean;
+    showMetalColors:number[];
+    showProductTypes:number[];
+    showSuppliers:number[];
 }
 
 export const initialState:IStateMaster = {
@@ -27,6 +31,10 @@ export const initialState:IStateMaster = {
     productTypeMapItems:[],
     columns:5,
     editItemID:'',
+    filterMode:false,
+    showMetalColors:[],
+    showProductTypes:[],
+    showSuppliers:[],
 }
 
 const slice = createSlice({
@@ -52,6 +60,7 @@ const slice = createSlice({
             const item = state.internalItems.find(e => e.internalSkuID === action.payload.id)
             if (!!item) item.quantityTemp = action.payload.qty
         },
+        toggleFilter:(state,_:PayloadAction<undefined>) => {state.filterMode = !state.filterMode},
     },
 })
 
@@ -68,5 +77,6 @@ export const {
     updateColumns,
     toggleEditDialog,
     updateQuantityTemp,
+    toggleFilter,
 } = slice.actions
 export default slice.reducer
