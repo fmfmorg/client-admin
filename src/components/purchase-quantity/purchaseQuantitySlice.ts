@@ -10,6 +10,7 @@ export interface IState {
     productMainTypes:ISpecification[];
     productSubTypes:ISpecification[];
     productTypeMapItems:IProductTypeMapItem[];
+    suppliers:ISpecification[];
 }
 
 export type IStateMaster = IState & {
@@ -29,6 +30,7 @@ export const initialState:IStateMaster = {
     productMainTypes:[],
     productSubTypes:[],
     productTypeMapItems:[],
+    suppliers:[],
     columns:5,
     editItemID:'',
     filterMode:false,
@@ -61,6 +63,9 @@ const slice = createSlice({
             if (!!item) item.quantityTemp = action.payload.qty
         },
         toggleFilter:(state,_:PayloadAction<undefined>) => {state.filterMode = !state.filterMode},
+        updateSuppliers:(state,action:PayloadAction<number[]>)=>{
+            state.showSuppliers = [...action.payload]
+        },
     },
 })
 
@@ -71,6 +76,7 @@ export const selectProductIDs = createSelector([state],(state)=>{
 
     return items.map(e=>e.internalSkuID)
 })
+export const selectSupplierList = createSelector([state],state=>state.purchaseQuantityReducer.suppliers)
 
 export const {
     initData,
@@ -78,5 +84,6 @@ export const {
     toggleEditDialog,
     updateQuantityTemp,
     toggleFilter,
+    updateSuppliers,
 } = slice.actions
 export default slice.reducer
