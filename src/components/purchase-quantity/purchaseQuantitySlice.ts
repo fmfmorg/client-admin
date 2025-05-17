@@ -14,6 +14,7 @@ export interface IState {
 
 export type IStateMaster = IState & {
     editQuantity:boolean;
+    columns:number;
 }
 
 export const initialState:IStateMaster = {
@@ -25,6 +26,7 @@ export const initialState:IStateMaster = {
     productSubTypes:[],
     productTypeMapItems:[],
     editQuantity:true,
+    columns:5,
 }
 
 const slice = createSlice({
@@ -40,6 +42,9 @@ const slice = createSlice({
             state.productSubTypes = [...action.payload.productSubTypes]
             state.productTypeMapItems = [...action.payload.productTypeMapItems]
         },
+        updateColumns:(state,action:PayloadAction<number>)=>{
+            state.columns = action.payload
+        },
     },
 })
 
@@ -53,5 +58,6 @@ export const selectProductIDs = createSelector([state],(state)=>{
 
 export const {
     initData,
+    updateColumns,
 } = slice.actions
 export default slice.reducer

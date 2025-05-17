@@ -19,6 +19,7 @@ import { CsrfContext } from '@context';
 import { csrfBroadcastChannel } from '@misc';
 import { IMenuItem } from './interfaces';
 import AccordionMenu from './accordion-menu';
+import PurchaseQuantityControlBar from '@components/purchase-quantity/control';
 
 const drawerWidth = 240;
 
@@ -26,6 +27,7 @@ interface Props {
     window?: () => Window;
     children: React.ReactNode;
     csrf:string;
+    isPurchaseQuantityPage?:boolean;
 }
 
 const menuList:IMenuItem[] = [
@@ -47,7 +49,7 @@ const inventoryMenu:IMenuItem[] = [
 ]
 
 export default function SignedInWrapper(props: Props) {
-    const { window, children, csrf } = props;
+    const { window, children, csrf, isPurchaseQuantityPage = false } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
     const [csrfToken, setCsrfToken] = useState(csrf)
 
@@ -108,9 +110,11 @@ export default function SignedInWrapper(props: Props) {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="h6" noWrap component="div">
+                        {isPurchaseQuantityPage 
+                        ? <PurchaseQuantityControlBar /> 
+                        : <Typography variant="h6" noWrap component="div">
                             Admin Panel
-                        </Typography>
+                        </Typography>}
                     </Toolbar>
                 </AppBar>
                 <Box

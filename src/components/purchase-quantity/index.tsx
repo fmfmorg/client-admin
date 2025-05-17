@@ -25,7 +25,7 @@ const UpdatePurchaseQuantity = (
     },[])
     
     return (
-        <SignedInWrapper {...{csrf}}>
+        <SignedInWrapper {...{csrf,isPurchaseQuantityPage:true}}>
             <Stack direction='column'>
                 <ImageList cols={4} sx={{overflow:'hidden'}} gap={8}>
                     {ids.map(id=>(
