@@ -30,10 +30,10 @@ const Description = ({id}:{id:string}) => {
 }
 
 const EditQuantityField = ({id}:{id:string}) => {
-    const initialQuantity = useAppSelector(state => state.purchaseQuantityReducer.internalItems.find(e=>e.quantity)?.quantityTemp.toString() || '')
+    const initialQuantity = useAppSelector(state => state.purchaseQuantityReducer.internalItems.find(e=>e.internalSkuID === id)?.quantityTemp.toString() || '')
     
     return (
-        <TextField fullWidth label='Quantity' type='number' defaultValue={initialQuantity} slotProps={{htmlInput:{step:1}}} />
+        <TextField fullWidth label='Quantity' type='number' defaultValue={initialQuantity} slotProps={{htmlInput:{step:1}}} sx={{paddingTop:1}} />
     )
 }
 
