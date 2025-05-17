@@ -18,7 +18,7 @@ const PurchaseQuantityControlBar = () => {
                 <Typography>Columns</Typography>
                 <Slider sx={{width:'150px'}} min={4} max={12} step={1} shiftStep={1} value={columns} onChange={sliderOnChange} />
             </Stack>
-            <Button variant='outlined' startIcon={<FilterAltIcon />} onClick={filterBtnOnClick}>Filter</Button>
+            <Button variant='contained' startIcon={<FilterAltIcon />} onClick={filterBtnOnClick}>Filter</Button>
         </Stack>
     )
 }
