@@ -11,6 +11,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Grid2'
+import Button from '@mui/material/Button';
 
 const Row = ({children}:{children:JSX.Element}) => (
     <Stack direction='row' spacing={1} width='100%'>{children}</Stack>
@@ -78,6 +79,9 @@ const FilterDialog = () => {
                     </Row>
                 </Stack>
             </DialogContent>
+            <DialogActions>
+                <Button>Update</Button>
+            </DialogActions>
         </Dialog>
     )
 }
