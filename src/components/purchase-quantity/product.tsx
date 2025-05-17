@@ -16,7 +16,7 @@ const Product = ({id}:{id:string}) => {
             />
             <ImageListItemBar 
                 title={<Description id={id} />}
-                sx={{display:'flex',paddingTop:1}}
+                sx={{display:'flex'}}
                 // actionIcon={deleteMode ? <DeleteCheckbox id={id} /> : <EditBtn id={id} />}
             />
         </ImageListItem>
@@ -36,7 +36,7 @@ const EditQuantityField = ({id}:{id:string}) => {
     })
     
     return (
-        <TextField fullWidth label='Quantity' type='number' defaultValue={initialQuantity} slotProps={{htmlInput:{step:1}}} />
+        <TextField fullWidth label='Quantity' type='number' defaultValue={initialQuantity} slotProps={{htmlInput:{step:1}}} sx={{marginTop:1}} />
     )
 }
 
