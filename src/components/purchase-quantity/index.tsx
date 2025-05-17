@@ -5,6 +5,8 @@ import { initData, IState, selectProductIDs } from "./purchaseQuantitySlice";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { useEffect } from "react";
 import Stack from '@mui/material/Stack';
+import ImageList from "@mui/material/ImageList";
+import Product from "./product";
 
 const UpdatePurchaseQuantity = (
     {
@@ -25,10 +27,11 @@ const UpdatePurchaseQuantity = (
     return (
         <SignedInWrapper {...{csrf}}>
             <Stack direction='column'>
-                <pre>{JSON.stringify(ids)}</pre>
-                {/* <ImageList cols={4} sx={{overflow:'hidden'}} gap={8}>
-                    <></>
-                </ImageList> */}
+                <ImageList cols={4} sx={{overflow:'hidden'}} gap={8}>
+                    {ids.map(id=>(
+                        <Product key={id} id={id} />
+                    ))}
+                </ImageList>
             </Stack>
         </SignedInWrapper>
     )
