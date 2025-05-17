@@ -73,7 +73,7 @@ export default function SignedInWrapper(props: Props) {
                 </IconButton>
             </Toolbar>
             <Divider />
-            <List>
+            {/* <List>
                 {menuList.map((item, i) => (
                     <ListItem key={i} disablePadding>
                         <ListItemButton component={Link} href={item.pathname}>
@@ -82,7 +82,7 @@ export default function SignedInWrapper(props: Props) {
                     </ListItem>
                 ))}
                 <AccordionMenu title='Inventory' menuList={inventoryMenu} />
-            </List>
+            </List> */}
         </div>
     );
 
