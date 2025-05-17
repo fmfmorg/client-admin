@@ -3,7 +3,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useAppDispatch, useAppSelector } from "@store/hooks"
-import { selectMovementList, selectSupplierList, toggleFilter, updateMovements, updateSuppliers } from './purchaseQuantitySlice';
+import { selectMetalColorList, selectMovementList, selectSupplierList, toggleFilter, updateMovements, updateShowMetalColor, updateSuppliers } from './purchaseQuantitySlice';
 import Stack from '@mui/material/Stack';
 import { JSX } from 'react';
 import FormControl from '@mui/material/FormControl';
@@ -29,12 +29,16 @@ const FilterDialog = () => {
     const showMovementIDs = useAppSelector(state => state.purchaseQuantityReducer.showMovementIDs)
     const movementIDsOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateMovements(e.target.value as number[]))
 
+    const metalColorList = useAppSelector(selectMetalColorList)
+    const showMetalColors = useAppSelector(state => state.purchaseQuantityReducer.showMetalColors)
+    const metalColorsOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateShowMetalColor(e.target.value as number[]))
+
     return (
         <Dialog open={filterOn} onClose={filterOnClose}>
             <DialogTitle>Filter</DialogTitle>
             <DialogContent>
                 <Stack direction='column' marginTop={1} rowGap={2}>
-                    <Grid container direction='row'>
+                    <Grid container direction='row' width='100%'>
                         <Grid size={4}>
                             <FormControl fullWidth>
                                 <InputLabel id='movement-id'>Suppliers</InputLabel>
@@ -52,6 +56,16 @@ const FilterDialog = () => {
                             </FormControl>
                         </Grid>
                     </Grid>
+                    <Row>
+                        <>
+                        <FormControl fullWidth>
+                            <InputLabel id='metal-color-id'>Metal Colour</InputLabel>
+                            <Select multiple labelId='metal-color-id' label='Metal Colour' value={showMetalColors} onChange={metalColorsOnChange}>
+                                {metalColorList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
+                            </Select>
+                        </FormControl>
+                        </>
+                    </Row>
                 </Stack>
             </DialogContent>
         </Dialog>

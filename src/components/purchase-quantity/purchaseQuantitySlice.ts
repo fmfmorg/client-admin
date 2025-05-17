@@ -72,6 +72,9 @@ const slice = createSlice({
         updateMovements:(state,action:PayloadAction<number[]>)=>{
             state.showMovementIDs = [...action.payload]
         },
+        updateShowMetalColor:(state,action:PayloadAction<number[]>)=>{
+            state.showMetalColors = [...action.payload]
+        },
     },
 })
 
@@ -87,6 +90,7 @@ export const selectMovementList = createSelector([state],state=>{
     const movements = state.purchaseQuantityReducer.inventoryMovements.filter(e => e.movementTypeID === 1)
     return movements.map(e => ({id:e.movementID,name:new Date(e.receiptDT).toLocaleDateString('en',{dateStyle:'short'})}))
 })
+export const selectMetalColorList = createSelector([state],state=>state.purchaseQuantityReducer.metalColors)
 
 export const {
     initData,
@@ -96,5 +100,6 @@ export const {
     toggleFilter,
     updateSuppliers,
     updateMovements,
+    updateShowMetalColor,
 } = slice.actions
 export default slice.reducer
