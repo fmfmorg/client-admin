@@ -63,7 +63,7 @@ const EditQuantityField = ({id}:{id:string}) => {
             sx={{marginTop:1}} 
             onChange={onChange}
             // color={edited ? 'warning' : 'primary'}
-            color='warning'
+            color='error'
         />
     )
 }
