@@ -7,9 +7,8 @@ export interface IPurchaseRecordItem {
     movementID:number;
     internalSkuID:string;
     quantity:number;
-    quantityEdited:boolean;
+    quantityTemp:number;
     costRmb:number;
-    costRmbEdited:boolean;
 }
 
 export interface IInternalMovementRecord {
@@ -21,11 +20,8 @@ export interface IInternalMovementRecord {
 export interface IInternalItemSpecification {
     internalSkuID:string;
     metalColorID:number;
-    metalColorEdited:boolean;
     productTypeID:number;
-    productTypeEdited:boolean;
     image:string;
-    imageEdited:boolean;
 }
 
 export interface IProductTypeMapItem {

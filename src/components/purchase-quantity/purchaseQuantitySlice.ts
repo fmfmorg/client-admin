@@ -12,7 +12,11 @@ export interface IState {
     productTypeMapItems:IProductTypeMapItem[];
 }
 
-export const initialState:IState = {
+export type IStateMaster = IState & {
+    editQuantity:boolean;
+}
+
+export const initialState:IStateMaster = {
     internalItems:[],
     inventoryMovements:[],
     internalItemSpecs:[],
@@ -20,6 +24,7 @@ export const initialState:IState = {
     productMainTypes:[],
     productSubTypes:[],
     productTypeMapItems:[],
+    editQuantity:true,
 }
 
 const slice = createSlice({
