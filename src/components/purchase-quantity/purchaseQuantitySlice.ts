@@ -17,6 +17,7 @@ export type IStateMaster = IState & {
     columns:number;
     editItemID:string;
     filterMode:boolean;
+    showMovementIDs:number[];
     showMetalColors:number[];
     showProductTypes:number[];
     showSuppliers:number[];
@@ -34,6 +35,7 @@ export const initialState:IStateMaster = {
     columns:5,
     editItemID:'',
     filterMode:false,
+    showMovementIDs:[],
     showMetalColors:[],
     showProductTypes:[],
     showSuppliers:[],
@@ -67,6 +69,9 @@ const slice = createSlice({
         updateSuppliers:(state,action:PayloadAction<number[]>)=>{
             state.showSuppliers = [...action.payload]
         },
+        updateMovements:(state,action:PayloadAction<number[]>)=>{
+            state.showMovementIDs = [...action.payload]
+        },
     },
 })
 
@@ -78,6 +83,10 @@ export const selectProductIDs = createSelector([state],(state)=>{
     return items.map(e=>e.internalSkuID)
 })
 export const selectSupplierList = createSelector([state],state=>state.purchaseQuantityReducer.suppliers)
+export const selectMovementList = createSelector([state],state=>{
+    const movements = state.purchaseQuantityReducer.inventoryMovements.filter(e => e.movementTypeID === 1)
+    return movements.map(e => ({id:e.movementID,name:new Date(e.receiptDT).toLocaleDateString('en',{dateStyle:'short'})}))
+})
 
 export const {
     initData,
@@ -86,5 +95,6 @@ export const {
     updateQuantityTemp,
     toggleFilter,
     updateSuppliers,
+    updateMovements,
 } = slice.actions
 export default slice.reducer
