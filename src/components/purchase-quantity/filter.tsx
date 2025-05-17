@@ -39,7 +39,7 @@ const FilterDialog = () => {
     const productTypesOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateProductType(e.target.value as number[]))
 
     return (
-        <Dialog open={filterOn} onClose={filterOnClose}>
+        <Dialog open={filterOn} onClose={filterOnClose} fullWidth>
             <DialogTitle>Filter</DialogTitle>
             <DialogContent>
                 <Stack direction='column' marginTop={1} rowGap={2}>
