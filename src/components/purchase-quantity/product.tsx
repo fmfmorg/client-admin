@@ -16,7 +16,7 @@ const Product = ({id}:{id:string}) => {
             />
             <ImageListItemBar 
                 title={<Description id={id} />}
-                sx={{display:'flex'}}
+                sx={{display:'flex',paddingTop:1}}
                 // actionIcon={deleteMode ? <DeleteCheckbox id={id} /> : <EditBtn id={id} />}
             />
         </ImageListItem>
@@ -30,10 +30,13 @@ const Description = ({id}:{id:string}) => {
 }
 
 const EditQuantityField = ({id}:{id:string}) => {
-    const initialQuantity = useAppSelector(state => state.purchaseQuantityReducer.internalItems.find(e=>e.internalSkuID === id)?.quantityTemp.toString() || '')
+    const initialQuantity = useAppSelector(state =>{
+        const qty = state.purchaseQuantityReducer.internalItems.find(e=>e.internalSkuID === id)?.quantityTemp || 0
+        return !!qty ? qty.toString() : ''
+    })
     
     return (
-        <TextField fullWidth label='Quantity' type='number' defaultValue={initialQuantity} slotProps={{htmlInput:{step:1}}} sx={{paddingTop:1}} />
+        <TextField fullWidth label='Quantity' type='number' defaultValue={initialQuantity} slotProps={{htmlInput:{step:1}}} />
     )
 }
 
