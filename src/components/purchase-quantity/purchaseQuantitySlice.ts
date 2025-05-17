@@ -48,6 +48,10 @@ const slice = createSlice({
         toggleEditDialog:(state,action:PayloadAction<string>)=>{
             state.editItemID = action.payload
         },
+        updateQuantityTemp:(state,action:PayloadAction<{id:string;qty:number}>)=>{
+            const item = state.internalItems.find(e => e.internalSkuID === action.payload.id)
+            if (!!item) item.quantityTemp = action.payload.qty
+        },
     },
 })
 
@@ -63,5 +67,6 @@ export const {
     initData,
     updateColumns,
     toggleEditDialog,
+    updateQuantityTemp,
 } = slice.actions
 export default slice.reducer

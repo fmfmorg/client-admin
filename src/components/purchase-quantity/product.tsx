@@ -5,8 +5,9 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { toggleEditDialog } from './purchaseQuantitySlice';
+import { toggleEditDialog, updateQuantityTemp } from './purchaseQuantitySlice';
 import Stack from '@mui/material/Stack';
+import { ChangeEvent } from 'react';
 
 const Product = ({id}:{id:string}) => {
     const imgSrc = useAppSelector(state => state.purchaseQuantityReducer.internalItemSpecs.find(e=>e.internalSkuID===id)?.image || '')
@@ -27,21 +28,37 @@ const Product = ({id}:{id:string}) => {
     )
 }
 
-const Description = ({id}:{id:string}) => (
-    <Stack direction='column'>
-        <Typography variant='body2'>{id}</Typography>
-        <EditQuantityField {...{id}} />
-    </Stack>
-)
+const Description = ({id}:{id:string}) => {
+    const qty = useAppSelector(state => state.purchaseQuantityReducer.internalItems.find(e=>e.internalSkuID === id)?.quantityTemp.toString() || '0')
+    return (
+        <Stack direction='column'>
+            <Typography variant='body2'>{id} - {qty}</Typography>
+            <EditQuantityField {...{id}} />
+        </Stack>
+    )
+}
 
 const EditQuantityField = ({id}:{id:string}) => {
+    const dispatch = useAppDispatch()
     const initialQuantity = useAppSelector(state =>{
         const qty = state.purchaseQuantityReducer.internalItems.find(e=>e.internalSkuID === id)?.quantityTemp || 0
         return !!qty ? qty.toString() : ''
     })
+    const onChange = (e:ChangeEvent<HTMLInputElement>) => {
+        const qty = +e.target.value
+        dispatch(updateQuantityTemp({id,qty:isNaN(qty) ? 0 : qty}))
+    }
     
     return (
-        <TextField fullWidth label='Quantity' type='number' defaultValue={initialQuantity} slotProps={{htmlInput:{step:1}}} sx={{marginTop:1}} />
+        <TextField 
+            fullWidth 
+            label='Quantity' 
+            type='number' 
+            defaultValue={initialQuantity} 
+            slotProps={{htmlInput:{step:1}}} 
+            sx={{marginTop:1}} 
+            onChange={onChange}
+        />
     )
 }
 
