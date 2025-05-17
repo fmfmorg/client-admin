@@ -51,6 +51,7 @@ const slice = createSlice({
             state.productMainTypes = [...action.payload.productMainTypes]
             state.productSubTypes = [...action.payload.productSubTypes]
             state.productTypeMapItems = [...action.payload.productTypeMapItems]
+            state.suppliers = [...action.payload.suppliers]
         },
         updateColumns:(state,action:PayloadAction<number>)=>{
             state.columns = action.payload

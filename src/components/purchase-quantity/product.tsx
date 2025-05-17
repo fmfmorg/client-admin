@@ -62,8 +62,7 @@ const EditQuantityField = ({id}:{id:string}) => {
             slotProps={{htmlInput:{step:1}}} 
             sx={{marginTop:1}} 
             onChange={onChange}
-            color='warning'
-            focused={edited}
+            error={edited}
         />
     )
 }
