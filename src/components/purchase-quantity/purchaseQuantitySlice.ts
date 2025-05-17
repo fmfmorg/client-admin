@@ -75,6 +75,9 @@ const slice = createSlice({
         updateShowMetalColor:(state,action:PayloadAction<number[]>)=>{
             state.showMetalColors = [...action.payload]
         },
+        updateProductType:(state,action:PayloadAction<number[]>)=>{
+            state.showProductTypes = [...action.payload]
+        },
     },
 })
 
@@ -91,6 +94,13 @@ export const selectMovementList = createSelector([state],state=>{
     return movements.map(e => ({id:e.movementID,name:new Date(e.receiptDT).toLocaleDateString('en',{dateStyle:'short'})}))
 })
 export const selectMetalColorList = createSelector([state],state=>state.purchaseQuantityReducer.metalColors)
+export const selectProductTypeList = createSelector([state],state=> {
+    const subTypeList = state.purchaseQuantityReducer.productSubTypes
+    return state.purchaseQuantityReducer.productTypeMapItems.map(({id,subTypeID}) => {
+        const name = subTypeList.find(e => e.id === subTypeID)?.name || ''
+        return {id,name}
+    })
+})
 
 export const {
     initData,
@@ -101,5 +111,6 @@ export const {
     updateSuppliers,
     updateMovements,
     updateShowMetalColor,
+    updateProductType,
 } = slice.actions
 export default slice.reducer

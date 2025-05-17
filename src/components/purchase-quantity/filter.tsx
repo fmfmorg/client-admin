@@ -3,7 +3,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useAppDispatch, useAppSelector } from "@store/hooks"
-import { selectMetalColorList, selectMovementList, selectSupplierList, toggleFilter, updateMovements, updateShowMetalColor, updateSuppliers } from './purchaseQuantitySlice';
+import { selectMetalColorList, selectMovementList, selectProductTypeList, selectSupplierList, toggleFilter, updateMovements, updateProductType, updateShowMetalColor, updateSuppliers } from './purchaseQuantitySlice';
 import Stack from '@mui/material/Stack';
 import { JSX } from 'react';
 import FormControl from '@mui/material/FormControl';
@@ -32,6 +32,10 @@ const FilterDialog = () => {
     const metalColorList = useAppSelector(selectMetalColorList)
     const showMetalColors = useAppSelector(state => state.purchaseQuantityReducer.showMetalColors)
     const metalColorsOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateShowMetalColor(e.target.value as number[]))
+
+    const productTypeList = useAppSelector(selectProductTypeList)
+    const showProductTypes = useAppSelector(state => state.purchaseQuantityReducer.showProductTypes)
+    const productTypesOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateProductType(e.target.value as number[]))
 
     return (
         <Dialog open={filterOn} onClose={filterOnClose}>
@@ -62,6 +66,12 @@ const FilterDialog = () => {
                             <InputLabel id='metal-color-id'>Metal Colour</InputLabel>
                             <Select multiple labelId='metal-color-id' label='Metal Colour' value={showMetalColors} onChange={metalColorsOnChange}>
                                 {metalColorList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
+                            </Select>
+                        </FormControl>
+                        <FormControl fullWidth>
+                            <InputLabel id='product-type-id'>Product Type</InputLabel>
+                            <Select multiple labelId='product-type-id' label='Product Type' value={showProductTypes} onChange={productTypesOnChange}>
+                                {productTypeList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                             </Select>
                         </FormControl>
                         </>
