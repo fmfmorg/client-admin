@@ -31,6 +31,7 @@
       "@misc": ["src/misc/index"],
       "@context": ["src/contexts/index"],
       "@misc/*": ["src/misc/*"],
+      "@store/*": ["src/store/*"],
     }
   },
   "include": [

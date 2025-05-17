@@ -41,8 +41,8 @@ const menuList:IMenuItem[] = [
 
 const inventoryMenu:IMenuItem[] = [
     {
-        name: 'Goods Received',
-        pathname: '/goods-received'
+        name: 'Update purchase quantity',
+        pathname: '/purchase-quantity'
     }
 ]
 
@@ -73,16 +73,16 @@ export default function SignedInWrapper(props: Props) {
                 </IconButton>
             </Toolbar>
             <Divider />
-            {/* <List>
-                {menuList.map((item, i) => (
+            <List>
+                {/* {menuList.map((item, i) => (
                     <ListItem key={i} disablePadding>
                         <ListItemButton component={Link} href={item.pathname}>
                             <ListItemText primary={item.name} />
                         </ListItemButton>
                     </ListItem>
-                ))}
+                ))} */}
                 <AccordionMenu title='Inventory' menuList={inventoryMenu} />
-            </List> */}
+            </List>
         </div>
     );
 
