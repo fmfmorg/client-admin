@@ -13,8 +13,8 @@ export interface IState {
 }
 
 export type IStateMaster = IState & {
-    editQuantity:boolean;
     columns:number;
+    editItemID:string;
 }
 
 export const initialState:IStateMaster = {
@@ -25,8 +25,8 @@ export const initialState:IStateMaster = {
     productMainTypes:[],
     productSubTypes:[],
     productTypeMapItems:[],
-    editQuantity:true,
     columns:5,
+    editItemID:'',
 }
 
 const slice = createSlice({
@@ -45,6 +45,9 @@ const slice = createSlice({
         updateColumns:(state,action:PayloadAction<number>)=>{
             state.columns = action.payload
         },
+        toggleEditDialog:(state,action:PayloadAction<string>)=>{
+            state.editItemID = action.payload
+        },
     },
 })
 
@@ -59,5 +62,6 @@ export const selectProductIDs = createSelector([state],(state)=>{
 export const {
     initData,
     updateColumns,
+    toggleEditDialog,
 } = slice.actions
 export default slice.reducer

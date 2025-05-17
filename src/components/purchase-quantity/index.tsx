@@ -19,6 +19,7 @@ const UpdatePurchaseQuantity = (
 ) => {
     const dispatch = useAppDispatch();
     const ids = useAppSelector(selectProductIDs)
+    const columns = useAppSelector(state => state.purchaseQuantityReducer.columns)
 
     useEffect(()=>{
         dispatch(initData(initialState))
@@ -27,7 +28,7 @@ const UpdatePurchaseQuantity = (
     return (
         <SignedInWrapper {...{csrf,isPurchaseQuantityPage:true}}>
             <Stack direction='column'>
-                <ImageList cols={4} sx={{overflow:'hidden'}} gap={8}>
+                <ImageList cols={columns} sx={{overflow:'hidden'}} gap={8}>
                     {ids.map(id=>(
                         <Product key={id} id={id} />
                     ))}
