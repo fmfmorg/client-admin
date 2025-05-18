@@ -54,6 +54,7 @@ const slice = createSlice({
             state.productSubTypes = [...action.payload.productSubTypes]
             state.productTypeMapItems = [...action.payload.productTypeMapItems]
             state.suppliers = [...action.payload.suppliers]
+            state.showMovementIDs = [Math.max(...action.payload.inventoryMovements.map(e=>e.movementID))]
         },
         updateColumns:(state,action:PayloadAction<number>)=>{
             state.columns = action.payload
