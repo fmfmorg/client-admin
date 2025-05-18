@@ -22,6 +22,7 @@ export interface IInternalItemSpecification {
     metalColorID:number;
     productTypeID:number;
     image:string;
+    supplierID:number;
 }
 
 export interface IProductTypeMapItem {

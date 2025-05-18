@@ -89,6 +89,7 @@ export const selectProductIDs = createSelector([state],(state)=>{
     let itemSpecs = [...state.purchaseQuantityReducer.internalItemSpecs]
     if (!!state.purchaseQuantityReducer.showMetalColors.length) itemSpecs = itemSpecs.filter(e => state.purchaseQuantityReducer.showMetalColors.includes(e.metalColorID))
     if (!!state.purchaseQuantityReducer.showProductTypes.length) itemSpecs = itemSpecs.filter(e => state.purchaseQuantityReducer.showProductTypes.includes(e.productTypeID))
+    if (!!state.purchaseQuantityReducer.showSuppliers.length) itemSpecs = itemSpecs.filter(e => state.purchaseQuantityReducer.showSuppliers.includes(e.supplierID))
 
     const itemSpecsIDs = itemSpecs.map(e => e.internalSkuID)
 
