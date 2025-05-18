@@ -50,7 +50,8 @@ const EditDialog = () => {
         })
 
         if (!resp.ok){
-            alert('Server error')
+            const errText = await resp.text()
+            alert(errText)
             return
         }
 
