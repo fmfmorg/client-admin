@@ -91,6 +91,13 @@ const slice = createSlice({
             item.productTypeID = action.payload.productType
             item.image = action.payload.imgPath
         },
+        quantityUpdated:(state,_:PayloadAction<undefined>)=>{
+            const items = state.internalItems.filter(e => e.quantity !== e.quantityTemp)
+
+            for (const item of items){
+                item.quantity = item.quantityTemp
+            }
+        },
     },
 })
 
