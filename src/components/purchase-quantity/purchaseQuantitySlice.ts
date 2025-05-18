@@ -85,7 +85,6 @@ const slice = createSlice({
 const state = (state:RootState) => state
 export const selectProductIDs = createSelector([state],(state)=>{
     let items = [...state.purchaseQuantityReducer.internalItems]
-    const initialCount = structuredClone(state.purchaseQuantityReducer.internalItems.length)
 
     let itemSpecs = [...state.purchaseQuantityReducer.internalItemSpecs]
     if (!!state.purchaseQuantityReducer.showMetalColors.length) itemSpecs = itemSpecs.filter(e => state.purchaseQuantityReducer.showMetalColors.includes(e.metalColorID))
@@ -98,7 +97,7 @@ export const selectProductIDs = createSelector([state],(state)=>{
 
     if (!!state.purchaseQuantityReducer.showMovementIDs.length) items = items.filter(e => state.purchaseQuantityReducer.showMovementIDs.includes(e.movementID))
 
-    return items.length === initialCount ? [] : items.map(e=>e.internalSkuID)
+    return items.map(e=>e.internalSkuID)
 })
 export const selectSupplierList = createSelector([state],state=>state.purchaseQuantityReducer.suppliers)
 export const selectMovementList = createSelector([state],state=>{

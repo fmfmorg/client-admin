@@ -23,6 +23,8 @@ export interface IInternalItemSpecification {
     productTypeID:number;
     image:string;
     supplierID:number;
+    page:string;
+    variation:string;
 }
 
 export interface IProductTypeMapItem {

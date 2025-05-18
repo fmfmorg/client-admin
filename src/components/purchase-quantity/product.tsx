@@ -15,14 +15,17 @@ const Product = ({id}:{id:string}) => {
         const item = state.purchaseQuantityReducer.internalItems.find(e => e.internalSkuID === id)
         return !!item ? item.quantity !== item.quantityTemp : false
     })
+    const url = useAppSelector(state => state.purchaseQuantityReducer.internalItemSpecs.find(e => e.internalSkuID === id)?.page || '#')
     return (
         <ImageListItem sx={{aspectRatio: "1 / 1"}}>
-            <img 
-                src={imgSrc} 
-                loading='lazy'
-                width='100%'
-                style={{objectFit:'cover',objectPosition:'center',width:'100%',height:'100%'}}
-            />
+            <a style={{height:'100%'}} href={url} target='_blank'>
+                <img 
+                    src={imgSrc} 
+                    loading='lazy'
+                    width='100%'
+                    style={{objectFit:'cover',objectPosition:'center',width:'100%',height:'100%'}}
+                />
+            </a>
             <ImageListItemBar 
                 title={<Description id={id} />}
                 sx={{display:'flex',backgroundColor:edited ? 'rgba(138, 30, 30, 0.5)' : 'rgba(0, 0, 0, 0.5)'}}
