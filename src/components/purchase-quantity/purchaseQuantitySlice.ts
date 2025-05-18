@@ -84,14 +84,24 @@ const slice = createSlice({
 const state = (state:RootState) => state
 export const selectProductIDs = createSelector([state],(state)=>{
     let items = [...state.purchaseQuantityReducer.internalItems]
-    // const initialCount = items.length
+    const initialCount = items.length
 
-    return items.map(e=>e.internalSkuID)
+    let itemSpecs = [...state.purchaseQuantityReducer.internalItemSpecs]
+    if (!!state.purchaseQuantityReducer.showMetalColors.length) itemSpecs = itemSpecs.filter(e => state.purchaseQuantityReducer.showMetalColors.includes(e.metalColorID))
+    if (!!state.purchaseQuantityReducer.showProductTypes.length) itemSpecs = itemSpecs.filter(e => state.purchaseQuantityReducer.showProductTypes.includes(e.productTypeID))
+
+    const itemSpecsIDs = itemSpecs.map(e => e.internalSkuID)
+
+    items = items.filter(e => itemSpecsIDs.includes(e.internalSkuID))
+
+    if (!!state.purchaseQuantityReducer.showMovementIDs.length) items = items.filter(e => state.purchaseQuantityReducer.showMovementIDs.includes(e.movementID))
+
+    return items.length === initialCount ? [] : items.map(e=>e.internalSkuID)
 })
 export const selectSupplierList = createSelector([state],state=>state.purchaseQuantityReducer.suppliers)
 export const selectMovementList = createSelector([state],state=>{
     const movements = state.purchaseQuantityReducer.inventoryMovements.filter(e => e.movementTypeID === 1)
-    return movements.map(e => ({id:e.movementID,name:new Date(e.receiptDT).toLocaleDateString('en',{dateStyle:'short'})}))
+    return movements.map(e => ({id:e.movementID,name:new Date(e.receiptDT).toLocaleDateString('en-GB',{dateStyle:'short'})}))
 })
 export const selectMetalColorList = createSelector([state],state=>state.purchaseQuantityReducer.metalColors)
 export const selectProductTypeList = createSelector([state],state=> {

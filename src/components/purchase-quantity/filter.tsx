@@ -43,11 +43,11 @@ const FilterDialog = () => {
             <DialogTitle>Filter</DialogTitle>
             <DialogContent>
                 <Stack direction='column' marginTop={1} rowGap={2}>
-                    <Grid container direction='row' width='100%'>
+                    <Grid container direction='row' columnGap={2} width='100%'>
                         <Grid size={4}>
                             <FormControl fullWidth>
-                                <InputLabel id='movement-id'>Suppliers</InputLabel>
-                                <Select multiple labelId='movement-id' label='Movements' value={showMovementIDs} onChange={movementIDsOnChange}>
+                                <InputLabel id='movement-id'>Date</InputLabel>
+                                <Select multiple labelId='movement-id' label='Date' value={showMovementIDs} onChange={movementIDsOnChange}>
                                     {movementList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                                 </Select>
                             </FormControl>
@@ -80,7 +80,7 @@ const FilterDialog = () => {
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button>Update</Button>
+                <Button onClick={filterOnClose}>Update</Button>
             </DialogActions>
         </Dialog>
     )
