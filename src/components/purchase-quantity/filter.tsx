@@ -3,7 +3,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useAppDispatch, useAppSelector } from "@store/hooks"
-import { selectMetalColorList, selectMovementList, selectProductTypeList, selectSupplierList, toggleFilter, updateMovements, updateProductType, updateShowMetalColor, updateSuppliers } from './purchaseQuantitySlice';
+import { selectMetalColorList, selectMovementList, selectProductIDs, selectProductTypeList, selectSupplierList, toggleFilter, updateMovements, updateProductType, updateShowMetalColor, updateSuppliers } from './purchaseQuantitySlice';
 import Stack from '@mui/material/Stack';
 import { JSX } from 'react';
 import FormControl from '@mui/material/FormControl';
@@ -18,6 +18,8 @@ const Row = ({children}:{children:JSX.Element}) => (
 )
 
 const FilterDialog = () => {
+    const count = useAppSelector(selectProductIDs).length
+
     const dispatch = useAppDispatch();
     const filterOn = useAppSelector(state => state.purchaseQuantityReducer.filterMode)
     const filterOnClose = () => dispatch(toggleFilter())
@@ -80,7 +82,7 @@ const FilterDialog = () => {
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button onClick={filterOnClose}>Update</Button>
+                <Button onClick={filterOnClose}>Show {count} items</Button>
             </DialogActions>
         </Dialog>
     )
