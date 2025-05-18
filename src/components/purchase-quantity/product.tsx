@@ -61,12 +61,13 @@ const EditQuantityField = ({id}:{id:string}) => {
             defaultValue={initialQuantity} 
             slotProps={{
                 htmlInput:{step:1},
-                input:{sx:{color:'#fff', fontWeight:'bold',borderColor:'#fff',borderWidth:2}},
+                input:{sx:{color:edited ? '#d32f2f' : '#fff', fontWeight:'bold'},slotProps:{root:{sx:{borderColor:'#fff',borderWidth:2}}}},
                 inputLabel:{sx:{fontWeight:'bold',color:'#fff'}},
             }} 
             sx={{marginTop:1}} 
             onChange={onChange}
             error={edited}
+            size='small'
         />
     )
 }
