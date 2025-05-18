@@ -9,6 +9,7 @@ import ImageList from "@mui/material/ImageList";
 import Product from "./product";
 import FilterDialog from "./filter";
 import EditDialog from "./edit";
+import PurchaseQuantityControlBar from "./header";
 
 const UpdatePurchaseQuantity = (
     {
@@ -28,17 +29,23 @@ const UpdatePurchaseQuantity = (
     },[])
     
     return (
-        <SignedInWrapper {...{csrf,isPurchaseQuantityPage:true}}>
-            <Stack direction='column'>
-                <ImageList cols={columns} sx={{overflow:'hidden'}} gap={8}>
-                    {ids.map(id=>(
-                        <Product key={id} id={id} />
-                    ))}
-                </ImageList>
-            </Stack>
-            <FilterDialog />
-            <EditDialog />
-        </SignedInWrapper>
+        <SignedInWrapper {...{
+            csrf,
+            children:(
+                <>
+                <Stack direction='column'>
+                    <ImageList cols={columns} sx={{overflow:'hidden'}} gap={8}>
+                        {ids.map(id=>(
+                            <Product key={id} id={id} />
+                        ))}
+                    </ImageList>
+                </Stack>
+                <FilterDialog />
+                <EditDialog />
+                </>
+            ),
+            header:<PurchaseQuantityControlBar />
+        }} />
     )
 }
 

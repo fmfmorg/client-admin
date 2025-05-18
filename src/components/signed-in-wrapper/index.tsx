@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -25,9 +25,9 @@ const drawerWidth = 240;
 
 interface Props {
     window?: () => Window;
-    children: React.ReactNode;
+    children: ReactNode;
     csrf:string;
-    isPurchaseQuantityPage?:boolean;
+    header?: ReactNode;
 }
 
 const menuList:IMenuItem[] = [
@@ -49,7 +49,7 @@ const inventoryMenu:IMenuItem[] = [
 ]
 
 export default function SignedInWrapper(props: Props) {
-    const { window, children, csrf, isPurchaseQuantityPage = false } = props;
+    const { window, children, csrf, header } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
     const [csrfToken, setCsrfToken] = useState(csrf)
 
@@ -100,7 +100,7 @@ export default function SignedInWrapper(props: Props) {
                         ml: { md: `${drawerWidth}px` },
                     }}
                 >
-                    <Toolbar {...isPurchaseQuantityPage && {sx:{backgroundColor:'#777'}}}>
+                    <Toolbar {...!!header && {sx:{backgroundColor:'#777'}}}>
                         <IconButton
                             color="inherit"
                             aria-label="open drawer"
@@ -110,8 +110,8 @@ export default function SignedInWrapper(props: Props) {
                         >
                             <MenuIcon />
                         </IconButton>
-                        {isPurchaseQuantityPage 
-                        ? <PurchaseQuantityControlBar /> 
+                        {!!header 
+                        ? header 
                         : <Typography variant="h6" noWrap component="div">
                             Admin Panel
                         </Typography>}
