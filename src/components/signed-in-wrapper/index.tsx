@@ -100,7 +100,7 @@ export default function SignedInWrapper(props: Props) {
                         ml: { md: `${drawerWidth}px` },
                     }}
                 >
-                    <Toolbar>
+                    <Toolbar {...isPurchaseQuantityPage && {sx:{backgroundColor:'#777'}}}>
                         <IconButton
                             color="inherit"
                             aria-label="open drawer"

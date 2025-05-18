@@ -59,8 +59,8 @@ const EditQuantityField = ({id}:{id:string}) => {
             label='Quantity' 
             type='number' 
             defaultValue={initialQuantity} 
-            slotProps={{htmlInput:{step:1}}} 
-            sx={{marginTop:1}} 
+            slotProps={{htmlInput:{step:1},inputLabel:{sx:{fontWeight:'bold',color:'#fff'}}}} 
+            sx={{marginTop:1, color:'#fff', fontWeight:'bold',borderColor:'#fff',borderWidth:2}} 
             onChange={onChange}
             error={edited}
         />
