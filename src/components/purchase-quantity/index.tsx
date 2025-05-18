@@ -8,6 +8,7 @@ import Stack from '@mui/material/Stack';
 import ImageList from "@mui/material/ImageList";
 import Product from "./product";
 import FilterDialog from "./filter";
+import EditDialog from "./edit";
 
 const UpdatePurchaseQuantity = (
     {
@@ -36,6 +37,7 @@ const UpdatePurchaseQuantity = (
                 </ImageList>
             </Stack>
             <FilterDialog />
+            <EditDialog />
         </SignedInWrapper>
     )
 }
