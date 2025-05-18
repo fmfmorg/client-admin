@@ -30,7 +30,7 @@ const Product = ({id}:{id:string}) => {
                 title={<Description id={id} />}
                 sx={{display:'flex',backgroundColor:edited ? 'rgba(138, 30, 30, 0.5)' : 'rgba(0, 0, 0, 0.5)'}}
                 actionIcon={<EditBtn id={id} />}
-                color=''
+                position="below"
             />
         </ImageListItem>
     )
