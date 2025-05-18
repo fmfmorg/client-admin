@@ -19,7 +19,7 @@ import { CsrfContext } from '@context';
 import { csrfBroadcastChannel } from '@misc';
 import { IMenuItem } from './interfaces';
 import AccordionMenu from './accordion-menu';
-import PurchaseQuantityControlBar from '@components/purchase-quantity/control';
+import PurchaseQuantityControlBar from '@components/purchase-quantity/header';
 
 const drawerWidth = 240;
 

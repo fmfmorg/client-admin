@@ -79,6 +79,18 @@ const slice = createSlice({
         updateProductType:(state,action:PayloadAction<number[]>)=>{
             state.showProductTypes = [...action.payload]
         },
+        updateItemSpec:(state,action:PayloadAction<{
+            metalColor:number;
+            productType:number;
+            imgPath:string
+        }>)=>{
+            if (!state.editItemID) return
+            const item = state.internalItemSpecs.find(e => e.internalSkuID === state.editItemID)
+            if (!item) return
+            item.metalColorID = action.payload.metalColor
+            item.productTypeID = action.payload.productType
+            item.image = action.payload.imgPath
+        },
     },
 })
 
@@ -123,5 +135,6 @@ export const {
     updateMovements,
     updateShowMetalColor,
     updateProductType,
+    updateItemSpec,
 } = slice.actions
 export default slice.reducer

@@ -4,8 +4,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { selectMetalColorList, selectProductTypeList, selectSupplierList, toggleEditDialog } from './purchaseQuantitySlice';
-import { ChangeEvent, JSX, useEffect, useState } from 'react';
+import { selectMetalColorList, selectProductTypeList, selectSupplierList, toggleEditDialog, updateItemSpec } from './purchaseQuantitySlice';
+import { ChangeEvent, FormEvent, JSX, useContext, useEffect, useState } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -13,6 +13,9 @@ import MenuItem from '@mui/material/MenuItem';
 import { useStore } from 'react-redux';
 import { RootState } from '@store/store';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { httpRequestHeader } from '@misc';
+import { CsrfContext } from '@context';
 
 const Row = ({children}:{children:JSX.Element}) => (
     <Stack direction='row' spacing={1} width='100%'>{children}</Stack>
@@ -21,12 +24,10 @@ const Row = ({children}:{children:JSX.Element}) => (
 const EditDialog = () => {
     const dispatch = useAppDispatch()
     const store = useStore()
+    const {csrfToken} = useContext(CsrfContext)
+
     const editItemID = useAppSelector(state => state.purchaseQuantityReducer.editItemID)
     const dialogOnClose = () => dispatch(toggleEditDialog(''))
-
-    const supplierList = useAppSelector(selectSupplierList)
-    const [supplier,setSupplier] = useState(1)
-    const supplierOnChange = (ev:SelectChangeEvent<number>) => setSupplier(ev.target.value as number)
 
     const metalColorList = useAppSelector(selectMetalColorList)
     const [metalColor,setMetalColor] = useState(1)
@@ -39,10 +40,28 @@ const EditDialog = () => {
     const [imgPath,setImgPath] = useState('')
     const imgPathOnChange = (e:ChangeEvent<HTMLInputElement>) => setImgPath(e.target.value)
 
+    const onSubmit = async (e:FormEvent) => {
+        e.preventDefault()
+
+        const resp = await fetch('/api/admin/purchase-quantity-edit-item',{
+            method:"POST",
+            headers:httpRequestHeader(false,'client',true,csrfToken),
+            body:JSON.stringify({internalSkuID:editItemID,metalColor,productType,imgPath})
+        })
+
+        if (!resp.ok){
+            alert('Server error')
+            return
+        }
+
+        dispatch(updateItemSpec({metalColor,productType,imgPath}))
+
+        setTimeout(dialogOnClose,100)
+    }
+
     useEffect(()=>{
         if (!editItemID) return
         const state = store.getState() as RootState
-        setSupplier(state.purchaseQuantityReducer.internalItemSpecs.find(e => e.internalSkuID === editItemID)?.supplierID || 1)
         setMetalColor(state.purchaseQuantityReducer.internalItemSpecs.find(e => e.internalSkuID === editItemID)?.metalColorID || 1)
         setProductType(state.purchaseQuantityReducer.internalItemSpecs.find(e => e.internalSkuID === editItemID)?.productTypeID || 1)
         setImgPath(state.purchaseQuantityReducer.internalItemSpecs.find(e => e.internalSkuID === editItemID)?.image || '')
@@ -52,7 +71,7 @@ const EditDialog = () => {
         <Dialog open={!!editItemID} onClose={dialogOnClose} fullWidth>
             <DialogTitle>Edit {editItemID}</DialogTitle>
             <DialogContent>
-                <Stack direction='column' rowGap={2} marginTop={1} component='form' onSubmit={()=>{}}>
+                <Stack direction='column' rowGap={2} marginTop={1} component='form' onSubmit={onSubmit}>
                     <Row>
                         <>
                         <FormControl fullWidth required>
@@ -69,17 +88,8 @@ const EditDialog = () => {
                         </FormControl>
                         </>
                     </Row>
-                    <Row>
-                        <>
-                        <FormControl fullWidth required>
-                            <InputLabel id='supplier-id'>Supplier</InputLabel>
-                            <Select required labelId='supplier-id' label='Supplier' value={supplier} onChange={supplierOnChange}>
-                                {supplierList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
-                            </Select>
-                        </FormControl>
-                        <TextField fullWidth label="Image URL" value={imgPath} onChange={imgPathOnChange} />
-                        </>
-                    </Row>
+                    <TextField fullWidth label="Image URL" value={imgPath} onChange={imgPathOnChange} />
+                    <Button fullWidth variant='contained' type='submit'>Update</Button>
                 </Stack>
             </DialogContent>
         </Dialog>
