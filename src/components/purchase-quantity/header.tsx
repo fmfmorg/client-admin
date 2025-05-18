@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import PublishIcon from '@mui/icons-material/Publish';
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { toggleFilter, updateColumns } from "./purchaseQuantitySlice";
+import { quantityUpdated, toggleFilter, updateColumns } from "./purchaseQuantitySlice";
 import { useStore } from "react-redux";
 import { RootState } from "@store/store";
 import { CsrfContext } from "@context";
@@ -32,8 +32,11 @@ const PurchaseQuantityControlBar = () => {
             headers:httpRequestHeader(false,'client',true,csrfToken),
             body:JSON.stringify({items})
         })
-        if (!resp.ok) return
-        
+        if (!resp.ok) {
+            alert('Server error')
+            return
+        }
+        dispatch(quantityUpdated())
     }
 
     return (

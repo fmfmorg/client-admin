@@ -143,5 +143,6 @@ export const {
     updateShowMetalColor,
     updateProductType,
     updateItemSpec,
+    quantityUpdated,
 } = slice.actions
 export default slice.reducer
