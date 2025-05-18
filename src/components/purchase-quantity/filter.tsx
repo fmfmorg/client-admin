@@ -43,7 +43,7 @@ const FilterDialog = () => {
             <DialogTitle>Filter</DialogTitle>
             <DialogContent>
                 <Stack direction='column' marginTop={1} rowGap={2}>
-                    <Grid container direction='row' columnGap={2} width='100%'>
+                    <Grid container direction='row' columnSpacing={2} width='100%'>
                         <Grid size={4}>
                             <FormControl fullWidth>
                                 <InputLabel id='movement-id'>Date</InputLabel>

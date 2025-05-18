@@ -84,7 +84,7 @@ const slice = createSlice({
 const state = (state:RootState) => state
 export const selectProductIDs = createSelector([state],(state)=>{
     let items = [...state.purchaseQuantityReducer.internalItems]
-    const initialCount = items.length
+    const initialCount = structuredClone(state.purchaseQuantityReducer.internalItems.length)
 
     let itemSpecs = [...state.purchaseQuantityReducer.internalItemSpecs]
     if (!!state.purchaseQuantityReducer.showMetalColors.length) itemSpecs = itemSpecs.filter(e => state.purchaseQuantityReducer.showMetalColors.includes(e.metalColorID))
