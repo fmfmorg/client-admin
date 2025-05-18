@@ -11,6 +11,10 @@ import { ChangeEvent } from 'react';
 
 const Product = ({id}:{id:string}) => {
     const imgSrc = useAppSelector(state => state.purchaseQuantityReducer.internalItemSpecs.find(e=>e.internalSkuID===id)?.image || '')
+    const edited = useAppSelector(state => {
+        const item = state.purchaseQuantityReducer.internalItems.find(e => e.internalSkuID === id)
+        return !!item ? item.quantity !== item.quantityTemp : false
+    })
     return (
         <ImageListItem sx={{aspectRatio: "1 / 1"}}>
             <img 
@@ -21,8 +25,9 @@ const Product = ({id}:{id:string}) => {
             />
             <ImageListItemBar 
                 title={<Description id={id} />}
-                sx={{display:'flex'}}
+                sx={{display:'flex',backgroundColor:edited ? 'rgba(138, 30, 30, 0.5)' : 'rgba(0, 0, 0, 0.5)'}}
                 actionIcon={<EditBtn id={id} />}
+                color=''
             />
         </ImageListItem>
     )
@@ -48,10 +53,6 @@ const EditQuantityField = ({id}:{id:string}) => {
         const qty = +e.target.value
         dispatch(updateQuantityTemp({id,qty:isNaN(qty) ? 0 : qty}))
     }
-    const edited = useAppSelector(state => {
-        const item = state.purchaseQuantityReducer.internalItems.find(e => e.internalSkuID === id)
-        return !!item ? item.quantity !== item.quantityTemp : false
-    })
     
     return (
         <TextField 
@@ -61,12 +62,11 @@ const EditQuantityField = ({id}:{id:string}) => {
             defaultValue={initialQuantity} 
             slotProps={{
                 htmlInput:{step:1},
-                input:{sx:{color:edited ? '#d32f2f' : '#fff', fontWeight:'bold'},inputProps:{style:{borderColor:'#fff',borderWidth:2}},slotProps:{input:{sx:{borderColor:'#fff',borderWidth:2}}}},
+                input:{sx:{color:'#fff', fontWeight:'bold'},inputProps:{style:{borderColor:'#fff',borderWidth:2}},slotProps:{input:{sx:{borderColor:'#fff',borderWidth:2}}}},
                 inputLabel:{sx:{fontWeight:'bold',color:'#fff'}},
             }} 
             sx={{marginTop:1}} 
             onChange={onChange}
-            error={edited}
             size='small'
         />
     )
