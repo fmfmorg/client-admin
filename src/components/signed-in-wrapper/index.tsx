@@ -32,13 +32,13 @@ interface Props {
 
 const menuList:IMenuItem[] = [
     {
-        name: 'Products',
-        pathname: '/products',
+        name: 'Pricing',
+        pathname: '/pricing',
     },
-    {
-        name: 'Orders',
-        pathname: '/orders',
-    }
+    // {
+    //     name: 'Orders',
+    //     pathname: '/orders',
+    // }
 ]
 
 const inventoryMenu:IMenuItem[] = [
@@ -76,13 +76,13 @@ export default function SignedInWrapper(props: Props) {
             </Toolbar>
             <Divider />
             <List>
-                {/* {menuList.map((item, i) => (
+                {menuList.map((item, i) => (
                     <ListItem key={i} disablePadding>
                         <ListItemButton component={Link} href={item.pathname}>
                             <ListItemText primary={item.name} />
                         </ListItemButton>
                     </ListItem>
-                ))} */}
+                ))}
                 <AccordionMenu title='Inventory' menuList={inventoryMenu} />
             </List>
         </div>
