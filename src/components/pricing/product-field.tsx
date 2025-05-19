@@ -10,7 +10,7 @@ const ProductField = ({id}:{id:string}) => {
     const currentPrice = useAppSelector(state => (state.pricingReducer.externalPrices.find(e => e.externalSkuID === id)?.price || 0).toFixed(2))
     const cost = useAppSelector(state => {
         const costs = state.pricingReducer.skuMapItems.filter(e => e.external === id).map(e => state.pricingReducer.internalCosts.find(f => f.internalSkuID === e.internal)?.costRmb || 0)
-        return !!costs.length ? costs.reduce((a,b)=>a+b,0) * 0.01 : 0
+        return !!costs.length ? (costs.reduce((a,b)=>a+b,0) * 0.01).toFixed(2) : '0'
     })
     return (
         <Stack direction='column'>
