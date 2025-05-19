@@ -19,7 +19,7 @@ const Pricing = (
     }
 ) => {
     const dispatch = useAppDispatch();
-    const columns = useAppSelector(state => state.purchaseQuantityReducer.columns)
+    const columns = useAppSelector(state => state.pricingReducer.columns)
     const singleIDs = useAppSelector(selectSingleProductIDs)
     // const multiIDs = useAppSelector(selectMultiProductIDs)
     
