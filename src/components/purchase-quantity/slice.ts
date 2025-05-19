@@ -114,7 +114,7 @@ export const selectProductIDs = createSelector([state],(state)=>{
 
     items = items.filter(e => itemSpecsIDs.includes(e.internalSkuID))
 
-    if (!!state.purchaseQuantityReducer.showMovementIDs.length) items = items.filter(e => state.purchaseQuantityReducer.showMovementIDs.includes(e.movementID))
+    if (!!state.purchaseQuantityReducer.showMovementIDs.length) items = items.filter(e => state.purchaseQuantityReducer.showMovementIDs.includes(e.movementID as number))
 
     return items.map(e=>e.internalSkuID)
 })
