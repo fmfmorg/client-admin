@@ -7,6 +7,7 @@ import SignedInWrapper from "@components/signed-in-wrapper";
 import Stack from "@mui/material/Stack";
 import ImageList from "@mui/material/ImageList";
 import SingleProduct from "./single-product";
+import Header from "./header";
 
 const Pricing = (
     {
@@ -40,7 +41,7 @@ const Pricing = (
                 </Stack>
                 </>
             ),
-            // header:<PurchaseQuantityControlBar />
+            header:<Header />
         }} />
     )
 }

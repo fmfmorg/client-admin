@@ -19,6 +19,7 @@ export type IStateMaster = IState & {
     showMetalColors:number[];
     showProductTypes:number[];
     showSuppliers:number[];
+    filterMode:boolean;
 }
 
 export const initialState:IStateMaster = {
@@ -35,6 +36,7 @@ export const initialState:IStateMaster = {
     showMetalColors:[],
     showProductTypes:[],
     showSuppliers:[],
+    filterMode:false,
 }
 
 const slice = createSlice({
@@ -56,6 +58,10 @@ const slice = createSlice({
             const item = state.externalPrices.find(e => e.externalSkuID === action.payload.id)
             if (!!item) item.priceTemp = action.payload.price
         },
+        updateColumns:(state,action:PayloadAction<number>)=>{
+            state.columns = action.payload
+        },
+        toggleFilter:(state,_:PayloadAction<undefined>) => {state.filterMode = !state.filterMode},
     },
 })
 
@@ -90,5 +96,7 @@ export const selectMultiProductIDs = createSelector([state],(state)=>{
 export const {
     initData,
     updatePriceTemp,
+    updateColumns,
+    toggleFilter,
 } = slice.actions
 export default slice.reducer
