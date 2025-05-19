@@ -6,7 +6,7 @@ import { updatePriceTemp } from "./slice"
 import TextField from "@mui/material/TextField"
 
 const ProductField = ({id}:{id:string}) => {
-    const currentPrice = useAppSelector(state => (state.pricingReducer.externalPrices.find(e => e.externalSkuID)?.price || 0).toFixed(2))
+    const currentPrice = useAppSelector(state => (state.pricingReducer.externalPrices.find(e => e.externalSkuID === id)?.price || 0).toFixed(2))
     return (
         <Stack direction='column'>
             <Typography variant='body2'>{id} - ¥ {currentPrice}</Typography>
