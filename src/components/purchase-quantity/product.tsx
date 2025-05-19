@@ -36,7 +36,7 @@ const Product = ({id}:{id:string}) => {
 }
 
 const Description = ({id}:{id:string}) => {
-    const qty = useAppSelector(state => state.purchaseQuantityReducer.internalItems.find(e=>e.internalSkuID === id)?.quantity.toString() || '0')
+    const qty = useAppSelector(state => state.purchaseQuantityReducer.internalItems.find(e=>e.internalSkuID === id)?.quantity || 0).toString()
     return (
         <Stack direction='column'>
             <Typography variant='body2'>{id} - {qty}pc</Typography>
