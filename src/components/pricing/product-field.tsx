@@ -42,7 +42,9 @@ const EditPriceField = ({id}:{id:string}) => {
                 input:{
                     sx:{color:'#fff', fontWeight:'bold'},
                     slotProps:{input:{sx:{borderColor:'#fff',borderWidth:2}}},
-                    startAdornment:<InputAdornment position="start" sx={{color:'#fff',fontWeight:'bold'}}>£</InputAdornment>,
+                    startAdornment:<InputAdornment position="start">
+                        <Typography sx={{color:'#fff',fontWeight:'bold'}}>£</Typography>
+                    </InputAdornment>,
                 },
                 inputLabel:{sx:{fontWeight:'bold',color:'#fff'}},
             }} 
