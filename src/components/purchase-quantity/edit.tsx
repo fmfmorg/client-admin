@@ -4,7 +4,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { selectMetalColorList, selectProductTypeList, selectSupplierList, toggleEditDialog, updateItemSpec } from './purchaseQuantitySlice';
+import { selectMetalColorList, selectProductTypeList, selectSupplierList, toggleEditDialog, updateItemSpec } from './slice';
 import { ChangeEvent, FormEvent, JSX, useContext, useEffect, useState } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';

@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { toggleEditDialog, updateQuantityTemp } from './purchaseQuantitySlice';
+import { toggleEditDialog, updateQuantityTemp } from './slice';
 import Stack from '@mui/material/Stack';
 import { ChangeEvent } from 'react';
 

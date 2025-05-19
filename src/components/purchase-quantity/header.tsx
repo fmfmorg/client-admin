@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import PublishIcon from '@mui/icons-material/Publish';
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { quantityUpdated, toggleFilter, updateColumns } from "./purchaseQuantitySlice";
+import { quantityUpdated, toggleFilter, updateColumns } from "./slice";
 import { useStore } from "react-redux";
 import { RootState } from "@store/store";
 import { CsrfContext } from "@context";

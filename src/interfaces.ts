@@ -32,3 +32,14 @@ export interface IProductTypeMapItem {
     mainTypeID:number;
     subTypeID:number;
 }
+
+export interface ISkuMapItem {
+    external:string;
+    internal:string;
+}
+
+export interface IExternalItemPrice {
+    externalSkuID:string;
+    price:number;
+    priceTemp:number;
+}

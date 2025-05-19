@@ -1,17 +1,14 @@
 'use client'
 
-import SignedInWrapper from "../signed-in-wrapper"
-import { initData, IState, selectProductIDs } from "./slice";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
+import { initData, IState, selectMultiProductIDs, selectSingleProductIDs } from "./slice";
 import { useEffect } from "react";
-import Stack from '@mui/material/Stack';
+import SignedInWrapper from "@components/signed-in-wrapper";
+import Stack from "@mui/material/Stack";
 import ImageList from "@mui/material/ImageList";
-import Product from "./product";
-import FilterDialog from "./filter";
-import EditDialog from "./edit";
-import PurchaseQuantityControlBar from "./header";
+import SingleProduct from "./single-product";
 
-const UpdatePurchaseQuantity = (
+const Pricing = (
     {
         csrf,
         initialState,
@@ -21,9 +18,10 @@ const UpdatePurchaseQuantity = (
     }
 ) => {
     const dispatch = useAppDispatch();
-    const ids = useAppSelector(selectProductIDs)
     const columns = useAppSelector(state => state.purchaseQuantityReducer.columns)
-
+    const singleIDs = useAppSelector(selectSingleProductIDs)
+    // const multiIDs = useAppSelector(selectMultiProductIDs)
+    
     useEffect(()=>{
         dispatch(initData(initialState))
     },[])
@@ -35,18 +33,16 @@ const UpdatePurchaseQuantity = (
                 <>
                 <Stack direction='column'>
                     <ImageList cols={columns} sx={{overflow:'hidden'}} gap={8}>
-                        {ids.map(id=>(
-                            <Product key={id} id={id} />
+                        {singleIDs.map(id=>(
+                            <SingleProduct key={id} id={id} />
                         ))}
                     </ImageList>
                 </Stack>
-                <FilterDialog />
-                <EditDialog />
                 </>
             ),
-            header:<PurchaseQuantityControlBar />
+            // header:<PurchaseQuantityControlBar />
         }} />
     )
 }
 
-export default UpdatePurchaseQuantity
+export default Pricing

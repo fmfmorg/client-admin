@@ -3,7 +3,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useAppDispatch, useAppSelector } from "@store/hooks"
-import { selectMetalColorList, selectMovementList, selectProductIDs, selectProductTypeList, selectSupplierList, toggleFilter, updateMovements, updateProductType, updateShowMetalColor, updateSuppliers } from './purchaseQuantitySlice';
+import { selectMetalColorList, selectMovementList, selectProductIDs, selectProductTypeList, selectSupplierList, toggleFilter, updateMovements, updateProductType, updateShowMetalColor, updateSuppliers } from './slice';
 import Stack from '@mui/material/Stack';
 import { JSX } from 'react';
 import FormControl from '@mui/material/FormControl';
