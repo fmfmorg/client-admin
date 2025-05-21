@@ -26,7 +26,7 @@ const NewSetDialog = () => {
         <Dialog open={dialogOn} onClose={dialogOnClose} fullWidth>
             <DialogTitle>Create New Set</DialogTitle>
             <DialogContent>
-                <ImageList cols={3} sx={{overflow:'hidden'}}>
+                <ImageList cols={2} sx={{overflow:'hidden'}}>
                     {itemIDs.map(id=>(
                         <Item {...{key:id,itemID:id,addItem,deleteItem}} />
                     ))}
@@ -89,6 +89,7 @@ const Info = (
         const prevInternalSKU = structuredClone(internalSKU)
         updateSKU(newValue)
         if (!prevInternalSKU) addItem()
+        if (!newValue) deleteItem()
     }
 
     return (
