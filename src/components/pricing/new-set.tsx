@@ -109,8 +109,10 @@ const ImageContent = (
                             slotProps={{
                                 inputLabel:{sx:{color:'#fff'}},
                             }}
+                            name='new-set-item'
                         />
                     )}
+                    size='small'
                 />
                 {!!internalSKU && <DataLine {...{internalSKU}} />}
             </Stack>
