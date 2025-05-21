@@ -104,13 +104,12 @@ const Info = (
                     renderInput={params => (
                         <TextField 
                             {...params} 
-                            // fullWidth 
                             label='Internal SKU #' 
                             slotProps={{
-                                // input:{
-                                //     sx:{color:'#fff'},
-                                //     slotProps:{input:{sx:{borderColor:'#fff'}}}
-                                // },
+                                input:{
+                                    sx:{color:'#fff'},
+                                    // slotProps:{input:{sx:{borderColor:'#fff'}}}
+                                },
                                 inputLabel:{sx:{color:'#fff'}},
                             }} 
                         />
