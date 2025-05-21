@@ -13,6 +13,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Typography from '@mui/material/Typography';
 
 const NewSetDialog = () => {
     const dispatch = useAppDispatch();
@@ -64,14 +65,14 @@ const Item = (
                 />
             </a>
             <ImageListItemBar 
-                title={<Info {...{internalSKU,updateSKU,addItem,deleteItem:()=>deleteItem(itemID)}} />}
+                title={<ImageContent {...{internalSKU,updateSKU,addItem,deleteItem:()=>deleteItem(itemID)}} />}
                 sx={{display:'flex'}}
             />
         </ImageListItem>
     )
 }
 
-const Info = (
+const ImageContent = (
     {
         internalSKU,
         updateSKU,
@@ -107,15 +108,30 @@ const Info = (
                             label='Internal SKU #' 
                             slotProps={{
                                 inputLabel:{sx:{color:'#fff'}},
-                            }} 
+                            }}
                         />
                     )}
                 />
+                {!!internalSKU && <DataLine {...{internalSKU}} />}
             </Stack>
             {!!internalSKU && <IconButton onClick={deleteItem} sx={{flex:'none'}}>
                 <DeleteIcon htmlColor='#ff0000' />
             </IconButton>}
         </Stack>
+    )
+}
+
+const DataLine = ({internalSKU}:{internalSKU:string}) => {
+    const cost = useAppSelector(state => ((state.pricingReducer.internalCosts.find(e=>e.internalSkuID === internalSKU)?.costRmb || 0) * 0.01).toFixed(2))
+    const currentSingleItemPrice = useAppSelector(state => {
+        const externalSKUs = state.pricingReducer.skuMapItems.filter(e=>e.internal===internalSKU).map(e=>e.external)
+        const uniqueExternalSKUs = [...new Set(externalSKUs)]
+        const externalSKU = uniqueExternalSKUs.find(e=>externalSKUs.filter(f=>f===e).length === 1)
+        return !!externalSKU ? state.pricingReducer.externalPrices.find(e=>e.externalSkuID===externalSKU)?.price || 0 : 0
+    })
+
+    return (
+        <Typography>¥{cost} - £{currentSingleItemPrice}</Typography>
     )
 }
 
