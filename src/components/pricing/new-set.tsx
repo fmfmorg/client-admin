@@ -100,8 +100,7 @@ const Info = (
                     value={internalSKU}
                     onChange={onChange}
                     fullWidth
-                    sx={{marginTop:1}} 
-                    slotProps={{paper:{sx:{color:'red'}}}}
+                    sx={{marginTop:1,'.MuiAutocomplete-inputRoot':{color:'white'}}} 
                     renderInput={params => (
                         <TextField 
                             {...params} 
@@ -114,7 +113,7 @@ const Info = (
                 />
             </Stack>
             {!!internalSKU && <IconButton onClick={deleteItem} sx={{flex:'none'}}>
-                <DeleteIcon htmlColor='#fff' />
+                <DeleteIcon htmlColor='#ff0000' />
             </IconButton>}
         </Stack>
     )
