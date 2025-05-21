@@ -14,14 +14,45 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
+import { useStore } from 'react-redux';
+import { RootState } from '@store/store';
+import Button from '@mui/material/Button';
+
+const inputName = 'new-set-item'
 
 const NewSetDialog = () => {
     const dispatch = useAppDispatch();
+    const store = useStore()
     const dialogOn = useAppSelector(state => state.pricingReducer.newSetMode)
     const dialogOnClose = () => dispatch(toggleNewSetDialog())
     const [itemIDs,setItemIDs] = useState([crypto.randomUUID()])
-    const addItem = () => setItemIDs(prev => [...prev,crypto.randomUUID()])
-    const deleteItem = (itemID:string) => setItemIDs(prev => prev.filter(e=>e !== itemID))
+    const [setCost,setSetCost] = useState(0)
+    const recalculateSetCost = () => {
+        const inputs = document.getElementsByName(inputName) as NodeListOf<HTMLInputElement>
+        const inputLen = inputs.length
+
+        let cost = 0
+        const state = store.getState() as RootState
+
+        for (let i=0; i<inputLen; i++){
+            const internalSKU = inputs.item(i).value
+            if (!internalSKU) continue
+            const item = state.pricingReducer.internalCosts.find(e=>e.internalSkuID===internalSKU)
+            if (!item) continue
+            cost += item.costRmb
+        }
+
+        setSetCost(cost * 0.01)
+    }
+    const setTimeoutCalCost = () => setTimeout(recalculateSetCost,200)
+    const addItem = () => {
+        setItemIDs(prev => [...prev,crypto.randomUUID()])
+        setTimeoutCalCost()
+    }
+    const deleteItem = (itemID:string) => {
+        setItemIDs(prev => prev.filter(e=>e !== itemID))
+        setTimeoutCalCost()
+    }
     
     return (
         <Dialog open={dialogOn} onClose={dialogOnClose} fullWidth>
@@ -33,7 +64,13 @@ const NewSetDialog = () => {
                     ))}
                 </ImageList>
             </DialogContent>
-            <DialogActions></DialogActions>
+            <DialogActions sx={{justifyContent:'space-between'}}>
+                <Typography sx={{fontWeight:'bold'}}>Total Cost: ¥{setCost.toFixed(2)}</Typography>
+                <Stack direction='row' columnGap={2}>
+                    <Button variant='contained'>Create Set</Button>
+                    <Button variant='outlined'>Close</Button>
+                </Stack>
+            </DialogActions>
         </Dialog>
     )
 }
@@ -109,7 +146,7 @@ const ImageContent = (
                             slotProps={{
                                 inputLabel:{sx:{color:'#fff'}},
                             }}
-                            name='new-set-item'
+                            name={inputName}
                         />
                     )}
                     size='small'
