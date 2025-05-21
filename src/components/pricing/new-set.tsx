@@ -60,7 +60,7 @@ const NewSetDialog = () => {
             <DialogContent>
                 <ImageList cols={2} sx={{overflow:'hidden'}}>
                     {itemIDs.map(id=>(
-                        <Item {...{key:id,itemID:id,addItem,deleteItem}} />
+                        <Item {...{key:id,itemID:id,addItem,deleteItem,setTimeoutCalCost}} />
                     ))}
                 </ImageList>
             </DialogContent>
