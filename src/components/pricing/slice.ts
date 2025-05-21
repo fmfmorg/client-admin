@@ -20,6 +20,7 @@ export type IStateMaster = IState & {
     showProductTypes:number[];
     showSuppliers:number[];
     filterMode:boolean;
+    newSetMode:boolean;
     showSingles:boolean;
     showSets:boolean;
     showPricedItems:boolean;
@@ -41,6 +42,7 @@ export const initialState:IStateMaster = {
     showProductTypes:[],
     showSuppliers:[],
     filterMode:false,
+    newSetMode:false,
     showSingles:true,
     showSets:true,
     showPricedItems:true,
@@ -70,6 +72,7 @@ const slice = createSlice({
             state.columns = action.payload
         },
         toggleFilter:(state,_:PayloadAction<undefined>) => {state.filterMode = !state.filterMode},
+        toggleNewSetDialog:(state,_:PayloadAction<undefined>) => {state.newSetMode = !state.newSetMode},
         updateShowMetalColor:(state,action:PayloadAction<number[]>)=>{
             state.showMetalColors = [...action.payload]
         },
@@ -144,12 +147,14 @@ export const selectProductTypeList = createSelector([state],state=> {
         return {id,name}
     })
 })
+export const selectAllInternalSKUs = createSelector([state],state=>state.pricingReducer.internalCosts.map(e=>e.internalSkuID).sort())
 
 export const {
     initData,
     updatePriceTemp,
     updateColumns,
     toggleFilter,
+    toggleNewSetDialog,
     updateShowMetalColor,
     updateProductType,
     toggleShowSets,
