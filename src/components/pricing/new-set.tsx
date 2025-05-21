@@ -100,7 +100,18 @@ const Info = (
                     value={internalSKU}
                     onChange={onChange}
                     fullWidth
-                    renderInput={params => <TextField {...params} fullWidth label='Internal SKU #' />}
+                    sx={{marginTop:1}} 
+                    renderInput={params => (
+                        <TextField 
+                            {...params} 
+                            // fullWidth 
+                            label='Internal SKU #' 
+                            slotProps={{
+                                input:{sx:{color:'#fff'},slotProps:{input:{sx:{borderColor:'#fff'}}}},
+                                inputLabel:{sx:{color:'#fff'}},
+                            }} 
+                        />
+                    )}
                 />
             </Stack>
             {!!internalSKU && <IconButton onClick={deleteItem} sx={{flex:'none'}}>
