@@ -107,8 +107,11 @@ const Info = (
                             // fullWidth 
                             label='Internal SKU #' 
                             slotProps={{
-                                input:{sx:{color:'#fff'},slotProps:{input:{sx:{borderColor:'#fff'}}}},
-                                inputLabel:{sx:{color:'#fff'}},
+                                // input:{
+                                //     sx:{color:'#fff'},
+                                //     slotProps:{input:{sx:{borderColor:'#fff'}}}
+                                // },
+                                // inputLabel:{sx:{color:'#fff'}},
                             }} 
                         />
                     )}
