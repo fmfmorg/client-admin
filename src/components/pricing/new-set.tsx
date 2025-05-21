@@ -101,15 +101,12 @@ const Info = (
                     onChange={onChange}
                     fullWidth
                     sx={{marginTop:1}} 
+                    slotProps={{paper:{sx:{color:'red'}}}}
                     renderInput={params => (
                         <TextField 
                             {...params} 
                             label='Internal SKU #' 
                             slotProps={{
-                                input:{
-                                    sx:{color:'#fff'},
-                                    // slotProps:{input:{sx:{borderColor:'#fff'}}}
-                                },
                                 inputLabel:{sx:{color:'#fff'}},
                             }} 
                         />
