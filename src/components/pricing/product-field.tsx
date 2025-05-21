@@ -51,7 +51,6 @@ const EditPriceField = ({id}:{id:string}) => {
             sx={{marginTop:1}} 
             onChange={onChange}
             size='small'
-            
         />
     )
 }

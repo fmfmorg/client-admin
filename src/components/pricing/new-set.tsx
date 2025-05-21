@@ -4,7 +4,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { selectAllInternalSKUs, toggleNewSetDialog } from './slice';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from "@mui/material/ImageListItem"
 import ImageListItemBar from "@mui/material/ImageListItemBar"
@@ -17,6 +17,7 @@ import Typography from '@mui/material/Typography';
 import { useStore } from 'react-redux';
 import { RootState } from '@store/store';
 import Button from '@mui/material/Button';
+import InputAdornment from '@mui/material/InputAdornment';
 
 const inputName = 'new-set-item'
 
@@ -39,7 +40,7 @@ const Content = () => {
     const dialogOnClose = () => dispatch(toggleNewSetDialog())
     const [itemIDs,setItemIDs] = useState([crypto.randomUUID()])
     const [setCost,setSetCost] = useState(0)
-
+    const priceRef = useRef<HTMLInputElement>(null)
     const addItem = () => {
         setItemIDs(prev => [...prev,crypto.randomUUID()])
         setTimeoutCalCost()
@@ -66,6 +67,11 @@ const Content = () => {
         setSetCost(cost * 0.01)
     }
     const setTimeoutCalCost = () => setTimeout(recalculateSetCost,200)
+    const clearOnClick = () => {
+        setItemIDs([crypto.randomUUID()])
+        setSetCost(0)
+        if (!!priceRef.current) priceRef.current.value = ''
+    }
 
     return (
         <>
@@ -77,8 +83,26 @@ const Content = () => {
             </ImageList>
         </DialogContent>
         <DialogActions sx={{justifyContent:'space-between'}}>
-            <Typography sx={{fontWeight:'bold'}}>Total Cost: ¥{setCost.toFixed(2)}</Typography>
+            <Typography>Total Cost: <span style={{fontWeight:'bold'}}>¥{setCost.toFixed(2)}</span></Typography>
+            <TextField 
+                inputRef={priceRef}
+                type='number'
+                label='Price'
+                size='small'
+                slotProps={{
+                    htmlInput:{step:0.01,min:0},
+                    input:{
+                        sx:{fontWeight:'bold'},
+                        startAdornment:(
+                            <InputAdornment position="start">
+                                <Typography sx={{fontWeight:'bold'}}>£</Typography>
+                            </InputAdornment>
+                        ),
+                    },
+                }}
+            />
             <Stack direction='row' columnGap={2}>
+                <Button variant='outlined' onClick={clearOnClick}>Clear</Button>
                 <Button variant='contained'>Create Set</Button>
                 <Button variant='outlined' onClick={dialogOnClose}>Close</Button>
             </Stack>
