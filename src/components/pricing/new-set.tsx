@@ -22,11 +22,32 @@ const inputName = 'new-set-item'
 
 const NewSetDialog = () => {
     const dispatch = useAppDispatch();
-    const store = useStore()
     const dialogOn = useAppSelector(state => state.pricingReducer.newSetMode)
+    const dialogOnClose = () => dispatch(toggleNewSetDialog())
+    
+    return (
+        <Dialog open={dialogOn} onClose={dialogOnClose} fullWidth>
+            <DialogTitle>Create New Set</DialogTitle>
+            <Content />
+        </Dialog>
+    )
+}
+
+const Content = () => {
+    const store = useStore()
+    const dispatch = useAppDispatch();
     const dialogOnClose = () => dispatch(toggleNewSetDialog())
     const [itemIDs,setItemIDs] = useState([crypto.randomUUID()])
     const [setCost,setSetCost] = useState(0)
+
+    const addItem = () => {
+        setItemIDs(prev => [...prev,crypto.randomUUID()])
+        setTimeoutCalCost()
+    }
+    const deleteItem = (itemID:string) => {
+        setItemIDs(prev => prev.filter(e=>e !== itemID))
+        setTimeoutCalCost()
+    }
     const recalculateSetCost = () => {
         const inputs = document.getElementsByName(inputName) as NodeListOf<HTMLInputElement>
         const inputLen = inputs.length
@@ -45,33 +66,24 @@ const NewSetDialog = () => {
         setSetCost(cost * 0.01)
     }
     const setTimeoutCalCost = () => setTimeout(recalculateSetCost,200)
-    const addItem = () => {
-        setItemIDs(prev => [...prev,crypto.randomUUID()])
-        setTimeoutCalCost()
-    }
-    const deleteItem = (itemID:string) => {
-        setItemIDs(prev => prev.filter(e=>e !== itemID))
-        setTimeoutCalCost()
-    }
-    
+
     return (
-        <Dialog open={dialogOn} onClose={dialogOnClose} fullWidth>
-            <DialogTitle>Create New Set</DialogTitle>
-            <DialogContent>
-                <ImageList cols={2} sx={{overflow:'hidden'}}>
-                    {itemIDs.map(id=>(
-                        <Item {...{key:id,itemID:id,addItem,deleteItem,setTimeoutCalCost}} />
-                    ))}
-                </ImageList>
-            </DialogContent>
-            <DialogActions sx={{justifyContent:'space-between'}}>
-                <Typography sx={{fontWeight:'bold'}}>Total Cost: ¥{setCost.toFixed(2)}</Typography>
-                <Stack direction='row' columnGap={2}>
-                    <Button variant='contained'>Create Set</Button>
-                    <Button variant='outlined'>Close</Button>
-                </Stack>
-            </DialogActions>
-        </Dialog>
+        <>
+        <DialogContent>
+            <ImageList cols={2} sx={{overflow:'hidden'}}>
+                {itemIDs.map(id=>(
+                    <Item {...{key:id,itemID:id,addItem,deleteItem,setTimeoutCalCost}} />
+                ))}
+            </ImageList>
+        </DialogContent>
+        <DialogActions sx={{justifyContent:'space-between'}}>
+            <Typography sx={{fontWeight:'bold'}}>Total Cost: ¥{setCost.toFixed(2)}</Typography>
+            <Stack direction='row' columnGap={2}>
+                <Button variant='contained'>Create Set</Button>
+                <Button variant='outlined' onClick={dialogOnClose}>Close</Button>
+            </Stack>
+        </DialogActions>
+        </>
     )
 }
 
