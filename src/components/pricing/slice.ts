@@ -101,7 +101,6 @@ export const selectSingleProductIDs = createSelector([state],(state)=>{
     // if (!!state.pricingReducer.showSuppliers.length) itemSpecs = itemSpecs.filter(e => state.pricingReducer.showSuppliers.includes(e.supplierID))
 
     const itemSpecsIDs = itemSpecs.map(e => e.internalSkuID)
-    console.log(itemSpecsIDs.length)
     const matchingMapItems = state.pricingReducer.skuMapItems.filter(e=>itemSpecsIDs.includes(e.internal))
     if (!matchingMapItems.length) return []
 

@@ -30,11 +30,11 @@ const FilterDialog = () => {
     const filterOnClose = () => dispatch(toggleFilter())
 
     const metalColorList = useAppSelector(selectMetalColorList)
-    const showMetalColors = useAppSelector(state => state.purchaseQuantityReducer.showMetalColors)
-    const metalColorsOnChange = (e:SelectChangeEvent<number[]>) => {console.log(e.target.value as number[]);dispatch(updateShowMetalColor(e.target.value as number[]));}
+    const showMetalColors = useAppSelector(state => state.pricingReducer.showMetalColors)
+    const metalColorsOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateShowMetalColor(e.target.value as number[]))
 
     const productTypeList = useAppSelector(selectProductTypeList)
-    const showProductTypes = useAppSelector(state => state.purchaseQuantityReducer.showProductTypes)
+    const showProductTypes = useAppSelector(state => state.pricingReducer.showProductTypes)
     const productTypesOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateProductType(e.target.value as number[]))
 
     const showSingles = useAppSelector(state => state.pricingReducer.showSingles)
