@@ -94,16 +94,16 @@ const Info = (
 
     return (
         <Stack direction='row' columnGap={1}>
-            <Stack direction='column' rowGap={1}>
+            <Stack direction='column' rowGap={1} sx={{flexGrow:1}}>
                 <Autocomplete 
                     options={allInternalSKUs}
                     value={internalSKU}
                     onChange={onChange}
                     fullWidth
-                    renderInput={params => <TextField {...params} label='Internal SKU #' />}
+                    renderInput={params => <TextField {...params} fullWidth label='Internal SKU #' />}
                 />
             </Stack>
-            {!!internalSKU && <IconButton onClick={deleteItem}>
+            {!!internalSKU && <IconButton onClick={deleteItem} sx={{flex:'none'}}>
                 <DeleteIcon />
             </IconButton>}
         </Stack>
