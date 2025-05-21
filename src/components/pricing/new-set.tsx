@@ -111,14 +111,14 @@ const Info = (
                                 //     sx:{color:'#fff'},
                                 //     slotProps:{input:{sx:{borderColor:'#fff'}}}
                                 // },
-                                // inputLabel:{sx:{color:'#fff'}},
+                                inputLabel:{sx:{color:'#fff'}},
                             }} 
                         />
                     )}
                 />
             </Stack>
             {!!internalSKU && <IconButton onClick={deleteItem} sx={{flex:'none'}}>
-                <DeleteIcon />
+                <DeleteIcon htmlColor='#fff' />
             </IconButton>}
         </Stack>
     )
