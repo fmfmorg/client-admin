@@ -80,10 +80,12 @@ const Item = (
         itemID,
         addItem,
         deleteItem,
+        setTimeoutCalCost,
     }:{
         itemID:string;
         addItem:()=>void;
         deleteItem:(s:string)=>void;
+        setTimeoutCalCost:()=>void;
     }
 ) => {
     const [internalSKU,setInternalSKU] = useState<string | null>(null)
@@ -102,7 +104,7 @@ const Item = (
                 />
             </a>
             <ImageListItemBar 
-                title={<ImageContent {...{internalSKU,updateSKU,addItem,deleteItem:()=>deleteItem(itemID)}} />}
+                title={<ImageContent {...{internalSKU,updateSKU,addItem,deleteItem:()=>deleteItem(itemID),setTimeoutCalCost}} />}
                 sx={{display:'flex'}}
             />
         </ImageListItem>
@@ -115,11 +117,13 @@ const ImageContent = (
         updateSKU,
         addItem,
         deleteItem,
+        setTimeoutCalCost,
     }:{
         internalSKU:string|null;
         updateSKU:(s:string|null)=>void;
         addItem:()=>void;
         deleteItem:()=>void;
+        setTimeoutCalCost:()=>void;
     }
 ) => {
     const allInternalSKUs = useAppSelector(selectAllInternalSKUs)
@@ -127,7 +131,8 @@ const ImageContent = (
         const prevInternalSKU = structuredClone(internalSKU)
         updateSKU(newValue)
         if (!prevInternalSKU) addItem()
-        if (!newValue) deleteItem()
+        else if (!newValue) deleteItem()
+        else setTimeoutCalCost()
     }
 
     return (
