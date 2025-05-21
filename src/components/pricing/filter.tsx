@@ -31,7 +31,7 @@ const FilterDialog = () => {
 
     const metalColorList = useAppSelector(selectMetalColorList)
     const showMetalColors = useAppSelector(state => state.purchaseQuantityReducer.showMetalColors)
-    const metalColorsOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateShowMetalColor(e.target.value as number[]))
+    const metalColorsOnChange = (e:SelectChangeEvent<number[]>) => {console.log(e.target.value as number[]);dispatch(updateShowMetalColor(e.target.value as number[]));}
 
     const productTypeList = useAppSelector(selectProductTypeList)
     const showProductTypes = useAppSelector(state => state.purchaseQuantityReducer.showProductTypes)
