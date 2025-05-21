@@ -6,9 +6,10 @@ import { useEffect } from "react";
 import SignedInWrapper from "@components/signed-in-wrapper";
 import Stack from "@mui/material/Stack";
 import ImageList from "@mui/material/ImageList";
-import SingleProduct from "./single-product";
+import SingleProduct from "./single-products";
 import Header from "./header";
 import FilterDialog from "./filter";
+import SingleProducts from "./single-products";
 
 const Pricing = (
     {
@@ -20,8 +21,7 @@ const Pricing = (
     }
 ) => {
     const dispatch = useAppDispatch();
-    const columns = useAppSelector(state => state.pricingReducer.columns)
-    const singleIDs = useAppSelector(selectSingleProductIDs)
+    const showSingles = useAppSelector(state => state.pricingReducer.showSingles)
     // const multiIDs = useAppSelector(selectMultiProductIDs)
     
     useEffect(()=>{
@@ -34,11 +34,7 @@ const Pricing = (
             children:(
                 <>
                 <Stack direction='column'>
-                    <ImageList cols={columns} sx={{overflow:'hidden'}} gap={8}>
-                        {singleIDs.map(id=>(
-                            <SingleProduct key={id} id={id} />
-                        ))}
-                    </ImageList>
+                    {showSingles && <SingleProducts />}
                 </Stack>
                 <FilterDialog />
                 </>

@@ -9,6 +9,7 @@ import Slider from "@mui/material/Slider"
 import Button from "@mui/material/Button"
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import PublishIcon from '@mui/icons-material/Publish';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const Header = () => {
     const store = useStore()
@@ -27,6 +28,7 @@ const Header = () => {
                 <Slider sx={{width:'150px'}} min={4} max={8} step={1} shiftStep={1} value={columns} onChange={sliderOnChange} />
             </Stack>
             <Button variant='contained' startIcon={<FilterAltIcon />} onClick={filterBtnOnClick}>Filter</Button>
+            <Button variant="contained" color='secondary' startIcon={<AddCircleIcon />}>New Set</Button>
             {hasPriceEdited && <Button variant="contained" color="error" startIcon={<PublishIcon />} onClick={priceUpdateOnClick}>Update Prices</Button>}
         </Stack>
     )

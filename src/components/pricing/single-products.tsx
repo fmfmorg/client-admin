@@ -2,6 +2,8 @@ import ImageListItem from "@mui/material/ImageListItem"
 import ImageListItemBar from "@mui/material/ImageListItemBar"
 import { useAppSelector } from "@store/hooks"
 import ProductField from "./product-field"
+import { selectSingleProductIDs } from "./slice"
+import ImageList from "@mui/material/ImageList"
 
 const SingleProduct = ({id}:{id:string})=>{
     const imgSrc = useAppSelector(state => {
@@ -32,4 +34,17 @@ const SingleProduct = ({id}:{id:string})=>{
     )
 }
 
-export default SingleProduct
+const SingleProducts = () => {
+    const columns = useAppSelector(state => state.pricingReducer.columns)
+    const singleIDs = useAppSelector(selectSingleProductIDs)
+    
+    return (
+        <ImageList cols={columns} sx={{overflow:'hidden'}} gap={8}>
+            {singleIDs.map(id=>(
+                <SingleProduct key={id} id={id} />
+            ))}
+        </ImageList>
+    )
+}
+
+export default SingleProducts
