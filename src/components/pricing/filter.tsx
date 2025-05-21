@@ -2,31 +2,32 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useAppDispatch, useAppSelector } from "@store/hooks"
-import { selectMetalColorList, selectMovementList, selectProductIDs, selectProductTypeList, selectSupplierList, toggleFilter, updateMovements, updateProductType, updateShowMetalColor, updateSuppliers } from './slice';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { 
+    selectMetalColorList, 
+    selectProductTypeList, 
+    toggleFilter, 
+    toggleShowNonPricedItems, 
+    toggleShowPricedItems, 
+    toggleShowSets, 
+    toggleShowSingles, 
+    updateProductType, 
+    updateShowMetalColor, 
+} from './slice';
 import Stack from '@mui/material/Stack';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { RowEqualWidth } from '@misc';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import Grid from '@mui/material/Grid2'
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
-import { RowEqualWidth } from '@misc';
 
 const FilterDialog = () => {
-    const count = useAppSelector(selectProductIDs).length
-
     const dispatch = useAppDispatch();
-    const filterOn = useAppSelector(state => state.purchaseQuantityReducer.filterMode)
+    const filterOn = useAppSelector(state => state.pricingReducer.filterMode)
     const filterOnClose = () => dispatch(toggleFilter())
-
-    const supplierList = useAppSelector(selectSupplierList)
-    const showSuppliers = useAppSelector(state => state.purchaseQuantityReducer.showSuppliers)
-    const suppliersOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateSuppliers(e.target.value as number[]))
-
-    const movementList = useAppSelector(selectMovementList)
-    const showMovementIDs = useAppSelector(state => state.purchaseQuantityReducer.showMovementIDs)
-    const movementIDsOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateMovements(e.target.value as number[]))
 
     const metalColorList = useAppSelector(selectMetalColorList)
     const showMetalColors = useAppSelector(state => state.purchaseQuantityReducer.showMetalColors)
@@ -36,29 +37,23 @@ const FilterDialog = () => {
     const showProductTypes = useAppSelector(state => state.purchaseQuantityReducer.showProductTypes)
     const productTypesOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateProductType(e.target.value as number[]))
 
+    const showSingles = useAppSelector(state => state.pricingReducer.showSingles)
+    const showSinglesOnChange = () => dispatch(toggleShowSingles());
+
+    const showSets = useAppSelector(state => state.pricingReducer.showSets)
+    const showSetsOnChange = () => dispatch(toggleShowSets());
+
+    const showPricedItems = useAppSelector(state => state.pricingReducer.showPricedItems)
+    const showPricedItemsOnChange = () => dispatch(toggleShowPricedItems());
+
+    const showNonPricedItems = useAppSelector(state => state.pricingReducer.showNonPricedItems)
+    const showNonPricedItemsOnChange = () => dispatch(toggleShowNonPricedItems());
+
     return (
         <Dialog open={filterOn} onClose={filterOnClose} fullWidth>
             <DialogTitle>Filter</DialogTitle>
             <DialogContent>
                 <Stack direction='column' marginTop={1} rowGap={2}>
-                    <Grid container direction='row' columnSpacing={2} width='100%'>
-                        <Grid size={4}>
-                            <FormControl fullWidth>
-                                <InputLabel id='movement-id'>Date</InputLabel>
-                                <Select multiple labelId='movement-id' label='Date' value={showMovementIDs} onChange={movementIDsOnChange}>
-                                    {movementList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid size={8}>
-                            <FormControl fullWidth>
-                                <InputLabel id='supplier-id'>Suppliers</InputLabel>
-                                <Select multiple labelId='supplier-id' label='Suppliers' value={showSuppliers} onChange={suppliersOnChange}>
-                                    {supplierList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                    </Grid>
                     <RowEqualWidth>
                         <>
                         <FormControl fullWidth>
@@ -75,10 +70,22 @@ const FilterDialog = () => {
                         </FormControl>
                         </>
                     </RowEqualWidth>
+                    <RowEqualWidth>
+                        <>
+                        <FormControlLabel control={<Checkbox defaultChecked={showSingles} onChange={showSinglesOnChange} />} label="Show Singles" />
+                        <FormControlLabel control={<Checkbox defaultChecked={showSets} onChange={showSetsOnChange} />} label="Show Sets" />
+                        </>
+                    </RowEqualWidth>
+                    <RowEqualWidth>
+                        <>
+                        <FormControlLabel control={<Checkbox defaultChecked={showPricedItems} onChange={showPricedItemsOnChange} />} label="Show Priced Items" />
+                        <FormControlLabel control={<Checkbox defaultChecked={showNonPricedItems} onChange={showNonPricedItemsOnChange} />} label="Show Non Priced Items" />
+                        </>
+                    </RowEqualWidth>
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button onClick={filterOnClose}>Show {count} items</Button>
+                <Button onClick={filterOnClose}>Close Filter</Button>
             </DialogActions>
         </Dialog>
     )

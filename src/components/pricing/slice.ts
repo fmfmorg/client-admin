@@ -20,6 +20,10 @@ export type IStateMaster = IState & {
     showProductTypes:number[];
     showSuppliers:number[];
     filterMode:boolean;
+    showSingles:boolean;
+    showSets:boolean;
+    showPricedItems:boolean;
+    showNonPricedItems:boolean;
 }
 
 export const initialState:IStateMaster = {
@@ -37,6 +41,10 @@ export const initialState:IStateMaster = {
     showProductTypes:[],
     showSuppliers:[],
     filterMode:false,
+    showSingles:true,
+    showSets:true,
+    showPricedItems:true,
+    showNonPricedItems:true,
 }
 
 const slice = createSlice({
@@ -62,11 +70,31 @@ const slice = createSlice({
             state.columns = action.payload
         },
         toggleFilter:(state,_:PayloadAction<undefined>) => {state.filterMode = !state.filterMode},
+        updateShowMetalColor:(state,action:PayloadAction<number[]>)=>{
+            state.showMetalColors = [...action.payload]
+        },
+        updateProductType:(state,action:PayloadAction<number[]>)=>{
+            state.showProductTypes = [...action.payload]
+        },
+        toggleShowSingles:(state,_:PayloadAction<undefined>)=>{
+            state.showSingles = !state.showSingles
+        },
+        toggleShowSets:(state,_:PayloadAction<undefined>)=>{
+            state.showSets = !state.showSets
+        },
+        toggleShowPricedItems:(state,_:PayloadAction<undefined>)=>{
+            state.showPricedItems = !state.showPricedItems
+        },
+        toggleShowNonPricedItems:(state,_:PayloadAction<undefined>)=>{
+            state.showNonPricedItems = !state.showNonPricedItems
+        },
     },
 })
 
 const state = (state:RootState) => state
 export const selectSingleProductIDs = createSelector([state],(state)=>{
+    if (!state.pricingReducer.showPricedItems && !state.pricingReducer.showNonPricedItems) return []
+
     let itemSpecs = [...state.pricingReducer.internalItemSpecs]
     if (!!state.pricingReducer.showMetalColors.length) itemSpecs = itemSpecs.filter(e => state.pricingReducer.showMetalColors.includes(e.metalColorID))
     if (!!state.pricingReducer.showProductTypes.length) itemSpecs = itemSpecs.filter(e => state.pricingReducer.showProductTypes.includes(e.productTypeID))
@@ -77,9 +105,18 @@ export const selectSingleProductIDs = createSelector([state],(state)=>{
     if (!matchingMapItems.length) return []
 
     const uniqueExternalSkuIDs = [...new Set(matchingMapItems.map(e=>e.external))]
-    return uniqueExternalSkuIDs.filter(e=>matchingMapItems.filter(f=>f.external===e).length === 1)
+    const matchingSKUs = uniqueExternalSkuIDs.filter(e=>matchingMapItems.filter(f=>f.external===e).length === 1)
+    
+    if (state.pricingReducer.showPricedItems && state.pricingReducer.showNonPricedItems) return matchingSKUs
+    else {
+        const priceList = state.pricingReducer.externalPrices.filter(e=>matchingSKUs.includes(e.externalSkuID))          
+        if (state.pricingReducer.showPricedItems) return priceList.filter(e=>!!e.price).map(e=>e.externalSkuID)
+        else return priceList.filter(e=>!e.price).map(e=>e.externalSkuID)
+    }
 })
 export const selectMultiProductIDs = createSelector([state],(state)=>{
+    if (!state.pricingReducer.showPricedItems && !state.pricingReducer.showNonPricedItems) return []
+
     let itemSpecs = [...state.pricingReducer.internalItemSpecs]
     if (!!state.pricingReducer.showMetalColors.length) itemSpecs = itemSpecs.filter(e => state.pricingReducer.showMetalColors.includes(e.metalColorID))
     if (!!state.pricingReducer.showProductTypes.length) itemSpecs = itemSpecs.filter(e => state.pricingReducer.showProductTypes.includes(e.productTypeID))
@@ -90,7 +127,22 @@ export const selectMultiProductIDs = createSelector([state],(state)=>{
     if (!matchingMapItems.length) return []
 
     const uniqueExternalSkuIDs = [...new Set(matchingMapItems.map(e=>e.external))]
-    return uniqueExternalSkuIDs.map(e=>({id:e,count:matchingMapItems.filter(f=>f.external===e).length})).filter(e=>e.count > 1).sort((a,b)=>a.count - b.count).map(e=>e.id)
+    const matchingSKUs = uniqueExternalSkuIDs.map(e=>({id:e,count:matchingMapItems.filter(f=>f.external===e).length})).filter(e=>e.count > 1).map(e=>e.id)
+    const priceList = state.pricingReducer.externalPrices.filter(e=>matchingSKUs.includes(e.externalSkuID)).sort((a,b)=>a.price - b.price)
+
+    if (state.pricingReducer.showPricedItems && state.pricingReducer.showNonPricedItems) return priceList.map(e=>e.externalSkuID)
+    else {
+        if (state.pricingReducer.showPricedItems) return priceList.filter(e=>!!e.price).map(e=>e.externalSkuID)
+        else return priceList.filter(e=>!e.price).map(e=>e.externalSkuID)
+    }
+})
+export const selectMetalColorList = createSelector([state],state=>state.pricingReducer.metalColors)
+export const selectProductTypeList = createSelector([state],state=> {
+    const subTypeList = state.pricingReducer.productSubTypes
+    return state.pricingReducer.productTypeMapItems.map(({id,subTypeID}) => {
+        const name = subTypeList.find(e => e.id === subTypeID)?.name || ''
+        return {id,name}
+    })
 })
 
 export const {
@@ -98,5 +150,11 @@ export const {
     updatePriceTemp,
     updateColumns,
     toggleFilter,
+    updateShowMetalColor,
+    updateProductType,
+    toggleShowSets,
+    toggleShowSingles,
+    toggleShowPricedItems,
+    toggleShowNonPricedItems,
 } = slice.actions
 export default slice.reducer

@@ -24,7 +24,7 @@ const Header = () => {
         <Stack direction='row' columnGap={2}>
             <Stack direction='column'>
                 <Typography>Columns</Typography>
-                <Slider sx={{width:'150px'}} min={4} max={12} step={1} shiftStep={1} value={columns} onChange={sliderOnChange} />
+                <Slider sx={{width:'150px'}} min={4} max={8} step={1} shiftStep={1} value={columns} onChange={sliderOnChange} />
             </Stack>
             <Button variant='contained' startIcon={<FilterAltIcon />} onClick={filterBtnOnClick}>Filter</Button>
             {hasPriceEdited && <Button variant="contained" color="error" startIcon={<PublishIcon />} onClick={priceUpdateOnClick}>Update Prices</Button>}

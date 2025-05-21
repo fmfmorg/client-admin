@@ -1,5 +1,4 @@
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
@@ -14,12 +13,8 @@ import { useStore } from 'react-redux';
 import { RootState } from '@store/store';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { httpRequestHeader } from '@misc';
+import { httpRequestHeader, RowEqualWidth } from '@misc';
 import { CsrfContext } from '@context';
-
-const Row = ({children}:{children:JSX.Element}) => (
-    <Stack direction='row' spacing={1} width='100%'>{children}</Stack>
-)
 
 const EditDialog = () => {
     const dispatch = useAppDispatch()
@@ -73,7 +68,7 @@ const EditDialog = () => {
             <DialogTitle>Edit {editItemID}</DialogTitle>
             <DialogContent>
                 <Stack direction='column' rowGap={2} marginTop={1} component='form' onSubmit={onSubmit}>
-                    <Row>
+                    <RowEqualWidth>
                         <>
                         <FormControl fullWidth required>
                             <InputLabel id='metal-color-id'>Metal Colour</InputLabel>
@@ -88,7 +83,7 @@ const EditDialog = () => {
                             </Select>
                         </FormControl>
                         </>
-                    </Row>
+                    </RowEqualWidth>
                     <TextField fullWidth label="Image URL" value={imgPath} onChange={imgPathOnChange} />
                     <Button fullWidth variant='contained' type='submit'>Update</Button>
                 </Stack>

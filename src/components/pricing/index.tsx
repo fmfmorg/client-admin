@@ -8,6 +8,7 @@ import Stack from "@mui/material/Stack";
 import ImageList from "@mui/material/ImageList";
 import SingleProduct from "./single-product";
 import Header from "./header";
+import FilterDialog from "./filter";
 
 const Pricing = (
     {
@@ -39,6 +40,7 @@ const Pricing = (
                         ))}
                     </ImageList>
                 </Stack>
+                <FilterDialog />
                 </>
             ),
             header:<Header />
