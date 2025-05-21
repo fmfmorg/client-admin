@@ -99,7 +99,8 @@ const Info = (
                     options={allInternalSKUs}
                     value={internalSKU}
                     onChange={onChange}
-                    renderInput={params => <TextField {...params} fullWidth label='Internal SKU #' />}
+                    fullWidth
+                    renderInput={params => <TextField {...params} label='Internal SKU #' />}
                 />
             </Stack>
             {!!internalSKU && <IconButton onClick={deleteItem}>
