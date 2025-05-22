@@ -91,6 +91,16 @@ const slice = createSlice({
         toggleShowNonPricedItems:(state,_:PayloadAction<undefined>)=>{
             state.showNonPricedItems = !state.showNonPricedItems
         },
+        newSetCreated:(state,action:PayloadAction<{externalSkuID:string;internalSkuIDs:string[];price:number}>)=>{
+            const skuMapItems:ISkuMapItem[] = action.payload.internalSkuIDs.map(e=>({external:action.payload.externalSkuID,internal:e}))
+            state.skuMapItems = [...state.skuMapItems, ...skuMapItems]
+
+            state.externalPrices = [...state.externalPrices,{
+                externalSkuID:action.payload.externalSkuID,
+                price:action.payload.price,
+                priceTemp:action.payload.price,
+            }]
+        },
     },
 })
 
@@ -161,5 +171,6 @@ export const {
     toggleShowSingles,
     toggleShowPricedItems,
     toggleShowNonPricedItems,
+    newSetCreated,
 } = slice.actions
 export default slice.reducer

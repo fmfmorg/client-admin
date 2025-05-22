@@ -3,8 +3,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { selectAllInternalSKUs, toggleNewSetDialog } from './slice';
-import { useRef, useState } from 'react';
+import { newSetCreated, selectAllInternalSKUs, toggleNewSetDialog } from './slice';
+import { useContext, useRef, useState } from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from "@mui/material/ImageListItem"
 import ImageListItemBar from "@mui/material/ImageListItemBar"
@@ -18,6 +18,8 @@ import { useStore } from 'react-redux';
 import { RootState } from '@store/store';
 import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
+import { httpRequestHeader } from '@misc';
+import { CsrfContext } from '@context';
 
 const inputName = 'new-set-item'
 
@@ -35,6 +37,7 @@ const NewSetDialog = () => {
 }
 
 const Content = () => {
+    const {csrfToken} = useContext(CsrfContext)
     const store = useStore()
     const dispatch = useAppDispatch();
     const dialogOnClose = () => dispatch(toggleNewSetDialog())
@@ -72,6 +75,44 @@ const Content = () => {
         setSetCost(0)
         if (!!priceRef.current) priceRef.current.value = ''
     }
+    const createOnClick = async() => {
+        const inputs = document.getElementsByName(inputName) as NodeListOf<HTMLInputElement>
+        const inputLen = inputs.length
+
+        let internalSKUs:string[] = []
+        for (let i=0; i<inputLen; i++){
+            const internalSKU = inputs.item(i).value
+            if (!!internalSKU) internalSKUs = [...internalSKUs, internalSKU]
+        }
+
+        const finalSKUs = [...new Set(internalSKUs)]
+
+        if (finalSKUs.length < 2) {
+            clearOnClick()
+            return
+        }
+
+        const priceTemp = +(priceRef.current?.value || '')
+        const finalPrice = isNaN(priceTemp) ? 0 : priceTemp
+
+        const resp = await fetch('/api/admin/pricing-create-new-set',{
+            method:"POST",
+            headers:httpRequestHeader(false,'client',true,csrfToken),
+            body:JSON.stringify({internalSkuIDs:finalSKUs,price:Math.round(finalPrice * 100)})
+        })
+
+        if (!resp.ok) {
+            const text = await resp.text()
+            alert(text)
+            return
+        }
+
+        const { externalSkuID } = await resp.json() as { externalSkuID: string }
+
+        dispatch(newSetCreated({externalSkuID,internalSkuIDs:finalSKUs,price:finalPrice}))
+
+        clearOnClick()
+    }
 
     return (
         <>
@@ -102,8 +143,8 @@ const Content = () => {
                 }}
             />
             <Stack direction='row' columnGap={2}>
-                <Button variant='outlined' onClick={clearOnClick}>Clear</Button>
-                <Button variant='contained'>Create Set</Button>
+                <Button variant='outlined' color='error' onClick={clearOnClick}>Clear</Button>
+                <Button variant='contained' onClick={createOnClick}>Create</Button>
                 <Button variant='outlined' onClick={dialogOnClose}>Close</Button>
             </Stack>
         </DialogActions>
