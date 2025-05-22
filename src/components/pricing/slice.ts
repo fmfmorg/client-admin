@@ -68,6 +68,13 @@ const slice = createSlice({
             const item = state.externalPrices.find(e => e.externalSkuID === action.payload.id)
             if (!!item) item.priceTemp = action.payload.price
         },
+        pricesUpdated:(state,_:PayloadAction<undefined>)=>{
+            const items = state.externalPrices.filter(e=> e.price !== e.priceTemp)
+
+            for (const item of items){
+                item.price = item.priceTemp
+            }
+        },
         updateColumns:(state,action:PayloadAction<number>)=>{
             state.columns = action.payload
         },
@@ -162,6 +169,7 @@ export const selectAllInternalSKUs = createSelector([state],state=>state.pricing
 export const {
     initData,
     updatePriceTemp,
+    pricesUpdated,
     updateColumns,
     toggleFilter,
     toggleNewSetDialog,

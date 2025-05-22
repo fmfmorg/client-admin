@@ -2,7 +2,7 @@ import { CsrfContext } from "@context"
 import { useAppDispatch, useAppSelector } from "@store/hooks"
 import { useContext } from "react"
 import { useStore } from "react-redux"
-import { toggleFilter, toggleNewSetDialog, updateColumns } from "./slice"
+import { pricesUpdated, toggleFilter, toggleNewSetDialog, updateColumns } from "./slice"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import Slider from "@mui/material/Slider"
@@ -10,6 +10,8 @@ import Button from "@mui/material/Button"
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import PublishIcon from '@mui/icons-material/Publish';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { RootState } from "@store/store"
+import { httpRequestHeader } from "@misc"
 
 const Header = () => {
     const store = useStore()
@@ -20,7 +22,21 @@ const Header = () => {
     const filterBtnOnClick = () => dispatch(toggleFilter())
     const newSetBtnOnClick = () => dispatch(toggleNewSetDialog())
     const hasPriceEdited = useAppSelector(state => !!state.pricingReducer.externalPrices.filter(e => e.price !== e.priceTemp).length)
-    const priceUpdateOnClick = async() => {}
+    const priceUpdateOnClick = async() => {
+        const state = store.getState() as RootState
+        const items = state.pricingReducer.externalPrices.filter(e=>e.price !== e.priceTemp).map(({externalSkuID,priceTemp})=>({externalSkuID,price:priceTemp}))
+        const resp = await fetch('/api/admin/pricing-update-prices',{
+            method:"POST",
+            headers:httpRequestHeader(false,'client',true,csrfToken),
+            body:JSON.stringify({items})
+        })
+        if (!resp.ok){
+            const text = await resp.text()
+            alert(text)
+            return
+        }
+        dispatch(pricesUpdated())
+    }
 
     return (
         <Stack direction='row' columnGap={2}>
