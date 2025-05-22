@@ -14,7 +14,10 @@ const SingleProduct = ({id}:{id:string})=>{
         const i = state.pricingReducer.externalPrices.find(e => e.externalSkuID === id)
         return !!i ? i.price !== i.priceTemp : false
     })
-    const url = useAppSelector(state => state.pricingReducer.internalItemSpecs.find(e => e.internalSkuID === id)?.page || '#')
+    const url = useAppSelector(state => {
+        const internalSkuID = state.pricingReducer.skuMapItems.find(e=>e.external === id)?.internal || ''
+        return !!internalSkuID ? state.pricingReducer.internalItemSpecs.find(e => e.internalSkuID === internalSkuID)?.page || '#' : '#'
+    })
 
     return (
         <ImageListItem sx={{aspectRatio: "1 / 1"}}>
