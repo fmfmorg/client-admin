@@ -6,7 +6,7 @@ import { updatePriceTemp } from "./slice"
 import TextField from "@mui/material/TextField"
 import InputAdornment from "@mui/material/InputAdornment"
 
-const ProductField = ({id}:{id:string}) => {
+const ProductField = ({id,isSingle}:{id:string;isSingle?:boolean;}) => {
     const currentPrice = useAppSelector(state => (state.pricingReducer.externalPrices.find(e => e.externalSkuID === id)?.price || 0).toFixed(2))
     const cost = useAppSelector(state => {
         const costs = state.pricingReducer.skuMapItems.filter(e => e.external === id).map(e => state.pricingReducer.internalCosts.find(f => f.internalSkuID === e.internal)?.costRmb || 0)
@@ -15,12 +15,12 @@ const ProductField = ({id}:{id:string}) => {
     return (
         <Stack direction='column'>
             <Typography variant='body2'>{id} - ¥{cost} - £{currentPrice}</Typography>
-            <EditPriceField {...{id}} />
+            <EditPriceField {...{id,isSingle}} />
         </Stack>
     )
 }
 
-const EditPriceField = ({id}:{id:string}) => {
+const EditPriceField = ({id,isSingle}:{id:string;isSingle?:boolean;}) => {
     const dispatch = useAppDispatch()
     const initialPrice = useAppSelector(state => {
         const price = state.pricingReducer.externalPrices.find(e=>e.externalSkuID === id)?.priceTemp || 0
@@ -40,10 +40,10 @@ const EditPriceField = ({id}:{id:string}) => {
             slotProps={{
                 htmlInput:{step:0.01,min:0},
                 input:{
-                    sx:{color:'#fff', fontWeight:'bold'},
+                    sx:{fontWeight:'bold',...isSingle && {color:'#fff'}},
                     slotProps:{input:{sx:{borderColor:'#fff',borderWidth:2}}},
                     startAdornment:<InputAdornment position="start">
-                        <Typography sx={{color:'#fff',fontWeight:'bold'}}>£</Typography>
+                        <Typography sx={{...isSingle && {color:'#fff'},fontWeight:'bold'}}>£</Typography>
                     </InputAdornment>,
                 },
                 inputLabel:{sx:{fontWeight:'bold',color:'#fff'}},

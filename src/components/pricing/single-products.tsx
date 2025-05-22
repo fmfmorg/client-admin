@@ -30,7 +30,7 @@ const SingleProduct = ({id}:{id:string})=>{
                 />
             </a>
             <ImageListItemBar 
-                title={<ProductField id={id} />}
+                title={<ProductField id={id} isSingle={true} />}
                 sx={{display:'flex',backgroundColor:edited ? 'rgba(138, 30, 30, 0.5)' : 'rgba(0, 0, 0, 0.5)'}}
             />
         </ImageListItem>

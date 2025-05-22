@@ -28,10 +28,14 @@ const SetProducts = () => {
 
 const SetProduct = ({id}:{id:string}) => {
     const columns = useAppSelector(state => state.pricingReducer.columns - 1)
+    const cellWidth = useAppSelector(state => {
+        const columns = state.pricingReducer.columns
+        return 100 / columns
+    })
     const internalSkuIDs = useAppSelector(state => state.pricingReducer.skuMapItems.filter(e=>e.external===id)).map(e=>e.internal)
     return (
         <TableRow>
-            <TableCell>
+            <TableCell sx={{width:`${cellWidth}%`}}>
                 <ProductField {...{id}} />
             </TableCell>
             <TableCell>
