@@ -19,7 +19,7 @@ import { RootState } from '@store/store';
 import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import { httpRequestHeader } from '@misc';
-import { CsrfContext } from '@context';
+import { CsrfContext } from '@context'
 
 const inputName = 'new-set-item'
 
@@ -95,21 +95,19 @@ const Content = () => {
         const priceTemp = +(priceRef.current?.value || '')
         const finalPrice = isNaN(priceTemp) ? 0 : priceTemp
 
-        // const resp = await fetch('/api/admin/pricing-create-new-set',{
-        //     method:"POST",
-        //     headers:httpRequestHeader(false,'client',true,csrfToken),
-        //     body:JSON.stringify({internalSkuIDs:finalSKUs,price:Math.round(finalPrice * 100)})
-        // })
+        const resp = await fetch('/api/admin/pricing-create-new-set',{
+            method:"POST",
+            headers:httpRequestHeader(false,'client',true,csrfToken),
+            body:JSON.stringify({internalSkuIDs:finalSKUs,price:Math.round(finalPrice * 100)})
+        })
 
-        // if (!resp.ok) {
-        //     const text = await resp.text()
-        //     alert(text)
-        //     return
-        // }
+        if (!resp.ok) {
+            const text = await resp.text()
+            alert(text)
+            return
+        }
 
-        // const { externalSkuID } = await resp.json() as { externalSkuID: string }
-
-        const externalSkuID = '12345'
+        const { externalSkuID } = await resp.json() as { externalSkuID: string }
 
         dispatch(newSetCreated({externalSkuID,internalSkuIDs:finalSKUs,price:finalPrice}))
 

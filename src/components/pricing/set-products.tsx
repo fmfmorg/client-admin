@@ -10,6 +10,7 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material';
 
 const SetProducts = () => {
     const setIDs = useAppSelector(selectMultiProductIDs)
@@ -27,6 +28,7 @@ const SetProducts = () => {
 }
 
 const SetProduct = ({id}:{id:string}) => {
+    const {palette:{action:{hover}}} = useTheme()
     const columns = useAppSelector(state => state.pricingReducer.columns - 1)
     const cellWidth = useAppSelector(state => {
         const columns = state.pricingReducer.columns
@@ -34,7 +36,7 @@ const SetProduct = ({id}:{id:string}) => {
     })
     const internalSkuIDs = useAppSelector(state => state.pricingReducer.skuMapItems.filter(e=>e.external===id)).map(e=>e.internal)
     return (
-        <TableRow>
+        <TableRow sx={{'&:nth-of-type(odd)':{backgroundColor: hover}}}>
             <TableCell sx={{width:`${cellWidth}%`}}>
                 <ProductField {...{id}} />
             </TableCell>
