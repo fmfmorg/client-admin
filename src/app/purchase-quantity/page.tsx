@@ -8,7 +8,7 @@ const PurchaseQuantityPage = async() => {
     
     const resp = await fetch(`${process.env.FM_CLIENT_ADMIN_API_URL}/admin/purchase-quantity-page-init`,{
         headers:httpRequestHeader(true,'SSR',true),
-        cache:'no-cache',
+        cache:'no-store',
     })
     const initialState = await resp.json() as IState
 
