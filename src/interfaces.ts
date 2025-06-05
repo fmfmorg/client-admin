@@ -9,6 +9,8 @@ export interface IPurchaseRecordItem {
     quantity?:number;
     quantityTemp?:number;
     costRmb:number;
+    purchaseQuantity?:number;
+    purchaseQuantityTemp?:number;
 }
 
 export interface IInternalMovementRecord {

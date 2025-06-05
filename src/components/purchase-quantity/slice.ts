@@ -62,9 +62,13 @@ const slice = createSlice({
         toggleEditDialog:(state,action:PayloadAction<string>)=>{
             state.editItemID = action.payload
         },
-        updateQuantityTemp:(state,action:PayloadAction<{id:string;qty:number}>)=>{
+        updateQuantityReceivedTemp:(state,action:PayloadAction<{id:string;qty:number}>)=>{
             const item = state.internalItems.find(e => e.internalSkuID === action.payload.id)
             if (!!item) item.quantityTemp = action.payload.qty
+        },
+        updateQuantityPurchasedTemp:(state,action:PayloadAction<{id:string;qty:number}>)=>{
+            const item = state.internalItems.find(e => e.internalSkuID === action.payload.id)
+            if (!!item) item.purchaseQuantityTemp = action.payload.qty
         },
         toggleFilter:(state,_:PayloadAction<undefined>) => {state.filterMode = !state.filterMode},
         updateSuppliers:(state,action:PayloadAction<number[]>)=>{
@@ -91,11 +95,18 @@ const slice = createSlice({
             item.productTypeID = action.payload.productType
             item.image = action.payload.imgPath
         },
-        quantityUpdated:(state,_:PayloadAction<undefined>)=>{
+        quantityReceivedUpdated:(state,_:PayloadAction<undefined>)=>{
             const items = state.internalItems.filter(e => e.quantity !== e.quantityTemp)
 
             for (const item of items){
                 item.quantity = item.quantityTemp
+            }
+        },
+        quantityPurchasedUpdated:(state,_:PayloadAction<undefined>)=>{
+            const items = state.internalItems.filter(e => e.purchaseQuantity !== e.purchaseQuantityTemp)
+
+            for (const item of items){
+                item.purchaseQuantity = item.purchaseQuantityTemp
             }
         },
     },
@@ -136,13 +147,15 @@ export const {
     initData,
     updateColumns,
     toggleEditDialog,
-    updateQuantityTemp,
+    updateQuantityReceivedTemp,
+    updateQuantityPurchasedTemp,
     toggleFilter,
     updateSuppliers,
     updateMovements,
     updateShowMetalColor,
     updateProductType,
     updateItemSpec,
-    quantityUpdated,
+    quantityReceivedUpdated,
+    quantityPurchasedUpdated,
 } = slice.actions
 export default slice.reducer

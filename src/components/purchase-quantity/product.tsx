@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { toggleEditDialog, updateQuantityTemp } from './slice';
+import { toggleEditDialog, updateQuantityPurchasedTemp, updateQuantityReceivedTemp } from './slice';
 import Stack from '@mui/material/Stack';
 import { ChangeEvent } from 'react';
 
@@ -40,12 +40,44 @@ const Description = ({id}:{id:string}) => {
     return (
         <Stack direction='column'>
             <Typography variant='body2'>{id} - {qty}pc</Typography>
-            <EditQuantityField {...{id}} />
+            <Stack direction='row' columnGap={1}>
+                <EditQuantityReceived {...{id}} />
+                <EditQuantityPurchased {...{id}} />
+            </Stack>
         </Stack>
     )
 }
 
-const EditQuantityField = ({id}:{id:string}) => {
+const EditQuantityPurchased = ({id}:{id:string}) => {
+    const dispatch = useAppDispatch()
+    const initialQuantity = useAppSelector(state =>{
+        const qty = state.purchaseQuantityReducer.internalItems.find(e=>e.internalSkuID === id)?.purchaseQuantityTemp || 0
+        return !!qty ? qty.toString() : ''
+    })
+    const onChange = (e:ChangeEvent<HTMLInputElement>) => {
+        const qty = +e.target.value
+        dispatch(updateQuantityPurchasedTemp({id,qty:isNaN(qty) ? 0 : qty}))
+    }
+    
+    return (
+        <TextField 
+            fullWidth 
+            label='Purchased' 
+            type='number' 
+            defaultValue={initialQuantity} 
+            slotProps={{
+                htmlInput:{step:1,min:0},
+                input:{sx:{color:'#fff', fontWeight:'bold'},slotProps:{input:{sx:{borderColor:'#fff',borderWidth:2}}}},
+                inputLabel:{sx:{fontWeight:'bold',color:'#fff'}},
+            }} 
+            sx={{marginTop:1}} 
+            onChange={onChange}
+            size='small'
+        />
+    )
+}
+
+const EditQuantityReceived = ({id}:{id:string}) => {
     const dispatch = useAppDispatch()
     const initialQuantity = useAppSelector(state =>{
         const qty = state.purchaseQuantityReducer.internalItems.find(e=>e.internalSkuID === id)?.quantityTemp || 0
@@ -53,7 +85,7 @@ const EditQuantityField = ({id}:{id:string}) => {
     })
     const onChange = (e:ChangeEvent<HTMLInputElement>) => {
         const qty = +e.target.value
-        dispatch(updateQuantityTemp({id,qty:isNaN(qty) ? 0 : qty}))
+        dispatch(updateQuantityReceivedTemp({id,qty:isNaN(qty) ? 0 : qty}))
     }
     
     return (
