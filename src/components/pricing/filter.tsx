@@ -6,13 +6,15 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { 
     selectMetalColorList, 
     selectProductTypeList, 
+    selectSupplierList, 
     toggleFilter, 
     toggleShowNonPricedItems, 
     toggleShowPricedItems, 
     toggleShowSets, 
     toggleShowSingles, 
     updateProductType, 
-    updateShowMetalColor, 
+    updateShowMetalColor,
+    updateSuppliers, 
 } from './slice';
 import Stack from '@mui/material/Stack';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -37,6 +39,10 @@ const FilterDialog = () => {
     const showProductTypes = useAppSelector(state => state.pricingReducer.showProductTypes)
     const productTypesOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateProductType(e.target.value as number[]))
 
+    const supplierList = useAppSelector(selectSupplierList)
+    const showSuppliers = useAppSelector(state => state.purchaseQuantityReducer.showSuppliers)
+    const suppliersOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateSuppliers(e.target.value as number[]))
+
     const showSingles = useAppSelector(state => state.pricingReducer.showSingles)
     const showSinglesOnChange = () => dispatch(toggleShowSingles());
 
@@ -54,6 +60,12 @@ const FilterDialog = () => {
             <DialogTitle>Filter</DialogTitle>
             <DialogContent>
                 <Stack direction='column' marginTop={1} rowGap={2}>
+                    <FormControl fullWidth>
+                        <InputLabel id='supplier-id'>Suppliers</InputLabel>
+                        <Select multiple labelId='supplier-id' label='Suppliers' value={showSuppliers} onChange={suppliersOnChange}>
+                            {supplierList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
+                        </Select>
+                    </FormControl>
                     <RowEqualWidth>
                         <>
                         <FormControl fullWidth>
