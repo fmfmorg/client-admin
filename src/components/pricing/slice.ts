@@ -112,7 +112,24 @@ const slice = createSlice({
 })
 
 const state = (state:RootState) => state
+
+const getUniqueExternalSkus = (state:RootState, singles:boolean) => {
+    if (!state.pricingReducer.showPricedItems && !state.pricingReducer.showNonPricedItems) return []
+
+    let itemSpecs = [...state.pricingReducer.internalItemSpecs]
+    if (!!state.pricingReducer.showMetalColors.length) itemSpecs = itemSpecs.filter(e => state.pricingReducer.showMetalColors.includes(e.metalColorID))
+    if (!!state.pricingReducer.showProductTypes.length) itemSpecs = itemSpecs.filter(e => state.pricingReducer.showProductTypes.includes(e.productTypeID))
+    // if (!!state.pricingReducer.showSuppliers.length) itemSpecs = itemSpecs.filter(e => state.pricingReducer.showSuppliers.includes(e.supplierID))
+
+    const itemSpecsIDs = itemSpecs.map(e => e.internalSkuID)
+    const matchingMapItems = state.pricingReducer.skuMapItems.filter(e=>itemSpecsIDs.includes(e.internal))
+    if (!matchingMapItems.length) return []
+
+    return [...new Set(matchingMapItems.map(e=>e.external))]
+}
+
 export const selectSingleProductIDs = createSelector([state],(state)=>{
+    /*
     if (!state.pricingReducer.showPricedItems && !state.pricingReducer.showNonPricedItems) return []
 
     let itemSpecs = [...state.pricingReducer.internalItemSpecs]
@@ -125,6 +142,11 @@ export const selectSingleProductIDs = createSelector([state],(state)=>{
     if (!matchingMapItems.length) return []
 
     const uniqueExternalSkuIDs = [...new Set(matchingMapItems.map(e=>e.external))]
+    */
+
+    const uniqueExternalSkuIDs = getUniqueExternalSkus(state, true)
+    if (!uniqueExternalSkuIDs.length) return []
+
     const matchingSKUs = uniqueExternalSkuIDs.filter(e=>state.pricingReducer.skuMapItems.filter(f=>f.external===e).length === 1)
     
     if (state.pricingReducer.showPricedItems && state.pricingReducer.showNonPricedItems) return matchingSKUs
@@ -135,6 +157,7 @@ export const selectSingleProductIDs = createSelector([state],(state)=>{
     }
 })
 export const selectMultiProductIDs = createSelector([state],(state)=>{
+    /*
     if (!state.pricingReducer.showPricedItems && !state.pricingReducer.showNonPricedItems) return []
 
     let itemSpecs = [...state.pricingReducer.internalItemSpecs]
@@ -147,6 +170,11 @@ export const selectMultiProductIDs = createSelector([state],(state)=>{
     if (!matchingMapItems.length) return []
 
     const uniqueExternalSkuIDs = [...new Set(matchingMapItems.map(e=>e.external))]
+    */
+
+    const uniqueExternalSkuIDs = getUniqueExternalSkus(state, true)
+    if (!uniqueExternalSkuIDs.length) return []
+
     const matchingSKUs = uniqueExternalSkuIDs.map(e=>({id:e,count:state.pricingReducer.skuMapItems.filter(f=>f.external===e).length})).filter(e=>e.count > 1).map(e=>e.id)
     const priceList = state.pricingReducer.externalPrices.filter(e=>matchingSKUs.includes(e.externalSkuID)).sort((a,b)=>a.price - b.price)
 
