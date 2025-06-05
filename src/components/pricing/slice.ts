@@ -125,7 +125,7 @@ export const selectSingleProductIDs = createSelector([state],(state)=>{
     if (!matchingMapItems.length) return []
 
     const uniqueExternalSkuIDs = [...new Set(matchingMapItems.map(e=>e.external))]
-    const matchingSKUs = uniqueExternalSkuIDs.filter(e=>matchingMapItems.filter(f=>f.external===e).length === 1)
+    const matchingSKUs = uniqueExternalSkuIDs.filter(e=>state.pricingReducer.skuMapItems.filter(f=>f.external===e).length === 1)
     
     if (state.pricingReducer.showPricedItems && state.pricingReducer.showNonPricedItems) return matchingSKUs
     else {
@@ -147,7 +147,7 @@ export const selectMultiProductIDs = createSelector([state],(state)=>{
     if (!matchingMapItems.length) return []
 
     const uniqueExternalSkuIDs = [...new Set(matchingMapItems.map(e=>e.external))]
-    const matchingSKUs = uniqueExternalSkuIDs.map(e=>({id:e,count:matchingMapItems.filter(f=>f.external===e).length})).filter(e=>e.count > 1).map(e=>e.id)
+    const matchingSKUs = uniqueExternalSkuIDs.map(e=>({id:e,count:state.pricingReducer.skuMapItems.filter(f=>f.external===e).length})).filter(e=>e.count > 1).map(e=>e.id)
     const priceList = state.pricingReducer.externalPrices.filter(e=>matchingSKUs.includes(e.externalSkuID)).sort((a,b)=>a.price - b.price)
 
     if (state.pricingReducer.showPricedItems && state.pricingReducer.showNonPricedItems) return priceList.map(e=>e.externalSkuID)
