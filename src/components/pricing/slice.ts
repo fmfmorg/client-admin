@@ -165,7 +165,7 @@ export const selectProductTypeList = createSelector([state],state=> {
         return {id,name}
     })
 })
-export const selectSupplierList = createSelector([state],state=>state.purchaseQuantityReducer.suppliers)
+export const selectSupplierList = createSelector([state],state=>state.pricingReducer.suppliers)
 export const selectAllInternalSKUs = createSelector([state],state=>state.pricingReducer.internalCosts.map(e=>e.internalSkuID).sort())
 
 export const {
