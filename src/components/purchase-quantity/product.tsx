@@ -59,12 +59,12 @@ const EditQuantityField = ({id}:{id:string}) => {
     return (
         <TextField 
             fullWidth 
-            label='Quantity' 
+            label='Received' 
             type='number' 
             defaultValue={initialQuantity} 
             slotProps={{
                 htmlInput:{step:1,min:0},
-                input:{sx:{color:'#fff', fontWeight:'bold'},slotProps:{input:{sx:{borderColor:'#fff',borderWidth:2}}}},
+                input:{sx:{color:'#fff', fontWeight:'bold',backgroundColor:'transparent'},slotProps:{input:{sx:{borderColor:'#fff',borderWidth:2}}}},
                 inputLabel:{sx:{fontWeight:'bold',color:'#fff'}},
             }} 
             sx={{marginTop:1}} 
