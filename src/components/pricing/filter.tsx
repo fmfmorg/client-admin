@@ -40,7 +40,7 @@ const FilterDialog = () => {
     const productTypesOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateProductType(e.target.value as number[]))
 
     const supplierList = useAppSelector(selectSupplierList)
-    const showSuppliers = useAppSelector(state => state.purchaseQuantityReducer.showSuppliers)
+    const showSuppliers = useAppSelector(state => state.pricingReducer.showSuppliers)
     const suppliersOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateSuppliers(e.target.value as number[]))
 
     const showSingles = useAppSelector(state => state.pricingReducer.showSingles)
