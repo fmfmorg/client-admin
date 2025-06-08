@@ -10,16 +10,28 @@ import { NumberField } from '@base-ui-components/react/number-field';
 import styles from './index.module.css';
 import { MinusIcon, PlusIcon } from "@misc"
 import { updateLabelQty } from "@slices/products"
+import { useStore } from "react-redux"
+import { RootState } from "@store/store"
 
 
 
 const EditQtyField = ({id}:{id:string}) => {
     const dispatch = useAppDispatch()
+    const store = useStore()
     const defaultQty = useAppSelector(state => (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || null)
     const onChange = (value: number | null, e: Event | undefined) => {
+        const state = store.getState() as RootState
+        const currentQty = (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || 0
+        if (!!e){
+            const {className} = e.target as HTMLElement
+            if (className === styles.Decrement && !!currentQty) dispatch(updateLabelQty({id,qty:currentQty - 1}));
+            else if (className === styles.Increment) dispatch(updateLabelQty({id,qty:currentQty + 1}));
+            else dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
+        } else {
+            dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
+        }
         console.log(value)
         console.log(e)
-        dispatch(updateLabelQty({id,qty:!!value ? value : 0}))
     }
 
     return (
