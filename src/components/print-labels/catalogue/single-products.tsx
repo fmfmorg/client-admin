@@ -16,8 +16,7 @@ const EditQtyField = ({id}:{id:string}) => {
     const defaultQty = useAppSelector(state => (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || 0)
 
     return (
-        <NumberField.Root defaultValue={defaultQty} className={styles.Field}>
-            <label htmlFor={id} className={styles.Label}>Print Qty</label>
+        <NumberField.Root value={defaultQty} className={styles.Field}>
             <NumberField.Group className={styles.Group}>
                 <NumberField.Decrement className={styles.Decrement}>
                     <MinusIcon />
