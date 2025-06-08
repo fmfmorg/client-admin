@@ -21,8 +21,8 @@ const Pricing = (
     }
 ) => {
     const dispatch = useAppDispatch();
-    const showSingles = useAppSelector(state => state.productsReducer.showSingles)
-    const showSets = useAppSelector(state => state.productsReducer.showSets)
+    const showSingles = useAppSelector(state => !!state.productsReducer.showSingles)
+    const showSets = useAppSelector(state => !!state.productsReducer.showSets)
     
     useEffect(()=>{
         dispatch(initData(initialState))
