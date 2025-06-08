@@ -35,8 +35,8 @@ const EditQtyField = ({id}:{id:string}) => {
             // if (!className) {
             //     className = (e.target as HTMLElement).parentElement?.className || ''
             // }
-            if (className === styles.Decrement && !!currentQty) dispatch(updateLabelQty({id,qty:currentQty - 1}));
-            else if (className === styles.Increment) dispatch(updateLabelQty({id,qty:currentQty + 1}));
+            if (className === styles.Decrement && !!currentQty && e.type === 'pointerdown') dispatch(updateLabelQty({id,qty:currentQty - 1}));
+            else if (className === styles.Increment && e.type === 'pointerdown') dispatch(updateLabelQty({id,qty:currentQty + 1}));
             else dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
         } else {
             dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
