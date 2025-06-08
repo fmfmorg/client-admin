@@ -16,8 +16,8 @@ const PrintLabels = (
     // const [csrfToken, setCsrfToken] = useState(csrf)
     return (
         <Grid container direction='row'>
-            <Grid size={6}>{Array(100).fill(null).map((_,i)=>(<p>{i}</p>))}</Grid>
-            <Grid size={6}>{Array(100).fill(null).map((_,i)=>(<p>{i}</p>))}</Grid>
+            <Grid size={6} sx={{height:'100vh',overflowY:'auto'}}>{Array(100).fill(null).map((_,i)=>(<p>{i}</p>))}</Grid>
+            <Grid size={6} sx={{height:'100vh',overflowY:'auto'}}>{Array(100).fill(null).map((_,i)=>(<p>{i}</p>))}</Grid>
         </Grid>
     )
 }
