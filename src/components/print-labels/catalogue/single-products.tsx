@@ -23,7 +23,18 @@ const EditQtyField = ({id}:{id:string}) => {
         const state = store.getState() as RootState
         const currentQty = (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || 0
         if (!!e){
-            const {className} = e.target as HTMLElement
+            let element = e.target as HTMLElement
+            let className = ''
+            
+            while (!className){
+                className = element.className
+                if (!className) element = element.parentElement as HTMLElement
+            }
+
+            // let className = (e.target as HTMLElement).className
+            // if (!className) {
+            //     className = (e.target as HTMLElement).parentElement?.className || ''
+            // }
             if (className === styles.Decrement && !!currentQty) dispatch(updateLabelQty({id,qty:currentQty - 1}));
             else if (className === styles.Increment) dispatch(updateLabelQty({id,qty:currentQty + 1}));
             else dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
