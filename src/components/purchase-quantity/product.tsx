@@ -5,17 +5,18 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { toggleEditDialog, updateQuantityPurchasedTemp, updateQuantityReceivedTemp } from './slice';
 import Stack from '@mui/material/Stack';
 import { ChangeEvent } from 'react';
+import { IInternalItemSpecification, IPurchaseRecordItem } from 'src/interfaces';
+import { toggleEditDialog, updateQuantityPurchasedTemp, updateQuantityReceivedTemp } from '@slices/products';
 
 const Product = ({id}:{id:string}) => {
-    const imgSrc = useAppSelector(state => state.purchaseQuantityReducer.internalItemSpecs.find(e=>e.internalSkuID===id)?.image || '')
+    const imgSrc = useAppSelector(state => (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID===id)?.image || '')
     const edited = useAppSelector(state => {
-        const item = state.purchaseQuantityReducer.internalItems.find(e => e.internalSkuID === id)
+        const item = (state.productsReducer.internalItems as IPurchaseRecordItem[]).find(e => e.internalSkuID === id)
         return !!item ? item.quantity !== item.quantityTemp : false
     })
-    const url = useAppSelector(state => state.purchaseQuantityReducer.internalItemSpecs.find(e => e.internalSkuID === id)?.page || '#')
+    const url = useAppSelector(state => (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID === id)?.page || '#')
     return (
         <ImageListItem sx={{aspectRatio: "1 / 1"}}>
             <a style={{height:'100%'}} href={url} target='_blank'>
@@ -36,7 +37,7 @@ const Product = ({id}:{id:string}) => {
 }
 
 const Description = ({id}:{id:string}) => {
-    const qty = useAppSelector(state => state.purchaseQuantityReducer.internalItems.find(e=>e.internalSkuID === id)?.quantity || 0).toString()
+    const qty = useAppSelector(state => (state.productsReducer.internalItems as IPurchaseRecordItem[]).find(e=>e.internalSkuID === id)?.quantity || 0).toString()
     return (
         <Stack direction='column'>
             <Typography variant='body2'>{id} - {qty}pc</Typography>
@@ -51,7 +52,7 @@ const Description = ({id}:{id:string}) => {
 const EditQuantityPurchased = ({id}:{id:string}) => {
     const dispatch = useAppDispatch()
     const initialQuantity = useAppSelector(state =>{
-        const qty = state.purchaseQuantityReducer.internalItems.find(e=>e.internalSkuID === id)?.purchaseQuantityTemp || 0
+        const qty = (state.productsReducer.internalItems as IPurchaseRecordItem[]).find(e=>e.internalSkuID === id)?.purchaseQuantityTemp || 0
         return !!qty ? qty.toString() : ''
     })
     const onChange = (e:ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +81,7 @@ const EditQuantityPurchased = ({id}:{id:string}) => {
 const EditQuantityReceived = ({id}:{id:string}) => {
     const dispatch = useAppDispatch()
     const initialQuantity = useAppSelector(state =>{
-        const qty = state.purchaseQuantityReducer.internalItems.find(e=>e.internalSkuID === id)?.quantityTemp || 0
+        const qty = (state.productsReducer.internalItems as IPurchaseRecordItem[]).find(e=>e.internalSkuID === id)?.quantityTemp || 0
         return !!qty ? qty.toString() : ''
     })
     const onChange = (e:ChangeEvent<HTMLInputElement>) => {

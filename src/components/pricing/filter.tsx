@@ -3,19 +3,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { 
-    selectMetalColorList, 
-    selectProductTypeList, 
-    selectSupplierList, 
-    toggleFilter, 
-    toggleShowNonPricedItems, 
-    toggleShowPricedItems, 
-    toggleShowSets, 
-    toggleShowSingles, 
-    updateProductType, 
-    updateShowMetalColor,
-    updateSuppliers, 
-} from './slice';
 import Stack from '@mui/material/Stack';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { RowEqualWidth } from '@misc';
@@ -25,34 +12,36 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
+import { toggleFilter, toggleShowNonPricedItems, toggleShowPricedItems, toggleShowSets, toggleShowSingles, updateProductType, updateShowMetalColor, updateSuppliers } from '@slices/products';
+import { selectMetalColorList, selectProductTypeList, selectSupplierList } from './selectors';
 
 const FilterDialog = () => {
     const dispatch = useAppDispatch();
-    const filterOn = useAppSelector(state => state.pricingReducer.filterMode)
+    const filterOn = useAppSelector(state => !!state.productsReducer.filterMode)
     const filterOnClose = () => dispatch(toggleFilter())
 
     const metalColorList = useAppSelector(selectMetalColorList)
-    const showMetalColors = useAppSelector(state => state.pricingReducer.showMetalColors)
+    const showMetalColors = useAppSelector(state => state.productsReducer.showMetalColors || [])
     const metalColorsOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateShowMetalColor(e.target.value as number[]))
 
     const productTypeList = useAppSelector(selectProductTypeList)
-    const showProductTypes = useAppSelector(state => state.pricingReducer.showProductTypes)
+    const showProductTypes = useAppSelector(state => state.productsReducer.showProductTypes || [])
     const productTypesOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateProductType(e.target.value as number[]))
 
     const supplierList = useAppSelector(selectSupplierList)
-    const showSuppliers = useAppSelector(state => state.pricingReducer.showSuppliers)
+    const showSuppliers = useAppSelector(state => state.productsReducer.showSuppliers || [])
     const suppliersOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateSuppliers(e.target.value as number[]))
 
-    const showSingles = useAppSelector(state => state.pricingReducer.showSingles)
+    const showSingles = useAppSelector(state => state.productsReducer.showSingles)
     const showSinglesOnChange = () => dispatch(toggleShowSingles());
 
-    const showSets = useAppSelector(state => state.pricingReducer.showSets)
+    const showSets = useAppSelector(state => state.productsReducer.showSets)
     const showSetsOnChange = () => dispatch(toggleShowSets());
 
-    const showPricedItems = useAppSelector(state => state.pricingReducer.showPricedItems)
+    const showPricedItems = useAppSelector(state => state.productsReducer.showPricedItems)
     const showPricedItemsOnChange = () => dispatch(toggleShowPricedItems());
 
-    const showNonPricedItems = useAppSelector(state => state.pricingReducer.showNonPricedItems)
+    const showNonPricedItems = useAppSelector(state => state.productsReducer.showNonPricedItems)
     const showNonPricedItemsOnChange = () => dispatch(toggleShowNonPricedItems());
 
     return (

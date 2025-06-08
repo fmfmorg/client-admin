@@ -1,7 +1,6 @@
 'use client'
 
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { initData, IState } from "./slice";
 import { useEffect } from "react";
 import SignedInWrapper from "@components/signed-in-wrapper";
 import Stack from "@mui/material/Stack";
@@ -10,6 +9,7 @@ import FilterDialog from "./filter";
 import SingleProducts from "./single-products";
 import NewSetDialog from "./new-set";
 import SetProducts from "./set-products";
+import { initData, IState } from "@slices/products";
 
 const Pricing = (
     {
@@ -21,8 +21,8 @@ const Pricing = (
     }
 ) => {
     const dispatch = useAppDispatch();
-    const showSingles = useAppSelector(state => state.pricingReducer.showSingles)
-    const showSets = useAppSelector(state => state.pricingReducer.showSets)
+    const showSingles = useAppSelector(state => state.productsReducer.showSingles)
+    const showSets = useAppSelector(state => state.productsReducer.showSets)
     
     useEffect(()=>{
         dispatch(initData(initialState))

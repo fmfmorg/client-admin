@@ -40,8 +40,10 @@ export interface ISkuMapItem {
     internal:string;
 }
 
-export interface IExternalItemPrice {
+export interface IExternalItem {
     externalSkuID:string;
     price:number;
     priceTemp:number;
+    labelQty:number;
+    dtUpdated:number;
 }

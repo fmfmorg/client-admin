@@ -19,7 +19,6 @@ import { CsrfContext } from '@context';
 import { csrfBroadcastChannel } from '@misc';
 import { IMenuItem } from './interfaces';
 import AccordionMenu from './accordion-menu';
-import PurchaseQuantityControlBar from '@components/purchase-quantity/header';
 
 const drawerWidth = 240;
 
@@ -43,8 +42,13 @@ const menuList:IMenuItem[] = [
 
 const inventoryMenu:IMenuItem[] = [
     {
+        name: 'Print labels',
+        pathname: '/print-labels',
+        newTab: true,
+    },
+    {
         name: 'Update purchase quantity',
-        pathname: '/purchase-quantity'
+        pathname: '/purchase-quantity',
     }
 ]
 

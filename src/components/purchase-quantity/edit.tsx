@@ -3,7 +3,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { selectMetalColorList, selectProductTypeList, selectSupplierList, toggleEditDialog, updateItemSpec } from './slice';
 import { ChangeEvent, FormEvent, JSX, useContext, useEffect, useState } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
@@ -15,13 +14,16 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { httpRequestHeader, RowEqualWidth } from '@misc';
 import { CsrfContext } from '@context';
+import { IInternalItemSpecification } from 'src/interfaces';
+import { toggleEditDialog, updateItemSpec } from '@slices/products';
+import { selectMetalColorList, selectProductTypeList } from './selectors';
 
 const EditDialog = () => {
     const dispatch = useAppDispatch()
     const store = useStore()
     const {csrfToken} = useContext(CsrfContext)
 
-    const editItemID = useAppSelector(state => state.purchaseQuantityReducer.editItemID)
+    const editItemID = useAppSelector(state => state.productsReducer.editItemID)
     const dialogOnClose = () => dispatch(toggleEditDialog(''))
 
     const metalColorList = useAppSelector(selectMetalColorList)
@@ -58,9 +60,9 @@ const EditDialog = () => {
     useEffect(()=>{
         if (!editItemID) return
         const state = store.getState() as RootState
-        setMetalColor(state.purchaseQuantityReducer.internalItemSpecs.find(e => e.internalSkuID === editItemID)?.metalColorID || 1)
-        setProductType(state.purchaseQuantityReducer.internalItemSpecs.find(e => e.internalSkuID === editItemID)?.productTypeID || 1)
-        setImgPath(state.purchaseQuantityReducer.internalItemSpecs.find(e => e.internalSkuID === editItemID)?.image || '')
+        setMetalColor((state.productsReducer. internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID === editItemID)?.metalColorID || 1)
+        setProductType((state.productsReducer. internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID === editItemID)?.productTypeID || 1)
+        setImgPath((state.productsReducer. internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID === editItemID)?.image || '')
     },[editItemID])
 
     return (

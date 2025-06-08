@@ -1,7 +1,7 @@
 import UpdatePurchaseQuantity from "@components/purchase-quantity";
 import { fetchCSRF } from "../fetch-csrf";
 import { httpRequestHeader } from "@misc";
-import { IState } from "@components/purchase-quantity/slice";
+import { IState } from "@slices/products";
 
 const PurchaseQuantityPage = async() => {
     const csrf = await fetchCSRF() || ''

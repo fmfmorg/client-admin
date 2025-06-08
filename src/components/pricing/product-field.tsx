@@ -2,14 +2,15 @@ import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import { useAppDispatch, useAppSelector } from "@store/hooks"
 import { ChangeEvent } from "react"
-import { updatePriceTemp } from "./slice"
 import TextField from "@mui/material/TextField"
 import InputAdornment from "@mui/material/InputAdornment"
+import { updatePriceTemp } from "@slices/products"
+import { IExternalItem, IPurchaseRecordItem, ISkuMapItem } from "src/interfaces"
 
 const ProductField = ({id,isSingle}:{id:string;isSingle?:boolean;}) => {
-    const currentPrice = useAppSelector(state => (state.pricingReducer.externalPrices.find(e => e.externalSkuID === id)?.price || 0).toFixed(2))
+    const currentPrice = useAppSelector(state => ((state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.price || 0).toFixed(2))
     const cost = useAppSelector(state => {
-        const costs = state.pricingReducer.skuMapItems.filter(e => e.external === id).map(e => state.pricingReducer.internalCosts.find(f => f.internalSkuID === e.internal)?.costRmb || 0)
+        const costs = (state.productsReducer.skuMapItems as ISkuMapItem[]).filter(e => e.external === id).map(e => (state.productsReducer.internalItems as IPurchaseRecordItem[]).find(f => f.internalSkuID === e.internal)?.costRmb || 0)
         return !!costs.length ? (costs.reduce((a,b)=>a+b,0) * 0.01).toFixed(2) : '0'
     })
     return (
@@ -23,7 +24,7 @@ const ProductField = ({id,isSingle}:{id:string;isSingle?:boolean;}) => {
 const EditPriceField = ({id,isSingle}:{id:string;isSingle?:boolean;}) => {
     const dispatch = useAppDispatch()
     const initialPrice = useAppSelector(state => {
-        const price = state.pricingReducer.externalPrices.find(e=>e.externalSkuID === id)?.priceTemp || 0
+        const price = (state.productsReducer.externalItems as IExternalItem[]).find(e=>e.externalSkuID === id)?.priceTemp || 0
         return !!price ? price.toString() : ''
     })
     const onChange = (e:ChangeEvent<HTMLInputElement>) => {

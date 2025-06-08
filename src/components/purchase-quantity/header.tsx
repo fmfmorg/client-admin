@@ -5,25 +5,26 @@ import Button from '@mui/material/Button';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import PublishIcon from '@mui/icons-material/Publish';
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { quantityPurchasedUpdated, quantityReceivedUpdated, toggleFilter, updateColumns } from "./slice";
 import { useStore } from "react-redux";
 import { RootState } from "@store/store";
 import { CsrfContext } from "@context";
 import { useContext } from "react";
 import { httpRequestHeader } from "@misc";
+import { quantityPurchasedUpdated, quantityReceivedUpdated, toggleFilter, updateColumns } from "@slices/products";
+import { IPurchaseRecordItem } from "src/interfaces";
 
 const PurchaseQuantityControlBar = () => {
     const store = useStore()
     const dispatch = useAppDispatch()
     const {csrfToken} = useContext(CsrfContext)
-    const columns = useAppSelector(state => state.purchaseQuantityReducer.columns)
+    const columns = useAppSelector(state => state.productsReducer.columns)
     const sliderOnChange = (_:any, newValue: number | number[]) => dispatch(updateColumns(newValue as number))
     const filterBtnOnClick = () => dispatch(toggleFilter())
-    const hasQtyReceivedEdited = useAppSelector(state => !!state.purchaseQuantityReducer.internalItems.filter(e => e.quantity !== e.quantityTemp).length)
-    const hasQtyPurchasedEdited = useAppSelector(state => !!state.purchaseQuantityReducer.internalItems.filter(e => e.purchaseQuantity !== e.purchaseQuantityTemp).length)
+    const hasQtyReceivedEdited = useAppSelector(state => !!(state.productsReducer.internalItems as IPurchaseRecordItem[]).filter(e => e.quantity !== e.quantityTemp).length)
+    const hasQtyPurchasedEdited = useAppSelector(state => !!(state.productsReducer.internalItems as IPurchaseRecordItem[]).filter(e => e.purchaseQuantity !== e.purchaseQuantityTemp).length)
     const quantityReceivedUpdateOnClick = async () => {
         const state = store.getState() as RootState
-        const items = state.purchaseQuantityReducer.internalItems.filter(e => e.quantity !== e.quantityTemp).map(e=>({
+        const items = (state.productsReducer.internalItems as IPurchaseRecordItem[]).filter(e => e.quantity !== e.quantityTemp).map(e=>({
             internalSkuID:e.internalSkuID,
             qty:e.quantityTemp,
             movementID:e.movementID
@@ -42,7 +43,7 @@ const PurchaseQuantityControlBar = () => {
 
     const quantityPurchasedUpdateOnClick = async () => {
         const state = store.getState() as RootState
-        const items = state.purchaseQuantityReducer.internalItems.filter(e => e.purchaseQuantity !== e.purchaseQuantityTemp).map(e=>({
+        const items = (state.productsReducer.internalItems as IPurchaseRecordItem[]).filter(e => e.purchaseQuantity !== e.purchaseQuantityTemp).map(e=>({
             internalSkuID:e.internalSkuID,
             qty:e.purchaseQuantityTemp,
             movementID:e.movementID

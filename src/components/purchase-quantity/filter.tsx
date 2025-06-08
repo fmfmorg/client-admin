@@ -3,7 +3,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useAppDispatch, useAppSelector } from "@store/hooks"
-import { selectMetalColorList, selectMovementList, selectProductIDs, selectProductTypeList, selectSupplierList, toggleFilter, updateMovements, updateProductType, updateShowMetalColor, updateSuppliers } from './slice';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -12,28 +11,30 @@ import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Grid2'
 import Button from '@mui/material/Button';
 import { RowEqualWidth } from '@misc';
+import { selectMetalColorList, selectMovementList, selectProductIDs, selectProductTypeList, selectSupplierList } from './selectors';
+import { toggleFilter, updateMovements, updateProductType, updateShowMetalColor, updateSuppliers } from '@slices/products';
 
 const FilterDialog = () => {
     const count = useAppSelector(selectProductIDs).length
 
     const dispatch = useAppDispatch();
-    const filterOn = useAppSelector(state => state.purchaseQuantityReducer.filterMode)
+    const filterOn = useAppSelector(state => !!state.productsReducer.filterMode)
     const filterOnClose = () => dispatch(toggleFilter())
 
     const supplierList = useAppSelector(selectSupplierList)
-    const showSuppliers = useAppSelector(state => state.purchaseQuantityReducer.showSuppliers)
+    const showSuppliers = useAppSelector(state => state.productsReducer.showSuppliers)
     const suppliersOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateSuppliers(e.target.value as number[]))
 
     const movementList = useAppSelector(selectMovementList)
-    const showMovementIDs = useAppSelector(state => state.purchaseQuantityReducer.showMovementIDs)
+    const showMovementIDs = useAppSelector(state => state.productsReducer.showMovementIDs)
     const movementIDsOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateMovements(e.target.value as number[]))
 
     const metalColorList = useAppSelector(selectMetalColorList)
-    const showMetalColors = useAppSelector(state => state.purchaseQuantityReducer.showMetalColors)
+    const showMetalColors = useAppSelector(state => state.productsReducer.showMetalColors)
     const metalColorsOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateShowMetalColor(e.target.value as number[]))
 
     const productTypeList = useAppSelector(selectProductTypeList)
-    const showProductTypes = useAppSelector(state => state.purchaseQuantityReducer.showProductTypes)
+    const showProductTypes = useAppSelector(state => state.productsReducer.showProductTypes)
     const productTypesOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateProductType(e.target.value as number[]))
 
     return (

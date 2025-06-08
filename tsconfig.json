@@ -29,9 +29,10 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@misc": ["src/misc/index"],
-      "@context": ["src/contexts/index"],
       "@misc/*": ["src/misc/*"],
+      "@context": ["src/contexts/index"],
       "@store/*": ["src/store/*"],
+      "@slices/*": ["src/slices/*"],
     }
   },
   "include": [

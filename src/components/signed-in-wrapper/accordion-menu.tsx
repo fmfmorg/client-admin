@@ -13,10 +13,12 @@ import { IMenuItem } from './interfaces'
 const AccordionMenu = (
     {
         title,
-        menuList
+        menuList,
+        newTab,
     }:{
         title:string;
         menuList:IMenuItem[];
+        newTab?:boolean;
     }
 ) => (
     <Accordion>
@@ -27,7 +29,7 @@ const AccordionMenu = (
             <List>
                 {menuList.map((item, i) => (
                     <ListItem key={i} disablePadding>
-                        <ListItemButton component={Link} href={item.pathname}>
+                        <ListItemButton component={Link} href={item.pathname} target={!!newTab ? '_blank' : '_self'}>
                             <ListItemText primary={item.name} />
                         </ListItemButton>
                     </ListItem>

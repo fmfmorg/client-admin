@@ -2,21 +2,22 @@ import ImageListItem from "@mui/material/ImageListItem"
 import ImageListItemBar from "@mui/material/ImageListItemBar"
 import { useAppSelector } from "@store/hooks"
 import ProductField from "./product-field"
-import { selectSingleProductIDs } from "./slice"
 import ImageList from "@mui/material/ImageList"
+import { IExternalItem, IInternalItemSpecification, ISkuMapItem } from "src/interfaces"
+import { selectSingleProductIDs } from "./selectors"
 
 const SingleProduct = ({id}:{id:string})=>{
     const imgSrc = useAppSelector(state => {
-        const internalSkuID = state.pricingReducer.skuMapItems.find(e=>e.external === id)?.internal || ''
-        return state.pricingReducer.internalItemSpecs.find(e=>e.internalSkuID === internalSkuID)?.image || ''
+        const internalSkuID = (state.productsReducer.skuMapItems as ISkuMapItem[]).find(e=>e.external === id)?.internal || ''
+        return (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID === internalSkuID)?.image || ''
     })
     const edited = useAppSelector(state => {
-        const i = state.pricingReducer.externalPrices.find(e => e.externalSkuID === id)
+        const i = (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)
         return !!i ? i.price !== i.priceTemp : false
     })
     const url = useAppSelector(state => {
-        const internalSkuID = state.pricingReducer.skuMapItems.find(e=>e.external === id)?.internal || ''
-        return !!internalSkuID ? state.pricingReducer.internalItemSpecs.find(e => e.internalSkuID === internalSkuID)?.page || '#' : '#'
+        const internalSkuID = (state.productsReducer.skuMapItems as ISkuMapItem[]).find(e=>e.external === id)?.internal || ''
+        return !!internalSkuID ? (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID === internalSkuID)?.page || '#' : '#'
     })
 
     return (
@@ -38,7 +39,7 @@ const SingleProduct = ({id}:{id:string})=>{
 }
 
 const SingleProducts = () => {
-    const columns = useAppSelector(state => state.pricingReducer.columns)
+    const columns = useAppSelector(state => state.productsReducer.columns)
     const singleIDs = useAppSelector(selectSingleProductIDs)
     
     return (

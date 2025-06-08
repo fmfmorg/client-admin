@@ -1,7 +1,6 @@
 'use client'
 
 import SignedInWrapper from "../signed-in-wrapper"
-import { initData, IState, selectProductIDs } from "./slice";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { useEffect } from "react";
 import Stack from '@mui/material/Stack';
@@ -10,6 +9,8 @@ import Product from "./product";
 import FilterDialog from "./filter";
 import EditDialog from "./edit";
 import PurchaseQuantityControlBar from "./header";
+import { initData, IState } from "@slices/products";
+import { selectProductIDs } from "./selectors";
 
 const UpdatePurchaseQuantity = (
     {
@@ -22,7 +23,7 @@ const UpdatePurchaseQuantity = (
 ) => {
     const dispatch = useAppDispatch();
     const ids = useAppSelector(selectProductIDs)
-    const columns = useAppSelector(state => state.purchaseQuantityReducer.columns)
+    const columns = useAppSelector(state => state.productsReducer.columns)
 
     useEffect(()=>{
         dispatch(initData(initialState))

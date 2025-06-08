@@ -3,7 +3,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { newSetCreated, selectAllInternalSKUs, toggleNewSetDialog } from './slice';
 import { useContext, useRef, useState } from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from "@mui/material/ImageListItem"
@@ -20,12 +19,15 @@ import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import { httpRequestHeader } from '@misc';
 import { CsrfContext } from '@context'
+import { IExternalItem, IInternalItemSpecification, IPurchaseRecordItem, ISkuMapItem } from 'src/interfaces';
+import { newSetCreated, toggleNewSetDialog } from '@slices/products';
+import { selectAllInternalSKUs } from './selectors';
 
 const inputName = 'new-set-item'
 
 const NewSetDialog = () => {
     const dispatch = useAppDispatch();
-    const dialogOn = useAppSelector(state => state.pricingReducer.newSetMode)
+    const dialogOn = useAppSelector(state => !!state.productsReducer.newSetMode)
     const dialogOnClose = () => dispatch(toggleNewSetDialog())
     
     return (
@@ -62,7 +64,7 @@ const Content = () => {
         for (let i=0; i<inputLen; i++){
             const internalSKU = inputs.item(i).value
             if (!internalSKU) continue
-            const item = state.pricingReducer.internalCosts.find(e=>e.internalSkuID===internalSKU)
+            const item = (state.productsReducer.internalItems as IPurchaseRecordItem[]).find(e=>e.internalSkuID===internalSKU)
             if (!item) continue
             cost += item.costRmb
         }
@@ -167,8 +169,8 @@ const Item = (
 ) => {
     const [internalSKU,setInternalSKU] = useState<string | null>(null)
     const updateSKU = (s:string|null) => setInternalSKU(s)
-    const imgSrc = useAppSelector(state => !!internalSKU ? state.pricingReducer.internalItemSpecs.find(e=>e.internalSkuID===internalSKU)?.image || '' : '')
-    const url = useAppSelector(state => !!internalSKU ? state.pricingReducer.internalItemSpecs.find(e=>e.internalSkuID===internalSKU)?.page || '#' : '#')
+    const imgSrc = useAppSelector(state => !!internalSKU ? (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID===internalSKU)?.image || '' : '')
+    const url = useAppSelector(state => !!internalSKU ? (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID===internalSKU)?.page || '#' : '#')
     
     return (
         <ImageListItem sx={{aspectRatio: "1 / 1"}}>
@@ -243,12 +245,12 @@ const ImageContent = (
 }
 
 const DataLine = ({internalSKU}:{internalSKU:string}) => {
-    const cost = useAppSelector(state => ((state.pricingReducer.internalCosts.find(e=>e.internalSkuID === internalSKU)?.costRmb || 0) * 0.01).toFixed(2))
+    const cost = useAppSelector(state => (((state.productsReducer.internalItems as IPurchaseRecordItem[]).find(e=>e.internalSkuID === internalSKU)?.costRmb || 0) * 0.01).toFixed(2))
     const currentSingleItemPrice = useAppSelector(state => {
-        const externalSKUs = state.pricingReducer.skuMapItems.filter(e=>e.internal===internalSKU).map(e=>e.external)
+        const externalSKUs = (state.productsReducer.skuMapItems as ISkuMapItem[]).filter(e=>e.internal===internalSKU).map(e=>e.external)
         const uniqueExternalSKUs = [...new Set(externalSKUs)]
         const externalSKU = uniqueExternalSKUs.find(e=>externalSKUs.filter(f=>f===e).length === 1)
-        return !!externalSKU ? state.pricingReducer.externalPrices.find(e=>e.externalSkuID===externalSKU)?.price || 0 : 0
+        return !!externalSKU ? (state.productsReducer.externalItems as IExternalItem[]).find(e=>e.externalSkuID===externalSKU)?.price || 0 : 0
     })
 
     return (
