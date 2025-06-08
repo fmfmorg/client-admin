@@ -13,10 +13,10 @@ import { MinusIcon, PlusIcon } from "@misc"
 
 
 const EditQtyField = ({id}:{id:string}) => {
-    const defaultQty = useAppSelector(state => (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || 0)
+    const defaultQty = useAppSelector(state => (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || null)
 
     return (
-        <NumberField.Root value={defaultQty} className={styles.Field}>
+        <NumberField.Root value={defaultQty} className={styles.Field} min={0} step={1}>
             <NumberField.Group className={styles.Group}>
                 <NumberField.Decrement className={styles.Decrement}>
                     <MinusIcon />
