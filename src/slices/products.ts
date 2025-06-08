@@ -167,6 +167,13 @@ const slice = createSlice({
             state.showMovementIDs = [...action.payload]
         },
         toggleNewSetDialog:(state,_:PayloadAction<undefined>) => {state.newSetMode = !state.newSetMode},
+        updateLabelQty:(state,action:PayloadAction<{id:string,qty:number}>)=>{
+            if (!state.externalItems) return
+            const item = state.externalItems.find(e => e.externalSkuID === action.payload.id)
+            if (!item) return
+            if (!item.labelQty) item.dtUpdated = Date.now()
+            item.labelQty = action.payload.qty
+        },
     },
 })
 
@@ -192,5 +199,6 @@ export const {
     toggleEditDialog,
     updateMovements,
     toggleNewSetDialog,
+    updateLabelQty,
 } = slice.actions
 export default slice.reducer
