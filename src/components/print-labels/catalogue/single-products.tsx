@@ -17,13 +17,13 @@ const EditQtyField = ({id}:{id:string}) => {
         <NumberField.Root defaultValue={defaultQty}>
             <label htmlFor={id}>Print Qty</label>
             <NumberField.Group>
-                <NumberField.Decrement>
-                    <RemoveIcon />
-                </NumberField.Decrement>
+                <NumberField.Decrement />
+                    {/* <RemoveIcon />
+                </NumberField.Decrement> */}
                 <NumberField.Input />
-                <NumberField.Increment>
-                    <AddIcon />
-                </NumberField.Increment>
+                <NumberField.Increment />
+                    {/* <AddIcon />
+                </NumberField.Increment> */}
             </NumberField.Group>
         </NumberField.Root>
     )
