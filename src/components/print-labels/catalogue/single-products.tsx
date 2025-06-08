@@ -7,23 +7,25 @@ import { IExternalItem, IInternalItemSpecification, ISkuMapItem } from "src/inte
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import { NumberField } from '@base-ui-components/react/number-field';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
+import styles from './index.module.css';
+import { MinusIcon, PlusIcon } from "@misc"
+
+
 
 const EditQtyField = ({id}:{id:string}) => {
     const defaultQty = useAppSelector(state => (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || 0)
 
     return (
-        <NumberField.Root defaultValue={defaultQty}>
-            <label htmlFor={id}>Print Qty</label>
-            <NumberField.Group>
-                <NumberField.Decrement />
-                    {/* <RemoveIcon />
-                </NumberField.Decrement> */}
-                <NumberField.Input />
-                <NumberField.Increment />
-                    {/* <AddIcon />
-                </NumberField.Increment> */}
+        <NumberField.Root defaultValue={defaultQty} className={styles.Field}>
+            <label htmlFor={id} className={styles.Label}>Print Qty</label>
+            <NumberField.Group className={styles.Group}>
+                <NumberField.Decrement className={styles.Decrement}>
+                    <MinusIcon />
+                </NumberField.Decrement>
+                <NumberField.Input className={styles.Input} />
+                <NumberField.Increment className={styles.Increment}>
+                    <PlusIcon />
+                </NumberField.Increment>
             </NumberField.Group>
         </NumberField.Root>
     )

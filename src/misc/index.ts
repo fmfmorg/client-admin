@@ -3,6 +3,8 @@ import { currencyFormatter, dtConfig, formatDate, formatPrice, percentageFormatt
 import { httpRequestHeader } from "./http-request-header";
 import { verifyImageFilenames } from "./verify-image-filesnames";
 import RowEqualWidth from './row-equal-width'
+import PlusIcon from "./plus-icon";
+import MinusIcon from "./minus-icon";
 
 export {
     csrfBroadcastChannel,
@@ -14,4 +16,6 @@ export {
     percentageFormatter,
     verifyImageFilenames,
     RowEqualWidth,
+    PlusIcon,
+    MinusIcon,
 }
