@@ -6,19 +6,37 @@ import ImageListItemBar from "@mui/material/ImageListItemBar"
 import { IExternalItem, IInternalItemSpecification, ISkuMapItem } from "src/interfaces"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
-import TextField from "@mui/material/TextField"
+import { NumberField } from '@base-ui-components/react/number-field';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 const EditQtyField = ({id}:{id:string}) => {
-    const qty = useAppSelector(state => {
-        const qty = (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || 0
-        return !!qty ? qty.toString() : ''
-    })
+    const defaultQty = useAppSelector(state => (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || 0)
+
+    return (
+        <NumberField.Root defaultValue={defaultQty}>
+            <label htmlFor={id}>Print Qty</label>
+            <NumberField.Group>
+                <NumberField.Decrement>
+                    <RemoveIcon />
+                </NumberField.Decrement>
+                <NumberField.Input />
+                <NumberField.Increment>
+                    <AddIcon />
+                </NumberField.Increment>
+            </NumberField.Group>
+        </NumberField.Root>
+    )
+
+    /*
     return (
         <TextField 
             fullWidth
             label='Print Quantity'
             type='number'
             defaultValue={qty}
+            size='small'
+            sx={{marginTop:1}} 
             slotProps={{
                 htmlInput:{step:1,min:0},
                 inputLabel:{sx:{fontWeight:'bold',color:'#fff'}},
@@ -35,6 +53,7 @@ const EditQtyField = ({id}:{id:string}) => {
             }}
         />
     )
+    */
 }
 
 const ProductField = ({id}:{id:string}) => {
