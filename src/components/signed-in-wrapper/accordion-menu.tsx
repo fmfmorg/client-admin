@@ -14,11 +14,9 @@ const AccordionMenu = (
     {
         title,
         menuList,
-        newTab,
     }:{
         title:string;
         menuList:IMenuItem[];
-        newTab?:boolean;
     }
 ) => (
     <Accordion>
@@ -29,9 +27,8 @@ const AccordionMenu = (
             <List>
                 {menuList.map((item, i) => (
                     <ListItem key={i} disablePadding>
-                        <ListItemButton component={Link} href={item.pathname} target={!!newTab ? '_blank' : '_self'}>
-                            {/* <ListItemText primary={item.name} /> */}
-                            <ListItemText primary={item.name + ' ' + JSON.stringify(newTab)} />
+                        <ListItemButton component={Link} href={item.pathname} target={!!item.newTab ? '_blank' : '_self'}>
+                            <ListItemText primary={item.name} />
                         </ListItemButton>
                     </ListItem>
                 ))}
