@@ -12,7 +12,7 @@ import { MinusIcon, PlusIcon } from "@misc"
 import { updateLabelQty } from "@slices/products"
 import { useStore } from "react-redux"
 import { RootState } from "@store/store"
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 
 const EditQtyField = ({id}:{id:string}) => {
     const ref = useRef<HTMLInputElement>(null)
@@ -38,11 +38,8 @@ const EditQtyField = ({id}:{id:string}) => {
         }
         // console.log(value)
         // console.log(e)
+        console.log(ref.current)
     }
-
-    useEffect(()=>{
-        if (id === '025050001') console.log(ref.current)
-    },[])
 
     return (
         <NumberField.Root value={defaultQty} className={styles.Field} min={0} step={1} onValueChange={onChange} inputRef={ref}>
