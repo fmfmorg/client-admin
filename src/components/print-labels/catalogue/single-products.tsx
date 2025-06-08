@@ -12,10 +12,10 @@ import { MinusIcon, PlusIcon } from "@misc"
 import { updateLabelQty } from "@slices/products"
 import { useStore } from "react-redux"
 import { RootState } from "@store/store"
-
-
+import { useEffect, useRef } from "react"
 
 const EditQtyField = ({id}:{id:string}) => {
+    const ref = useRef<HTMLInputElement>(null)
     const dispatch = useAppDispatch()
     const store = useStore()
     const defaultQty = useAppSelector(state => (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || null)
@@ -30,23 +30,22 @@ const EditQtyField = ({id}:{id:string}) => {
                 className = element.className
                 if (!className) element = element.parentElement as HTMLElement
             }
-
-            // let className = (e.target as HTMLElement).className
-            // if (!className) {
-            //     className = (e.target as HTMLElement).parentElement?.className || ''
-            // }
             if (className === styles.Decrement && !!currentQty && e.type === 'pointerdown') dispatch(updateLabelQty({id,qty:currentQty - 1}));
             else if (className === styles.Increment && e.type === 'pointerdown') dispatch(updateLabelQty({id,qty:currentQty + 1}));
             else dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
         } else {
             dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
         }
-        console.log(value)
-        console.log(e)
+        // console.log(value)
+        // console.log(e)
     }
 
+    useEffect(()=>{
+        if (id === '025050001') console.log(ref.current)
+    },[])
+
     return (
-        <NumberField.Root value={defaultQty} className={styles.Field} min={0} step={1} onValueChange={onChange}>
+        <NumberField.Root value={defaultQty} className={styles.Field} min={0} step={1} onValueChange={onChange} inputRef={ref}>
             <NumberField.Group className={styles.Group}>
                 <NumberField.Decrement className={styles.Decrement}>
                     <MinusIcon />
