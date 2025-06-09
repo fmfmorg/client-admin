@@ -7,7 +7,7 @@ import { useAppDispatch } from '@store/hooks';
 import { labelsAddCurrentViewItemsWithLatestReceivedQuantity, toggleFilter } from '@slices/products';
 import { useStore } from 'react-redux';
 import { RootState } from '@store/store';
-import { selectMultiProductIDs, selectSingleProductIDs } from "@components/pricing/selectors"
+import { selectSetProductIDs, selectSingleProductIDs } from '../labels-to-print/selectors';
 
 const Header = () => {
     const store = useStore()
@@ -16,17 +16,12 @@ const Header = () => {
     const updateAllSinglesInView = () => {
         const state = store.getState() as RootState
 
-        const showSingles = !!state.productsReducer.showSingles
         const singleIDs = selectSingleProductIDs(state)
+        const setIDs = selectSetProductIDs(state)
 
-        const showSets = !!state.productsReducer.showSets
-        const setIDs = selectMultiProductIDs(state)
+        if (!singleIDs.length && !setIDs.length) return
 
-        let ids:string[] = []
-        if (showSingles) ids = [...ids,...singleIDs]
-        if (showSets) ids = [...ids,...setIDs]
-
-        dispatch(labelsAddCurrentViewItemsWithLatestReceivedQuantity(ids))
+        dispatch(labelsAddCurrentViewItemsWithLatestReceivedQuantity([...singleIDs,...setIDs]))
     }
     
     return (

@@ -5,7 +5,7 @@ import SingleProducts from './single-products'
 
 const Catalogue = () => {
     const showSingles = useAppSelector(state => !!state.productsReducer.showSingles)
-    // const showSets = useAppSelector(state => !!state.productsReducer.showSets)
+    const showSets = useAppSelector(state => !!state.productsReducer.showSets)
     
     return (
         <Grid size={6} sx={{height:'100vh',overflowY:'auto',borderLeft:'2px solid #777'}}>
