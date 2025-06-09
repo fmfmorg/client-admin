@@ -57,7 +57,6 @@ const slice = createSlice({
     reducers:{
         initData:(state,action:PayloadAction<IState>)=>{
             if (!!action.payload.internalItems && !!action.payload.internalItems.length) state.internalItems = [...action.payload.internalItems];
-            if (!!action.payload.inventoryMovements && !!action.payload.inventoryMovements.length) state.inventoryMovements = [...action.payload.inventoryMovements];
             if (!!action.payload.internalItemSpecs && !!action.payload.internalItemSpecs.length) state.internalItemSpecs = [...action.payload.internalItemSpecs];
             if (!!action.payload.metalColors && !!action.payload.metalColors.length) state.metalColors = [...action.payload.metalColors];
             if (!!action.payload.productMainTypes && !!action.payload.productMainTypes.length) state.productMainTypes = [...action.payload.productMainTypes];
@@ -70,6 +69,16 @@ const slice = createSlice({
             if (!!action.payload.showMetalColors && !!action.payload.showMetalColors.length) state.showMetalColors = [...action.payload.showMetalColors];
             if (!!action.payload.showProductTypes && !!action.payload.showProductTypes.length) state.showProductTypes = [...action.payload.showProductTypes];
             if (!!action.payload.showSuppliers && !!action.payload.showSuppliers.length) state.showSuppliers = [...action.payload.showSuppliers];
+            if (!!action.payload.inventoryMovements && !!action.payload.inventoryMovements.length) {
+                state.inventoryMovements = [...action.payload.inventoryMovements];
+                if (!state.showMovementIDs || !state.showMovementIDs.length) {
+                    let latestPurchases = state.inventoryMovements.filter(e => e.movementTypeID === 1)
+                    if (!!latestPurchases.length) {
+                        latestPurchases.sort((a,b)=>b.receiptDT - a.receiptDT)
+                        state.showMovementIDs = [latestPurchases[0].movementID]
+                    }
+                }
+            }
         },
         updatePriceTemp:(state,action:PayloadAction<{id:string;price:number;}>)=>{
             if (!state.externalItems) return
