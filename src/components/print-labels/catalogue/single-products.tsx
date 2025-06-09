@@ -42,12 +42,12 @@ const EditQtyField = ({id}:{id:string}) => {
     }
 
     return (
-        <NumberField.Root value={defaultQty} className={styles.Field} min={0} step={1} onValueChange={onChange} inputRef={ref}>
+        <NumberField.Root value={defaultQty} className={styles.Field} min={0} step={1} onValueChange={onChange}>
             <NumberField.Group className={styles.Group}>
                 <NumberField.Decrement className={styles.Decrement}>
                     <MinusIcon />
                 </NumberField.Decrement>
-                <NumberField.Input className={styles.Input} />
+                <NumberField.Input className={styles.Input} ref={ref} />
                 <NumberField.Increment className={styles.Increment}>
                     <PlusIcon />
                 </NumberField.Increment>
