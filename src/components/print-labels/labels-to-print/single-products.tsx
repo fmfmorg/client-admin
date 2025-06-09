@@ -1,32 +1,7 @@
 import { useAppSelector } from "@store/hooks"
 import { selectSingleProductIDs } from "./selectors"
 import ImageList from "@mui/material/ImageList"
-import { IInternalItemSpecification, ISkuMapItem } from "src/interfaces"
-import ImageListItem from "@mui/material/ImageListItem"
-
-const SingleProduct = ({id}:{id:string})=> {
-    const imgSrc = useAppSelector(state => {
-        const internalSkuID = (state.productsReducer.skuMapItems as ISkuMapItem[]).find(e=>e.external === id)?.internal || ''
-        return (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID === internalSkuID)?.image || ''
-    })
-    const url = useAppSelector(state => {
-        const internalSkuID = (state.productsReducer.skuMapItems as ISkuMapItem[]).find(e=>e.external === id)?.internal || ''
-        return !!internalSkuID ? (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID === internalSkuID)?.page || '#' : '#'
-    })
-
-    return (
-        <ImageListItem sx={{aspectRatio: "1 / 1"}}>
-            <a style={{height:'100%'}} href={url} target='_blank'>
-                <img 
-                    src={imgSrc} 
-                    loading='lazy'
-                    width='100%'
-                    style={{objectFit:'cover',objectPosition:'center',width:'100%',height:'100%'}}
-                />
-            </a>
-        </ImageListItem>
-    )
-}
+import SingleProduct from "../common/single-product"
 
 const SingleProducts = () => {
     const singleIDs = useAppSelector(selectSingleProductIDs)
