@@ -10,36 +10,48 @@ import { NumberField } from '@base-ui-components/react/number-field';
 import styles from './index.module.css';
 import { MinusIcon, PlusIcon } from "@misc"
 import { updateLabelQty } from "@slices/products"
-import { useStore } from "react-redux"
-import { RootState } from "@store/store"
-import { useRef } from "react"
+// import { useStore } from "react-redux"
+// import { RootState } from "@store/store"
+import { useEffect, useRef } from "react"
 
 const EditQtyField = ({id}:{id:string}) => {
     const ref = useRef<HTMLInputElement>(null)
     const dispatch = useAppDispatch()
-    const store = useStore()
-    const defaultQty = useAppSelector(state => (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || null)
+    // const store = useStore()
+    const defaultQty = useAppSelector(state => (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || 0)
     const onChange = (value: number | null, e: Event | undefined) => {
-        const state = store.getState() as RootState
-        const currentQty = (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || 0
-        if (!!e){
-            let element = e.target as HTMLElement
-            let className = ''
+        dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
+        // const state = store.getState() as RootState
+        // const currentQty = (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || 0
+        // if (!!e){
+        //     let element = e.target as HTMLElement
+        //     let className = ''
             
-            while (!className){
-                className = element.className
-                if (!className) element = element.parentElement as HTMLElement
-            }
-            if (className === styles.Decrement && !!currentQty && e.type === 'pointerdown') dispatch(updateLabelQty({id,qty:currentQty - 1}));
-            else if (className === styles.Increment && e.type === 'pointerdown') dispatch(updateLabelQty({id,qty:currentQty + 1}));
-            else dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
-        } else {
-            dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
-        }
+        //     while (!className){
+        //         className = element.className
+        //         if (!className) element = element.parentElement as HTMLElement
+        //     }
+        //     if (className === styles.Decrement && !!currentQty && e.type === 'pointerdown') dispatch(updateLabelQty({id,qty:currentQty - 1}));
+        //     else if (className === styles.Increment && e.type === 'pointerdown') dispatch(updateLabelQty({id,qty:currentQty + 1}));
+        //     else dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
+        // } else {
+        //     dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
+        // }
         // console.log(value)
         // console.log(e)
-        console.log(ref.current)
     }
+
+    const selectInput = () => ref.current?.select()
+    const setOnFocusEvent = () => {
+        ref.current?.addEventListener('focus',selectInput)
+    }
+
+    useEffect(()=>{
+        setTimeout(setOnFocusEvent,500)
+        return () => {
+            ref.current?.removeEventListener('focus',selectInput)
+        }
+    },[])
 
     return (
         <NumberField.Root value={defaultQty} className={styles.Field} min={0} step={1} onValueChange={onChange}>
