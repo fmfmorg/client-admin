@@ -32,7 +32,9 @@ const SingleProducts = () => {
     const singleIDs = useAppSelector(selectSingleProductIDs)
     return (
         <ImageList cols={4} sx={{overflow:'hidden'}} gap={8}>
-            <></>
+            {singleIDs.map(id=>(
+                <SingleProduct key={id} id={id} />
+            ))}
         </ImageList>
     )
 }
