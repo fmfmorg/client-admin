@@ -3,6 +3,7 @@ import Header from './header'
 import { useAppSelector } from '@store/hooks'
 import { IExternalItem, ISkuMapItem } from 'src/interfaces'
 import SingleProducts from './single-products'
+import SetProducts from './set-products'
 
 const LabelsToPrint = () => {
     const hasSinglesToPrint = useAppSelector(state => {
@@ -19,6 +20,7 @@ const LabelsToPrint = () => {
         <Grid size={6} sx={{height:'100vh',overflowY:'auto'}}>
             <Header />
             {hasSinglesToPrint && <SingleProducts />}
+            {hasSetsToPrint && <SetProducts />}
         </Grid>
     )
 }

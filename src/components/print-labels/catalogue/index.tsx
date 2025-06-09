@@ -2,6 +2,7 @@ import Grid from '@mui/material/Grid2'
 import Header from './header'
 import { useAppSelector } from '@store/hooks'
 import SingleProducts from './single-products'
+import SetProducts from './set-products'
 
 const Catalogue = () => {
     const showSingles = useAppSelector(state => !!state.productsReducer.showSingles)
@@ -11,6 +12,7 @@ const Catalogue = () => {
         <Grid size={6} sx={{height:'100vh',overflowY:'auto',borderLeft:'2px solid #777'}}>
             <Header />
             {showSingles && <SingleProducts />}
+            {showSets && <SetProducts />}
         </Grid>
     )
 }
