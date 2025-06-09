@@ -8,6 +8,7 @@ import { CsrfContext } from "@context";
 import { useAppDispatch } from "@store/hooks";
 import Catalogue from "./catalogue";
 import LabelsToPrint from "./labels-to-print";
+import FilterDialog from "./catalogue/filter";
 
 const PrintLabels = (
     {
@@ -36,6 +37,7 @@ const PrintLabels = (
                 <LabelsToPrint />
                 <Catalogue />
             </Grid>
+            <FilterDialog />
         </CsrfContext.Provider>
     )
 }

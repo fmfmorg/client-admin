@@ -46,7 +46,7 @@ const FilterDialog = () => {
                         <Grid size={4}>
                             <FormControl fullWidth>
                                 <InputLabel id='movement-id'>Date</InputLabel>
-                                <Select multiple labelId='movement-id' label='Date' value={showMovementIDs} onChange={movementIDsOnChange}>
+                                <Select multiple labelId='movement-id' label='Order Date' value={showMovementIDs} onChange={movementIDsOnChange}>
                                     {movementList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                                 </Select>
                             </FormControl>

@@ -4,13 +4,13 @@ export interface ISpecification {
 }
 
 export interface IPurchaseRecordItem {
-    movementID?:number;
+    movementID:number;
     internalSkuID:string;
-    quantity?:number;
-    quantityTemp?:number;
+    quantity:number;
+    quantityTemp:number;
     costRmb:number;
-    purchaseQuantity?:number;
-    purchaseQuantityTemp?:number;
+    purchaseQuantity:number;
+    purchaseQuantityTemp:number;
 }
 
 export interface IInternalMovementRecord {

@@ -5,13 +5,17 @@ import { IExternalItem, IProductTypeMapItem, IPurchaseRecordItem, ISkuMapItem } 
 const state = (state:RootState) => state
 
 const getUniqueExternalSkus = (state:RootState) => {
-    const {internalItemSpecs,showMetalColors,showProductTypes,showSuppliers,skuMapItems} = state.productsReducer
-    if (!internalItemSpecs || !showMetalColors || !showProductTypes || !showSuppliers || !skuMapItems) return []
+    const {internalItemSpecs,showMetalColors,showProductTypes,showSuppliers,skuMapItems,showMovementIDs,internalItems} = state.productsReducer
+    if (!internalItemSpecs || !showMetalColors || !showProductTypes || !showSuppliers || !skuMapItems || !showMovementIDs || !internalItems) return []
 
     let itemSpecs = [...internalItemSpecs]
     if (!!showMetalColors.length) itemSpecs = itemSpecs.filter(e => showMetalColors.includes(e.metalColorID))
     if (!!showProductTypes.length) itemSpecs = itemSpecs.filter(e => showProductTypes.includes(e.productTypeID))
     if (!!showSuppliers.length) itemSpecs = itemSpecs.filter(e => showSuppliers.includes(e.supplierID))
+    if (!!showMovementIDs.length) {
+        const matchingInternalSkus = internalItems.filter(e => showMovementIDs.includes(e.movementID)).map(e => e.internalSkuID)
+        itemSpecs = itemSpecs.filter(e => matchingInternalSkus.includes(e.internalSkuID))
+    }
 
     const itemSpecsIDs = itemSpecs.map(e => e.internalSkuID)
     const matchingMapItems = skuMapItems.filter(e=>itemSpecsIDs.includes(e.internal))
