@@ -9,7 +9,7 @@ import Product from "./product";
 import FilterDialog from "./filter";
 import EditDialog from "./edit";
 import PurchaseQuantityControlBar from "./header";
-import { initData, IState } from "@slices/products";
+import { initData, IState, preselectLatestPurchaseOrder } from "@slices/products";
 import { selectProductIDs } from "./selectors";
 
 const UpdatePurchaseQuantity = (
@@ -26,6 +26,7 @@ const UpdatePurchaseQuantity = (
     const columns = useAppSelector(state => state.productsReducer.columns)
 
     useEffect(()=>{
+        dispatch(preselectLatestPurchaseOrder())
         dispatch(initData(initialState))
     },[])
     

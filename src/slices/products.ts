@@ -24,6 +24,7 @@ export interface IState {
     showNonPricedItems?:boolean;
     editItemID?:string;
     newSetMode?:boolean;
+    preselectLatestPurchaseOrder:boolean;
 }
 
 export const initialState:IState = {
@@ -49,6 +50,7 @@ export const initialState:IState = {
     showNonPricedItems:true,
     editItemID:'',
     newSetMode:false,
+    preselectLatestPurchaseOrder:false,
 }
 
 const slice = createSlice({
@@ -71,7 +73,7 @@ const slice = createSlice({
             if (!!action.payload.showSuppliers && !!action.payload.showSuppliers.length) state.showSuppliers = [...action.payload.showSuppliers];
             if (!!action.payload.inventoryMovements && !!action.payload.inventoryMovements.length) {
                 state.inventoryMovements = [...action.payload.inventoryMovements];
-                if (!state.showMovementIDs || !state.showMovementIDs.length) {
+                if (state.preselectLatestPurchaseOrder && (!state.showMovementIDs || !state.showMovementIDs.length)) {
                     let latestPurchases = state.inventoryMovements.filter(e => e.movementTypeID === 1)
                     if (!!latestPurchases.length) {
                         latestPurchases.sort((a,b)=>b.receiptDT - a.receiptDT)
@@ -183,6 +185,9 @@ const slice = createSlice({
             if (!item.labelQty) item.dtUpdated = Date.now()
             item.labelQty = action.payload.qty
         },
+        preselectLatestPurchaseOrder:(state,_:PayloadAction<undefined>)=>{
+            state.preselectLatestPurchaseOrder = true
+        },
     },
 })
 
@@ -209,5 +214,6 @@ export const {
     updateMovements,
     toggleNewSetDialog,
     updateLabelQty,
+    preselectLatestPurchaseOrder,
 } = slice.actions
 export default slice.reducer

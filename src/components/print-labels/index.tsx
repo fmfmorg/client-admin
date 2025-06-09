@@ -1,6 +1,6 @@
 'use client'
 
-import { initData, IState, toggleShowNonPricedItems } from "@slices/products";
+import { initData, IState, preselectLatestPurchaseOrder, toggleShowNonPricedItems } from "@slices/products";
 import { useEffect, useState } from "react";
 import Grid from '@mui/material/Grid2'
 import { csrfBroadcastChannel } from "@misc";
@@ -27,6 +27,7 @@ const PrintLabels = (
         csrfBcChannel.postMessage(csrfToken)
         csrfBcChannel.onmessage = (ev:MessageEvent<string>) => setCsrfToken(ev.data)
 
+        dispatch(preselectLatestPurchaseOrder())
         dispatch(toggleShowNonPricedItems())
         dispatch(initData(initialState))
     },[])
