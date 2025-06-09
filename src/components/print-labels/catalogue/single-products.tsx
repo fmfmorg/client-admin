@@ -10,48 +10,12 @@ import { NumberField } from '@base-ui-components/react/number-field';
 import styles from './index.module.css';
 import { MinusIcon, PlusIcon } from "@misc"
 import { updateLabelQty } from "@slices/products"
-// import { useStore } from "react-redux"
-// import { RootState } from "@store/store"
 import { useEffect, useRef } from "react"
 
 const EditQtyField = ({id}:{id:string}) => {
-    const ref = useRef<HTMLInputElement>(null)
     const dispatch = useAppDispatch()
-    // const store = useStore()
     const defaultQty = useAppSelector(state => (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || 0)
-    const onChange = (value: number | null, e: Event | undefined) => {
-        dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
-        // const state = store.getState() as RootState
-        // const currentQty = (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.labelQty || 0
-        // if (!!e){
-        //     let element = e.target as HTMLElement
-        //     let className = ''
-            
-        //     while (!className){
-        //         className = element.className
-        //         if (!className) element = element.parentElement as HTMLElement
-        //     }
-        //     if (className === styles.Decrement && !!currentQty && e.type === 'pointerdown') dispatch(updateLabelQty({id,qty:currentQty - 1}));
-        //     else if (className === styles.Increment && e.type === 'pointerdown') dispatch(updateLabelQty({id,qty:currentQty + 1}));
-        //     else dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
-        // } else {
-        //     dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
-        // }
-        // console.log(value)
-        // console.log(e)
-    }
-
-    const selectInput = () => ref.current?.select()
-    const setOnFocusEvent = () => {
-        ref.current?.addEventListener('focus',selectInput)
-    }
-
-    useEffect(()=>{
-        setTimeout(setOnFocusEvent,500)
-        return () => {
-            ref.current?.removeEventListener('focus',selectInput)
-        }
-    },[])
+    const onChange = (value: number | null, e: Event | undefined) => dispatch(updateLabelQty({id,qty:!!value ? value : 0}));
 
     return (
         <NumberField.Root value={defaultQty} className={styles.Field} min={0} step={1} onValueChange={onChange}>
@@ -59,40 +23,13 @@ const EditQtyField = ({id}:{id:string}) => {
                 <NumberField.Decrement className={styles.Decrement}>
                     <MinusIcon />
                 </NumberField.Decrement>
-                <NumberField.Input className={styles.Input} ref={ref} />
+                <NumberField.Input className={styles.Input} />
                 <NumberField.Increment className={styles.Increment}>
                     <PlusIcon />
                 </NumberField.Increment>
             </NumberField.Group>
         </NumberField.Root>
     )
-
-    /*
-    return (
-        <TextField 
-            fullWidth
-            label='Print Quantity'
-            type='number'
-            defaultValue={qty}
-            size='small'
-            sx={{marginTop:1}} 
-            slotProps={{
-                htmlInput:{step:1,min:0},
-                inputLabel:{sx:{fontWeight:'bold',color:'#fff'}},
-                input:{
-                    sx:{
-                        fontWeight:'bold',
-                        color:'#fff',
-                        textAlign:'center',
-                        '-moz-appearance':'textfield',
-                        '::-webkit-outer-spin-button':{'-webkit-appearance': 'none'},
-                        '::-webkit-inner-spin-button':{'-webkit-appearance': 'none'},
-                    }
-                },
-            }}
-        />
-    )
-    */
 }
 
 const ProductField = ({id}:{id:string}) => {
@@ -114,6 +51,7 @@ const SingleProduct = ({id}:{id:string})=> {
         const internalSkuID = (state.productsReducer.skuMapItems as ISkuMapItem[]).find(e=>e.external === id)?.internal || ''
         return !!internalSkuID ? (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID === internalSkuID)?.page || '#' : '#'
     })
+    const withQty = useAppSelector(state => !!((state.productsReducer.externalItems as IExternalItem[]).find(e=>e.externalSkuID === id)?.labelQty))
     
     return (
         <ImageListItem sx={{aspectRatio: "1 / 1"}}>
@@ -125,7 +63,10 @@ const SingleProduct = ({id}:{id:string})=> {
                     style={{objectFit:'cover',objectPosition:'center',width:'100%',height:'100%'}}
                 />
             </a>
-            <ImageListItemBar title={<ProductField {...{id}} />} />
+            <ImageListItemBar 
+                title={<ProductField {...{id}} />} 
+                sx={{backgroundColor:withQty ? 'rgba(138, 30, 30, 0.5)' : 'rgba(0, 0, 0, 0.5)'}}
+            />
         </ImageListItem>
     )
 }
