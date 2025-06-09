@@ -9,7 +9,7 @@ const SingleProducts = () => {
     return (
         <ImageList cols={4} sx={{overflow:'hidden'}} gap={8}>
             {singleIDs.map(id=>(
-                <SingleProduct key={id} id={id} />
+                <SingleProduct key={id} id={id} isCatalogue={true} />
             ))}
         </ImageList>
     )

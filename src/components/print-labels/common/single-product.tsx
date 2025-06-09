@@ -41,7 +41,7 @@ const ProductField = ({id}:{id:string}) => {
     )
 }
 
-const SingleProduct = ({id}:{id:string})=> {
+const SingleProduct = ({id,isCatalogue}:{id:string;isCatalogue?:boolean;})=> {
     const imgSrc = useAppSelector(state => {
         const internalSkuID = (state.productsReducer.skuMapItems as ISkuMapItem[]).find(e=>e.external === id)?.internal || ''
         return (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID === internalSkuID)?.image || ''
@@ -64,7 +64,7 @@ const SingleProduct = ({id}:{id:string})=> {
             </a>
             <ImageListItemBar 
                 title={<ProductField {...{id}} />} 
-                sx={{backgroundColor:withQty ? 'rgba(138, 30, 30, 0.4)' : 'rgba(0, 0, 0, 0.3)'}}
+                sx={{backgroundColor:(withQty && !!isCatalogue) ? 'rgba(138, 30, 30, 0.4)' : 'rgba(0, 0, 0, 0.3)'}}
             />
         </ImageListItem>
     )
