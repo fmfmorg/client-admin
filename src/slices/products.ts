@@ -211,6 +211,13 @@ const slice = createSlice({
                 item.labelQty = minQtyReceived
             }
         },
+        labelsClearQuantities:(state,_:PayloadAction<undefined>)=>{
+            if (!state.externalItems) return
+
+            for (const item of state.externalItems) {
+                item.labelQty = 0
+            }
+        },
     },
 })
 
@@ -239,5 +246,6 @@ export const {
     updateLabelQty,
     preselectLatestPurchaseOrder,
     labelsAddCurrentViewItemsWithLatestReceivedQuantity,
+    labelsClearQuantities,
 } = slice.actions
 export default slice.reducer

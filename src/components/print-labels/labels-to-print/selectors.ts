@@ -14,3 +14,9 @@ export const selectSingleProductIDs = createSelector([state],state => {
     const mapItems = state.productsReducer.skuMapItems as ISkuMapItem[]
     return skus.filter(e => mapItems.filter(d => d.external === e).length === 1)
 })
+export const selectSetProductIDs = createSelector([state],state => {
+    const skus = getSelectedSKUs(state)
+    if (!skus.length) return []
+    const mapItems = state.productsReducer.skuMapItems as ISkuMapItem[]
+    return skus.filter(e => mapItems.filter(d => d.external === e).length > 1)
+})
