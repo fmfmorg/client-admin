@@ -65,7 +65,7 @@ const SingleProduct = ({id}:{id:string})=> {
             </a>
             <ImageListItemBar 
                 title={<ProductField {...{id}} />} 
-                sx={{backgroundColor:withQty ? 'rgba(138, 30, 30, 0.5)' : 'rgba(0, 0, 0, 0.5)'}}
+                sx={{backgroundColor:withQty ? 'rgba(138, 30, 30, 0.4)' : 'rgba(0, 0, 0, 0.3)'}}
             />
         </ImageListItem>
     )

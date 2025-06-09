@@ -1,12 +1,13 @@
 'use client'
 
-import { initData, IState } from "@slices/products";
+import { initData, IState, toggleShowNonPricedItems } from "@slices/products";
 import { useEffect, useState } from "react";
 import Grid from '@mui/material/Grid2'
 import { csrfBroadcastChannel } from "@misc";
 import { CsrfContext } from "@context";
 import { useAppDispatch } from "@store/hooks";
 import Catalogue from "./catalogue";
+import LabelsToPrint from "./labels-to-print";
 
 const PrintLabels = (
     {
@@ -25,13 +26,14 @@ const PrintLabels = (
         csrfBcChannel.postMessage(csrfToken)
         csrfBcChannel.onmessage = (ev:MessageEvent<string>) => setCsrfToken(ev.data)
 
+        dispatch(toggleShowNonPricedItems())
         dispatch(initData(initialState))
     },[])
     
     return (
         <CsrfContext.Provider value={{csrfToken}}>
             <Grid container direction='row'>
-                <Grid size={6} sx={{height:'100vh',overflowY:'auto'}}>{Array(100).fill(null).map((_,i)=>(<p>{i}</p>))}</Grid>
+                <LabelsToPrint />
                 <Catalogue />
             </Grid>
         </CsrfContext.Provider>
