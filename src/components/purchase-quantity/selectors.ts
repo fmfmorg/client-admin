@@ -19,7 +19,7 @@ export const selectProductIDs = createSelector([state],(state)=>{
 
     if (!!showMovementIDs.length) items = items.filter(e => showMovementIDs.includes(e.movementID as number))
 
-    return items.map(e=>e.internalSkuID)
+    return items.map(e=>e.id)
 })
 export const selectSupplierList = createSelector([state],state=>state.productsReducer.suppliers || [])
 export const selectMovementList = createSelector([state],state=>{

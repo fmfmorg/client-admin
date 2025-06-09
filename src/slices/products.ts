@@ -74,10 +74,10 @@ const slice = createSlice({
             if (!!action.payload.inventoryMovements && !!action.payload.inventoryMovements.length) {
                 state.inventoryMovements = [...action.payload.inventoryMovements];
                 if (state.preselectLatestPurchaseOrder && (!state.showMovementIDs || !state.showMovementIDs.length)) {
-                    let latestPurchases = state.inventoryMovements.filter(e => e.movementTypeID === 1)
-                    if (!!latestPurchases.length) {
-                        latestPurchases.sort((a,b)=>b.receiptDT - a.receiptDT)
-                        state.showMovementIDs = [latestPurchases[0].movementID]
+                    let purchaseOrders = state.inventoryMovements.filter(e => e.movementTypeID === 1)
+                    if (!!purchaseOrders.length) {
+                        purchaseOrders.sort((a,b)=>b.receiptDT - a.receiptDT)
+                        state.showMovementIDs = [purchaseOrders[0].movementID]
                     }
                 }
             }
@@ -87,14 +87,14 @@ const slice = createSlice({
             const item = state.externalItems.find(e => e.externalSkuID === action.payload.id)
             if (!!item) item.priceTemp = action.payload.price
         },
-        updateQuantityReceivedTemp:(state,action:PayloadAction<{id:string;qty:number}>)=>{
+        updateQuantityReceivedTemp:(state,action:PayloadAction<{id:number;qty:number}>)=>{
             if (!state.internalItems) return
-            const item = state.internalItems.find(e => e.internalSkuID === action.payload.id)
+            const item = state.internalItems.find(e => e.id === action.payload.id)
             if (!!item) item.quantityTemp = action.payload.qty
         },
-        updateQuantityPurchasedTemp:(state,action:PayloadAction<{id:string;qty:number}>)=>{
+        updateQuantityPurchasedTemp:(state,action:PayloadAction<{id:number;qty:number}>)=>{
             if (!state.internalItems) return
-            const item = state.internalItems.find(e => e.internalSkuID === action.payload.id)
+            const item = state.internalItems.find(e => e.id === action.payload.id)
             if (!!item) item.purchaseQuantityTemp = action.payload.qty
         },
         pricesUpdated:(state,_:PayloadAction<undefined>)=>{
@@ -188,6 +188,29 @@ const slice = createSlice({
         preselectLatestPurchaseOrder:(state,_:PayloadAction<undefined>)=>{
             state.preselectLatestPurchaseOrder = true
         },
+        labelsAddCurrentViewItemsWithLatestReceivedQuantity:(state,action:PayloadAction<string[]>)=>{
+            if (!action.payload.length || !state.inventoryMovements || !state.internalItems || !state.skuMapItems || !state.externalItems) return
+            const dt = Date.now()
+            const externalSkuIDs = action.payload
+            const skuMapItems = state.skuMapItems
+            let purchaseOrders = state.inventoryMovements.filter(e => e.movementTypeID === 1) 
+            purchaseOrders.sort((a,b)=>b.receiptDT - a.receiptDT)
+            const latestPurchaseOrderID = purchaseOrders[0].movementID
+            const internalSKUs = state.internalItems.filter(e => e.movementID === latestPurchaseOrderID)
+            if (!internalSKUs.length) return
+
+            for (const externalSkuID of externalSkuIDs) {
+                const item = state.externalItems.find(e => e.externalSkuID === externalSkuID)
+                if (!item) continue
+
+                const matchingInternalSKUs = skuMapItems.filter(e => e.external === externalSkuID).map(e => e.internal)
+                if (!matchingInternalSKUs.length) continue
+                const minQtyReceived = Math.min(...internalSKUs.filter(e => matchingInternalSKUs.includes(e.internalSkuID)).map(e => e.quantity))
+                if (!minQtyReceived) continue
+                if (!item.labelQty) item.dtUpdated = dt
+                item.labelQty = minQtyReceived
+            }
+        },
     },
 })
 
@@ -215,5 +238,6 @@ export const {
     toggleNewSetDialog,
     updateLabelQty,
     preselectLatestPurchaseOrder,
+    labelsAddCurrentViewItemsWithLatestReceivedQuantity,
 } = slice.actions
 export default slice.reducer

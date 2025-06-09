@@ -4,6 +4,7 @@ export interface ISpecification {
 }
 
 export interface IPurchaseRecordItem {
+    id:number;
     movementID:number;
     internalSkuID:string;
     quantity:number;
