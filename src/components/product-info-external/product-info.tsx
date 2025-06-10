@@ -39,7 +39,7 @@ const ProductInformation = () => {
 
     return (
         <>
-        <Typography>Price: <strong>£ {price}</strong></Typography>
+        <Typography variant='h6'>Price: <strong>£ {price}</strong></Typography>
         {!!intenralIDs.length && <ImageList cols={5} sx={{overflow:'hidden'}} gap={8}>
             {intenralIDs.map(id => <ImageItem {...{id}} />)}
         </ImageList>}
