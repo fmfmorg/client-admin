@@ -17,8 +17,6 @@ const Content = () => {
     const otherKeyPressed = (e:KeyboardEvent) => e.altKey || e.shiftKey || e.ctrlKey || e.metaKey
 
     const ev = (e:KeyboardEvent) => {
-        // console.log(e)
-        // if (!['BODY','body'].includes((e.target as HTMLElement).nodeName)) return
         if (e.timeStamp - timestamp.current > 20) {
             if (e.key.length === 1 && !otherKeyPressed(e)) inputValue.current = e.key
         } else {
