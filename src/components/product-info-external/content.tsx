@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { externalIdSelector } from "./selectors";
 import { toggleEditDialog } from "@slices/products";
 import { useEffect, useRef } from "react";
+import ProductInformation from "./product-info";
 
 const Content = () => {
     const timestamp = useRef(0)
@@ -43,7 +44,7 @@ const Content = () => {
                 value={value}
                 onChange={onChange}
             />
-            <p>{value}</p>
+            {!!value && <ProductInformation />}
         </Stack>
     )
 }
