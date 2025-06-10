@@ -16,6 +16,7 @@ const Content = () => {
     const onChange = (_:any, v:string|string[]|null) => dispatch(toggleEditDialog(typeof v === 'string' ? v : ''))
 
     const ev = (e:KeyboardEvent) => {
+        console.log(e)
         if (!['BODY','body'].includes((e.target as HTMLElement).nodeName)) return
         if (e.timeStamp - timestamp.current > 20) {
             if (e.key.length === 1) inputValue.current = e.key
