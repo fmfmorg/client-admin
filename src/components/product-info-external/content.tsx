@@ -44,6 +44,7 @@ const Content = () => {
                 value={value}
                 onChange={onChange}
             />
+            <p>{value}</p>
         </Stack>
     )
 }
