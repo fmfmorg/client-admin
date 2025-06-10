@@ -75,7 +75,10 @@ const SignInForm = ({csrf}:{csrf:string}) => {
       } else {
         window.location.href = '/dashboard';
       }
-    } else console.log(resp.status)
+    } else {
+      const text = await resp.text()
+      console.log(resp.status, text)
+    }
   
     disableFields(false);
   };
