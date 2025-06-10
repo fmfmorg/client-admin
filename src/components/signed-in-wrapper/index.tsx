@@ -31,6 +31,10 @@ interface Props {
 
 const menuList:IMenuItem[] = [
     {
+        name:'Product Info',
+        pathname:'/product-info-external'
+    },
+    {
         name: 'Pricing',
         pathname: '/pricing',
     },
