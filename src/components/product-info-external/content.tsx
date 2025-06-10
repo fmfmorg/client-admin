@@ -7,16 +7,26 @@ import { toggleEditDialog } from "@slices/products";
 import { useEffect, useRef } from "react";
 
 const Content = () => {
-    // const inputValue = useRef('')
+    const timestamp = useRef(0)
+    const inputValue = useRef('')
     const dispatch = useAppDispatch()
     const options = useAppSelector(externalIdSelector)
     const value = useAppSelector(state => state.productsReducer.editItemID || '')
     const onChange = (_:any, v:string|string[]|null) => dispatch(toggleEditDialog(typeof v === 'string' ? v : ''))
 
-    const ev = (e:Event) => {
-        console.log(e)
-        // if (!['BODY','body'].includes((e.target as HTMLElement).nodeName)) return
-        // if (e.key )
+    const ev = (e:KeyboardEvent) => {
+        if (!['BODY','body'].includes((e.target as HTMLElement).nodeName)) return
+        if (e.timeStamp - timestamp.current > 20) {
+            if (e.key.length === 1) inputValue.current = e.key
+            return
+        } else {
+            if (e.key.length === 1) inputValue.current += e.key
+            else if (e.key === 'Enter') {
+                dispatch(toggleEditDialog(inputValue.current))
+                inputValue.current = ''
+            }
+        }
+        timestamp.current = e.timeStamp
     }
 
     useEffect(()=>{
