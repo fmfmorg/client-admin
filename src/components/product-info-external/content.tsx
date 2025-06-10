@@ -14,14 +14,15 @@ const Content = () => {
     const options = useAppSelector(externalIdSelector)
     const value = useAppSelector(state => state.productsReducer.editItemID || '')
     const onChange = (_:any, v:string|string[]|null) => dispatch(toggleEditDialog(typeof v === 'string' ? v : ''))
+    const otherKeyPressed = (e:KeyboardEvent) => e.altKey || e.shiftKey || e.ctrlKey || e.metaKey
 
     const ev = (e:KeyboardEvent) => {
-        console.log(e)
-        if (!['BODY','body'].includes((e.target as HTMLElement).nodeName)) return
+        // console.log(e)
+        // if (!['BODY','body'].includes((e.target as HTMLElement).nodeName)) return
         if (e.timeStamp - timestamp.current > 20) {
-            if (e.key.length === 1) inputValue.current = e.key
+            if (e.key.length === 1 && !otherKeyPressed(e)) inputValue.current = e.key
         } else {
-            if (e.key.length === 1) inputValue.current += e.key
+            if (e.key.length === 1 && !otherKeyPressed(e)) inputValue.current += e.key
             else if (e.key === 'Enter') {
                 dispatch(toggleEditDialog(inputValue.current))
                 inputValue.current = ''
