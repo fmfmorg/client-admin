@@ -18,7 +18,6 @@ const Content = () => {
         if (!['BODY','body'].includes((e.target as HTMLElement).nodeName)) return
         if (e.timeStamp - timestamp.current > 20) {
             if (e.key.length === 1) inputValue.current = e.key
-            return
         } else {
             if (e.key.length === 1) inputValue.current += e.key
             else if (e.key === 'Enter') {
