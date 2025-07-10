@@ -6,14 +6,14 @@ import { useAppSelector } from "@store/hooks"
 import { IExternalItem, IInternalItemSpecification, ISkuMapItem } from "src/interfaces"
 
 const ImageItem = ({id}:{id:string}) => {
-    const imgSrc = useAppSelector(state => (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID ===id)?.image || '')
+    // const imgSrc = useAppSelector(state => (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID ===id)?.image || '')
     const url = useAppSelector(state => (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID ===id)?.page || '#')
 
     return (
         <ImageListItem sx={{aspectRatio: "1 / 1"}}>
             <a style={{height:'100%'}} href={url} target='_blank'>
                 <img 
-                    src={imgSrc} 
+                    src={`${process.env.NEXT_PUBLIC_FM_ADMIN_IMAGE_URL_PREFIX}${id}.avif`} 
                     loading='lazy'
                     width='100%'
                     style={{objectFit:'cover',objectPosition:'center',width:'100%',height:'100%'}}

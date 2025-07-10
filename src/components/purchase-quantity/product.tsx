@@ -13,7 +13,8 @@ import { toggleEditDialog, updateQuantityPurchasedTemp, updateQuantityReceivedTe
 const Product = ({id}:{id:number}) => {
     const imgSrc = useAppSelector(state => {
         const internalSkuID = (state.productsReducer.internalItems as IPurchaseRecordItem[]).find(e => e.id === id)?.internalSkuID || ''
-        return (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID===internalSkuID)?.image || ''
+        return !!internalSkuID ? `${process.env.NEXT_PUBLIC_FM_ADMIN_IMAGE_URL_PREFIX}${internalSkuID}.avif` : ''
+        // return (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID===internalSkuID)?.image || ''
     })
     const edited = useAppSelector(state => {
         const item = (state.productsReducer.internalItems as IPurchaseRecordItem[]).find(e => e.id === id)

@@ -9,7 +9,8 @@ import { selectSingleProductIDs } from "./selectors"
 const SingleProduct = ({id}:{id:string})=>{
     const imgSrc = useAppSelector(state => {
         const internalSkuID = (state.productsReducer.skuMapItems as ISkuMapItem[]).find(e=>e.external === id)?.internal || ''
-        return (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID === internalSkuID)?.image || ''
+        return !!internalSkuID ? `${process.env.NEXT_PUBLIC_FM_ADMIN_IMAGE_URL_PREFIX}${internalSkuID}.avif` : ''
+        // return (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID === internalSkuID)?.image || ''
     })
     const edited = useAppSelector(state => {
         const i = (state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)

@@ -16,7 +16,7 @@ const Content = () => {
     const onChange = (_:any, v:string|string[]|null) => dispatch(toggleEditDialog(typeof v === 'string' ? v : ''))
     const otherKeyPressed = (e:KeyboardEvent) => e.altKey || e.shiftKey || e.ctrlKey || e.metaKey
 
-    const ev = (e:KeyboardEvent) => {
+    const onKeyDown = (e:KeyboardEvent) => {
         if (e.timeStamp - timestamp.current > 20) {
             if (e.key.length === 1 && !otherKeyPressed(e)) inputValue.current = e.key
         } else {
@@ -30,9 +30,9 @@ const Content = () => {
     }
 
     useEffect(()=>{
-        window.addEventListener('keydown',ev)
+        window.addEventListener('keydown',onKeyDown)
         return () => {
-            window.removeEventListener('keydown',ev)
+            window.removeEventListener('keydown',onKeyDown)
         }
     },[])
 

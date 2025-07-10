@@ -3,7 +3,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useMemo, useRef, useState } from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from "@mui/material/ImageListItem"
 import ImageListItemBar from "@mui/material/ImageListItemBar"
@@ -169,7 +169,8 @@ const Item = (
 ) => {
     const [internalSKU,setInternalSKU] = useState<string | null>(null)
     const updateSKU = (s:string|null) => setInternalSKU(s)
-    const imgSrc = useAppSelector(state => !!internalSKU ? (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID===internalSKU)?.image || '' : '')
+    const imgSrc = useMemo(()=> !!internalSKU ? `${process.env.NEXT_PUBLIC_FM_ADMIN_IMAGE_URL_PREFIX}${internalSKU}.avif` : '',[internalSKU])
+    // const imgSrc = useAppSelector(state => !!internalSKU ? (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID===internalSKU)?.image || '' : '')
     const url = useAppSelector(state => !!internalSKU ? (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID===internalSKU)?.page || '#' : '#')
     
     return (

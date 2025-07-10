@@ -53,14 +53,14 @@ const SetProduct = ({id}:{id:string}) => {
 }
 
 const ImageItem = ({internalSkuID}:{internalSkuID:string}) => {
-    const imgSrc = useAppSelector(state => (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID === internalSkuID)?.image || '')
+    // const imgSrc = useAppSelector(state => (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID === internalSkuID)?.image || '')
     const url = useAppSelector(state => (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID === internalSkuID)?.page || '#')
     
     return (
         <ImageListItem sx={{aspectRatio: "1 / 1"}}>
             <a style={{height:'100%'}} href={url} target='_blank'>
                 <img 
-                    src={imgSrc} 
+                    src={`${process.env.NEXT_PUBLIC_FM_ADMIN_IMAGE_URL_PREFIX}${internalSkuID}.avif`} 
                     loading='lazy'
                     width='100%'
                     style={{objectFit:'cover',objectPosition:'center',width:'100%',height:'100%'}}

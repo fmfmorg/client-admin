@@ -7,7 +7,8 @@ import ProductField from "./product-field"
 const SingleProduct = ({id,isCatalogue}:{id:string;isCatalogue?:boolean;})=> {
     const imgSrc = useAppSelector(state => {
         const internalSkuID = (state.productsReducer.skuMapItems as ISkuMapItem[]).find(e=>e.external === id)?.internal || ''
-        return (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID === internalSkuID)?.image || ''
+        return !!internalSkuID ? `${process.env.NEXT_PUBLIC_FM_ADMIN_IMAGE_URL_PREFIX}${internalSkuID}.avif` : ''
+        // return (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID === internalSkuID)?.image || ''
     })
     const url = useAppSelector(state => {
         const internalSkuID = (state.productsReducer.skuMapItems as ISkuMapItem[]).find(e=>e.external === id)?.internal || ''
