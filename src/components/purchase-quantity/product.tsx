@@ -46,9 +46,10 @@ const Product = ({id}:{id:number}) => {
 
 const Description = ({id}:{id:number}) => {
     const qty = useAppSelector(state => (state.productsReducer.internalItems as IPurchaseRecordItem[]).find(e=>e.id === id)?.quantity || 0).toString()
+    const internalSkuID = useAppSelector(state => (state.productsReducer.internalItems as IPurchaseRecordItem[]).find(e => e.id === id)?.internalSkuID || '')
     return (
         <Stack direction='column'>
-            <Typography variant='body2'>{id} - {qty}pc</Typography>
+            <Typography variant='body2'>{internalSkuID} - {qty}pc</Typography>
             <Stack direction='row' columnGap={1}>
                 <EditQuantityReceived {...{id}} />
                 <EditQuantityPurchased {...{id}} />
