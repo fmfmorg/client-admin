@@ -24,7 +24,7 @@ const MasterForm = (
     return (
         <Stack direction='row' justifyContent='center'>
             <Stack direction='column' spacing={2} sx={{maxWidth:'800px',width:'100%'}}>
-                <FormControlLabel control={<Checkbox onChange={newItemCheckboxOnChange} checked={newItem} sx={{':not(.Mui-checked) path':{fill:'#fff'}}} />} label='New Item' />
+                <FormControlLabel control={<Checkbox onChange={newItemCheckboxOnChange} checked={newItem} />} label='New Item' />
                 {newItem ? <NewItemForm {...{external,internal,updateExternal,updateInternal}} /> : <OldItemForm />}
             </Stack>
         </Stack>

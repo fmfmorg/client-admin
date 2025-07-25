@@ -17,6 +17,10 @@
       color: #ffffff;
     }
 
+    .MuiCheckbox-root:not(.Mui-checked) path {
+      fill: #fff;
+    }
+
     /* Adjust styles for TextField in dark mode */
     .MuiTextField-root, 
     .MuiFormControl-root,
