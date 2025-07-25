@@ -30,8 +30,8 @@ const OldItemForm = () => {
     }
 
     return (
-        <Stack direction='column' rowGap={2} component='form' onSubmit={onSubmit}>
-            <Stack direction='row' useFlexGap>
+        <Stack direction='column' spacing={1} component='form' onSubmit={onSubmit}>
+            <Stack direction='row' spacing={1}>
                 <Autocomplete 
                     disablePortal
                     renderInput={(params) => <TextField {...params} label="Product ID" />}
