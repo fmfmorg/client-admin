@@ -45,12 +45,12 @@ const NewItemForm = (
     }
 
     return (
-        <Stack direction='column' sx={{width:'100%'}} rowGap={2} component='form' onSubmit={onSubmit}>
-            <Stack direction='row' rowGap={2}>
+        <Stack direction='column' useFlexGap component='form' onSubmit={onSubmit}>
+            <Stack direction='row' useFlexGap>
                 <Typography>External: {external}</Typography>
                 <Typography>Internal: {internal}</Typography>
             </Stack>
-            <Stack direction='row' rowGap={2}>
+            <Stack direction='row' useFlexGap>
                 <FormControl fullWidth>
                     <InputLabel id='movement-id'>Date</InputLabel>
                     <Select labelId='movement-id' label='Order Date' value={movement} onChange={movementIDsOnChange}>
@@ -64,7 +64,7 @@ const NewItemForm = (
                     </Select>
                 </FormControl>
             </Stack>
-            <Stack direction='row' rowGap={2}>
+            <Stack direction='row' useFlexGap>
                 <FormControl fullWidth>
                     <InputLabel id='metal-color-id'>Metal Colour</InputLabel>
                     <Select labelId='metal-color-id' label='Metal Colour' value={metalColor} onChange={metalColorsOnChange}>
@@ -78,11 +78,11 @@ const NewItemForm = (
                     </Select>
                 </FormControl>
             </Stack>
-            <Stack direction='row' rowGap={2}>
+            <Stack direction='row' useFlexGap>
                 <TextField fullWidth label='URL' required />
                 <TextField fullWidth label='Subitem Name' />
             </Stack>
-            <Stack direction='row' rowGap={2}>
+            <Stack direction='row' useFlexGap>
                 <TextField fullWidth label='Cost RMB' type='number' slotProps={{htmlInput:{step:0.01}}} required />
             </Stack>
             <Button type='submit' variant="contained" fullWidth>Submit</Button>
