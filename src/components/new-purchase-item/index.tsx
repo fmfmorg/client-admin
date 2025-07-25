@@ -23,7 +23,6 @@ const NewPurchaseItem = (
 
     useEffect(()=>{
         dispatch(initData(initialState))
-        console.log("ids: ", _external,_internal)
     },[])
 
     return (
