@@ -30,7 +30,7 @@ const OldItemForm = () => {
     }
 
     return (
-        <Stack direction='column' rowGap={2} component='form' onSubmit={onSubmit}>
+        <Stack direction='column' rowGap={2} sx={{width:'100%'}} component='form' onSubmit={onSubmit}>
             <Stack direction='row' columnGap={2}>
                 <Autocomplete 
                     disablePortal

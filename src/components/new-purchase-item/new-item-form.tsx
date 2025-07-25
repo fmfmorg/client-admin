@@ -45,7 +45,7 @@ const NewItemForm = (
     }
 
     return (
-        <Stack direction='column' rowGap={2} component='form' onSubmit={onSubmit}>
+        <Stack direction='column' sx={{width:'100%'}} rowGap={2} component='form' onSubmit={onSubmit}>
             <Stack direction='row' rowGap={2}>
                 <Typography>External: {external}</Typography>
                 <Typography>Internal: {internal}</Typography>
