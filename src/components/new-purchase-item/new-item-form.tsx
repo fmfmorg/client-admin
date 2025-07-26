@@ -3,7 +3,7 @@ import { selectMovementList } from "@components/purchase-quantity/selectors";
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography";
 import { useAppSelector } from "@store/hooks";
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -24,6 +24,10 @@ const NewItemForm = (
         updateInternal:(v:string)=>void;
     }
 ) => {
+    const urlRef = useRef<HTMLInputElement>(null)
+    const subitemNameRef = useRef<HTMLInputElement>(null)
+    const costRef = useRef<HTMLInputElement>(null)
+
     const supplierList = useAppSelector(selectSupplierList)
     const [supplier,setSupplier] = useState(supplierList[0].id)
     const suppliersOnChange = (e:SelectChangeEvent<number>) => setSupplier(e.target.value as number)
@@ -79,11 +83,11 @@ const NewItemForm = (
                 </FormControl>
             </Stack>
             <Stack direction='row' spacing={2}>
-                <TextField fullWidth label='URL' required />
-                <TextField fullWidth label='Subitem Name' />
+                <TextField fullWidth label='URL' required inputRef={urlRef} />
+                <TextField fullWidth label='Subitem Name' inputRef={subitemNameRef} />
             </Stack>
             <Stack direction='row' spacing={2}>
-                <TextField fullWidth label='Cost RMB' type='number' slotProps={{htmlInput:{step:0.01}}} required />
+                <TextField fullWidth label='Cost RMB' type='number' inputRef={costRef} slotProps={{htmlInput:{step:0.01}}} required />
             </Stack>
             <Button type='submit' variant="contained" fullWidth>Submit</Button>
         </Stack>

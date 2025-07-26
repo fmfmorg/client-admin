@@ -8,6 +8,11 @@ import styles from './index.module.css';
 import { NumberField } from '@base-ui-components/react/number-field';
 import { MinusIcon, PlusIcon } from "@misc";
 import Button from "@mui/material/Button";
+import { selectMovementList } from "@components/purchase-quantity/selectors";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 
 const OldItemForm = () => {
     const quantityFieldID = useId()
@@ -22,16 +27,31 @@ const OldItemForm = () => {
     const quantityOnChange = (v: number | null, _: Event | undefined) => {
         if (v !== null) setQuantity(v)
     }
+
+    const movementList = useAppSelector(selectMovementList)
+    const [movement,setMovement] = useState(movementList[0].id)
+    const movementIDsOnChange = (e:SelectChangeEvent<number>) => setMovement(e.target.value as number)
+
+    const costRef = useRef<HTMLInputElement>(null)
+
     const onSubmit = (e:FormEvent) => {
         e.preventDefault()
+        if (!costRef.current) return
 
         setProductID(initialProductID.current)
         setQuantity(initialQuantity.current)
+        costRef.current.value = ''
     }
 
     return (
         <Stack direction='column' spacing={2} component='form' onSubmit={onSubmit}>
             <Stack direction='row' spacing={2}>
+                <FormControl fullWidth>
+                    <InputLabel id='movement-id'>Date</InputLabel>
+                    <Select labelId='movement-id' label='Order Date' value={movement} onChange={movementIDsOnChange}>
+                        {movementList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
+                    </Select>
+                </FormControl>
                 <Autocomplete 
                     disablePortal
                     renderInput={(params) => <TextField {...params} label="Product ID" />}
@@ -39,6 +59,9 @@ const OldItemForm = () => {
                     fullWidth
                     onChange={onChange}
                 />
+            </Stack>
+            <Stack direction='row' spacing={2}>
+                <TextField fullWidth label='Cost RMB' type='number' inputRef={costRef} slotProps={{htmlInput:{step:0.01}}} required />
                 <NumberField.Root id={quantityFieldID} value={quantity} className={styles.Field} min={1} step={1} onValueChange={quantityOnChange}>
                     <NumberField.Group className={styles.Group}>
                         <NumberField.Decrement className={styles.Decrement}>
