@@ -11,7 +11,7 @@ const NewPurchaseItemPage = async() => {
             headers:httpRequestHeader(true,'SSR',true),
             cache:'no-store',
         }),
-        fetch(`${process.env.FM_CLIENT_ADMIN_API_URL}/admin/pricing-page-init`,{
+        fetch(`${process.env.FM_CLIENT_ADMIN_API_URL}/admin/purchase-quantity-page-init`,{
             headers:httpRequestHeader(true,'SSR',true),
             cache:'no-store',
         })
