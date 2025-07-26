@@ -22,6 +22,7 @@ const NewPurchaseItem = (
     const dispatch = useAppDispatch();
 
     useEffect(()=>{
+        console.log(initialState)
         dispatch(preselectLatestPurchaseOrder())
         dispatch(initData(initialState))
     },[])
