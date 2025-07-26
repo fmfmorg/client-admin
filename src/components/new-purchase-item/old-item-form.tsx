@@ -28,9 +28,9 @@ const OldItemForm = () => {
         if (v !== null) setQuantity(v)
     }
 
-    const movementList = useAppSelector(selectMovements)
-    const [movement,setMovement] = useState(movementList[0].movementID)
-    const movementIDsOnChange = (e:SelectChangeEvent<number>) => setMovement(e.target.value as number)
+    // const movementList = useAppSelector(selectMovements)
+    // const [movement,setMovement] = useState(movementList[0].movementID)
+    // const movementIDsOnChange = (e:SelectChangeEvent<number>) => setMovement(e.target.value as number)
 
     const costRef = useRef<HTMLInputElement>(null)
 
@@ -46,12 +46,12 @@ const OldItemForm = () => {
     return (
         <Stack direction='column' spacing={2} component='form' onSubmit={onSubmit}>
             <Stack direction='row' spacing={2}>
-                <FormControl fullWidth>
+                {/* <FormControl fullWidth>
                     <InputLabel id='movement-id'>Date</InputLabel>
                     <Select labelId='movement-id' label='Order Date' value={movement} onChange={movementIDsOnChange}>
                         {movementList.map(({movementID,receiptDT})=>(<MenuItem key={movementID} value={movementID}>{new Date(receiptDT).toLocaleDateString('en-GB',{dateStyle:'short'})}</MenuItem>))}
                     </Select>
-                </FormControl>
+                </FormControl> */}
                 <Autocomplete 
                     disablePortal
                     renderInput={(params) => <TextField {...params} label="Product ID" />}
