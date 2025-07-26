@@ -29,8 +29,8 @@ const OldItemForm = () => {
     }
 
     const movementList = useAppSelector(selectMovementList)
-    // const [movement,setMovement] = useState(movementList[0].id)
-    // const movementIDsOnChange = (e:SelectChangeEvent<number>) => setMovement(e.target.value as number)
+    const [movement,setMovement] = useState(0)
+    const movementIDsOnChange = (e:SelectChangeEvent<number>) => setMovement(e.target.value as number)
 
     const costRef = useRef<HTMLInputElement>(null)
 
@@ -44,18 +44,18 @@ const OldItemForm = () => {
     }
 
     useEffect(()=>{
-        console.log("movementList: ", movementList)
+        if (!!movementList.length) setMovement(movementList[0].id)
     },[movementList])
 
     return (
         <Stack direction='column' spacing={2} component='form' onSubmit={onSubmit}>
             <Stack direction='row' spacing={2}>
-                {/* <FormControl fullWidth>
+                <FormControl fullWidth>
                     <InputLabel id='movement-id'>Date</InputLabel>
                     <Select labelId='movement-id' label='Order Date' value={movement} onChange={movementIDsOnChange}>
                         {movementList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                     </Select>
-                </FormControl> */}
+                </FormControl>
                 <Autocomplete 
                     disablePortal
                     renderInput={(params) => <TextField {...params} label="Product ID" />}
