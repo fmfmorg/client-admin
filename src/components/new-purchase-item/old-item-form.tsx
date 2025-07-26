@@ -3,7 +3,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { useAppSelector } from "@store/hooks"
 import { selectInternalProductIDs } from "./selectors"
-import { FormEvent, useId, useRef, useState } from "react";
+import { FormEvent, useEffect, useId, useRef, useState } from "react";
 import styles from './index.module.css';
 import { NumberField } from '@base-ui-components/react/number-field';
 import { MinusIcon, PlusIcon } from "@misc";
@@ -29,8 +29,8 @@ const OldItemForm = () => {
     }
 
     const movementList = useAppSelector(selectMovementList)
-    const [movement,setMovement] = useState(movementList[0].id)
-    const movementIDsOnChange = (e:SelectChangeEvent<number>) => setMovement(e.target.value as number)
+    // const [movement,setMovement] = useState(movementList[0].id)
+    // const movementIDsOnChange = (e:SelectChangeEvent<number>) => setMovement(e.target.value as number)
 
     const costRef = useRef<HTMLInputElement>(null)
 
@@ -43,15 +43,19 @@ const OldItemForm = () => {
         costRef.current.value = ''
     }
 
+    useEffect(()=>{
+        console.log("movementList: ", movementList)
+    },[movementList])
+
     return (
         <Stack direction='column' spacing={2} component='form' onSubmit={onSubmit}>
             <Stack direction='row' spacing={2}>
-                <FormControl fullWidth>
+                {/* <FormControl fullWidth>
                     <InputLabel id='movement-id'>Date</InputLabel>
                     <Select labelId='movement-id' label='Order Date' value={movement} onChange={movementIDsOnChange}>
                         {movementList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                     </Select>
-                </FormControl>
+                </FormControl> */}
                 <Autocomplete 
                     disablePortal
                     renderInput={(params) => <TextField {...params} label="Product ID" />}
