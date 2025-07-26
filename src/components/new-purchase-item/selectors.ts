@@ -7,4 +7,9 @@ export const selectInternalProductIDs = createSelector([state],state=>{
     if (!internalItems) return []
 
     return internalItems.map(e => e.internalSkuID)
-}) 
+})
+export const selectMovements = createSelector([state],state=>{
+    const {inventoryMovements} = state.productsReducer
+    if (!inventoryMovements) return []
+    return inventoryMovements
+})
