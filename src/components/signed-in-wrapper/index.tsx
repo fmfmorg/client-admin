@@ -53,6 +53,10 @@ const inventoryMenu:IMenuItem[] = [
     {
         name: 'Update purchase quantity',
         pathname: '/purchase-quantity',
+    },
+    {
+        name: 'New Purchase Item',
+        pathname: '/new-purchase-item',
     }
 ]
 

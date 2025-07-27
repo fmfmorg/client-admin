@@ -218,6 +218,49 @@ const slice = createSlice({
                 item.labelQty = 0
             }
         },
+        addNewPurchaseItem:(state,action:PayloadAction<{
+            externalID:string;
+            internalID:string;
+            metalColorID:number;
+            productTypeID:number;
+            supplierID:number;
+            page:string;
+            variation:string;
+            costRmb:number;
+            movementID:number;
+            purchaseQuantity:number;
+        }>)=>{
+            if (!!state.externalItems) state.externalItems.push({
+                externalSkuID:action.payload.externalID,
+                price:0,
+                priceTemp:0,
+                labelQty:0,
+                dtUpdated:0,
+            });
+            if (!!state.internalItemSpecs) state.internalItemSpecs.push({
+                internalSkuID:action.payload.internalID,
+                metalColorID:action.payload.metalColorID,
+                productTypeID:action.payload.productTypeID,
+                image:'',
+                supplierID:action.payload.supplierID,
+                page:'',
+                variation:'',
+            });
+            if (!!state.internalItems) state.internalItems.push({
+                id:Math.round(Math.random() * 1000000),
+                movementID:action.payload.movementID,
+                internalSkuID:action.payload.internalID,
+                quantity:0,
+                quantityTemp:0,
+                costRmb:action.payload.costRmb,
+                purchaseQuantity:action.payload.purchaseQuantity,
+                purchaseQuantityTemp:action.payload.purchaseQuantity,
+            });
+            if (!!state.skuMapItems) state.skuMapItems.push({
+                external:action.payload.externalID,
+                internal:action.payload.internalID,
+            })
+        },
     },
 })
 
@@ -247,5 +290,6 @@ export const {
     preselectLatestPurchaseOrder,
     labelsAddCurrentViewItemsWithLatestReceivedQuantity,
     labelsClearQuantities,
+    addNewPurchaseItem,
 } = slice.actions
 export default slice.reducer
