@@ -96,6 +96,7 @@ const OldItemForm = (
                     options={productIDs}
                     fullWidth
                     onChange={onChange}
+                    value={productID}
                 />
             </Stack>
             <Stack direction='row' spacing={2}>
