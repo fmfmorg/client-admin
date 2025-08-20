@@ -8,6 +8,8 @@ const getUniqueExternalSkus = (state:RootState) => {
     const {internalItemSpecs,showMetalColors,showProductTypes,showSuppliers,skuMapItems,showMovementIDs,internalItems} = state.productsReducer
     if (!internalItemSpecs || !showMetalColors || !showProductTypes || !showSuppliers || !skuMapItems || !showMovementIDs || !internalItems) return []
 
+    console.log(showMovementIDs)
+
     let itemSpecs = [...internalItemSpecs]
     if (!!showMetalColors.length) itemSpecs = itemSpecs.filter(e => showMetalColors.includes(e.metalColorID))
     if (!!showProductTypes.length) itemSpecs = itemSpecs.filter(e => showProductTypes.includes(e.productTypeID))
