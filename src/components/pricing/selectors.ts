@@ -30,11 +30,11 @@ export const selectSingleProductIDs = createSelector([state],(state)=>{
 
     const matchingSKUs = uniqueExternalSkuIDs.filter(e=>(state.productsReducer.skuMapItems as ISkuMapItem[]).filter(f=>f.external===e).length === 1)
     
-    if (state.productsReducer.showPricedItems && state.productsReducer.showNonPricedItems) return matchingSKUs
+    if (state.productsReducer.showPricedItems && state.productsReducer.showNonPricedItems) return matchingSKUs.sort().reverse()
     else {
-        const priceList = (state.productsReducer.externalItems as IExternalItem[]).filter(e=>matchingSKUs.includes(e.externalSkuID))          
-        if (state.productsReducer.showPricedItems) return priceList.filter(e=>!!e.price).map(e=>e.externalSkuID)
-        else return priceList.filter(e=>!e.price).map(e=>e.externalSkuID)
+        const priceList = (state.productsReducer.externalItems as IExternalItem[]).filter(e=>matchingSKUs.includes(e.externalSkuID))         
+        if (state.productsReducer.showPricedItems) return priceList.filter(e=>!!e.price).map(e=>e.externalSkuID).sort().reverse()
+        else return priceList.filter(e=>!e.price).map(e=>e.externalSkuID).sort().reverse()
     }
 })
 export const selectMultiProductIDs = createSelector([state],(state)=>{
@@ -44,10 +44,10 @@ export const selectMultiProductIDs = createSelector([state],(state)=>{
     const matchingSKUs = uniqueExternalSkuIDs.map(e=>({id:e,count:(state.productsReducer.skuMapItems as ISkuMapItem[]).filter(f=>f.external===e).length})).filter(e=>e.count > 1).map(e=>e.id)
     const priceList = (state.productsReducer.externalItems as IExternalItem[]).filter(e=>matchingSKUs.includes(e.externalSkuID)).sort((a,b)=>a.price - b.price)
 
-    if (state.productsReducer.showPricedItems && state.productsReducer.showNonPricedItems) return priceList.map(e=>e.externalSkuID)
+    if (state.productsReducer.showPricedItems && state.productsReducer.showNonPricedItems) return priceList.map(e=>e.externalSkuID).sort().reverse()
     else {
-        if (state.productsReducer.showPricedItems) return priceList.filter(e=>!!e.price).map(e=>e.externalSkuID)
-        else return priceList.filter(e=>!e.price).map(e=>e.externalSkuID)
+        if (state.productsReducer.showPricedItems) return priceList.filter(e=>!!e.price).map(e=>e.externalSkuID).sort().reverse()
+        else return priceList.filter(e=>!e.price).map(e=>e.externalSkuID).sort().reverse()
     }
 })
 export const selectMetalColorList = createSelector([state],state=>state.productsReducer.metalColors || [])
