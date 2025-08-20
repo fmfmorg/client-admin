@@ -30,7 +30,7 @@ export const selectSingleProductIDs = createSelector([state],(state)=>{
 
     const matchingSKUs = uniqueExternalSkuIDs.filter(e=>(state.productsReducer.skuMapItems as ISkuMapItem[]).filter(f=>f.external===e).length === 1)
     
-    if (state.productsReducer.showPricedItems && state.productsReducer.showNonPricedItems) return matchingSKUs//.sort().reverse()
+    if (state.productsReducer.showPricedItems && state.productsReducer.showNonPricedItems) return matchingSKUs.sort()//.reverse()
     else {
         const priceList = (state.productsReducer.externalItems as IExternalItem[]).filter(e=>matchingSKUs.includes(e.externalSkuID))         
         if (state.productsReducer.showPricedItems) return priceList.filter(e=>!!e.price).map(e=>e.externalSkuID)//.sort().reverse()
