@@ -7,7 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import Stack from '@mui/material/Stack';
 import { ChangeEvent } from 'react';
-import { IInternalItemSpecification, IPurchaseRecordItem } from 'src/interfaces';
+import { IPurchaseRecordItem } from 'src/interfaces';
 import { toggleEditDialog, updateQuantityPurchasedTemp, updateQuantityReceivedTemp } from '@slices/products';
 
 const Product = ({id}:{id:number}) => {
@@ -20,10 +20,7 @@ const Product = ({id}:{id:number}) => {
         const item = (state.productsReducer.internalItems as IPurchaseRecordItem[]).find(e => e.id === id)
         return !!item ? item.quantity !== item.quantityTemp : false
     })
-    const url = useAppSelector(state => {
-        const internalSkuID = (state.productsReducer.internalItems as IPurchaseRecordItem[]).find(e => e.id === id)?.internalSkuID || ''
-        return (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID === internalSkuID)?.page || '#'
-    })
+    const url = useAppSelector(state => (state.productsReducer.internalItems as IPurchaseRecordItem[]).find(e => e.id === id)?.page || '#')
     const internalSkuID = useAppSelector(state => (state.productsReducer.internalItems as IPurchaseRecordItem[]).find(e => e.id === id)?.internalSkuID || '')
     return (
         <ImageListItem sx={{aspectRatio: "1 / 1"}}>
@@ -79,7 +76,7 @@ const EditQuantityPurchased = ({id}:{id:number}) => {
                 htmlInput:{step:1,min:0},
                 input:{sx:{color:'#fff', fontWeight:'bold'},slotProps:{input:{sx:{borderColor:'#fff',borderWidth:2}}}},
                 inputLabel:{sx:{fontWeight:'bold',color:'#fff'}},
-            }} 
+            }}
             sx={{marginTop:1}} 
             onChange={onChange}
             size='small'

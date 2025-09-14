@@ -21,7 +21,7 @@ const Header = () => {
         const setIDs = selectSetProductIDs(state)
         const idsToPrint = [...singleIDs,...setIDs]
 
-        let csvRows:string[] = ['BARCODE,PRICE']
+        const csvRows:string[] = ['BARCODE,PRICE']
 
         const externalItems = state.productsReducer.externalItems
 

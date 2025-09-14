@@ -9,9 +9,17 @@ const getUniqueExternalSkus = (state:RootState) => {
     if (!internalItemSpecs || !showMetalColors || !showProductTypes || !showSuppliers || !skuMapItems || !showMovementIDs || !internalItems) return []
 
     let itemSpecs = [...internalItemSpecs]
+
     if (!!showMetalColors.length) itemSpecs = itemSpecs.filter(e => showMetalColors.includes(e.metalColorID))
     if (!!showProductTypes.length) itemSpecs = itemSpecs.filter(e => showProductTypes.includes(e.productTypeID))
-    if (!!showSuppliers.length) itemSpecs = itemSpecs.filter(e => showSuppliers.includes(e.supplierID))
+    // if (!!showSuppliers.length) itemSpecs = itemSpecs.filter(e => showSuppliers.includes(e.supplierID))
+
+    if (!!showSuppliers.length) {
+        const items = internalItems.filter(e => showSuppliers.includes(e.supplierID))
+        const _ids = items.map(e => e.internalSkuID)
+        itemSpecs = itemSpecs.filter(e => _ids.includes(e.internalSkuID))
+    }
+
     if (!!showMovementIDs.length) {
         const matchingInternalSkus = internalItems.filter(e => showMovementIDs.includes(e.movementID)).map(e => e.internalSkuID)
         itemSpecs = itemSpecs.filter(e => matchingInternalSkus.includes(e.internalSkuID))

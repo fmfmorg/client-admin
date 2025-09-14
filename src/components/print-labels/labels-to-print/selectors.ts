@@ -4,7 +4,7 @@ import { IExternalItem, ISkuMapItem } from "src/interfaces";
 
 const state = (state:RootState) => state
 const getSelectedSKUs = (state:RootState) => {
-    let items = (state.productsReducer.externalItems as IExternalItem[]).filter(e => !!e.labelQty)
+    const items = (state.productsReducer.externalItems as IExternalItem[]).filter(e => !!e.labelQty)
     if (!items.length) return []
     return items.sort((a,b)=>a.dtUpdated - b.dtUpdated).map(e => e.externalSkuID)
 }

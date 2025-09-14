@@ -12,6 +12,9 @@ export interface IPurchaseRecordItem {
     costRmb:number;
     purchaseQuantity:number;
     purchaseQuantityTemp:number;
+    supplierID:number;
+    page:string;
+    variation:string;
 }
 
 export interface IInternalMovementRecord {
@@ -25,9 +28,9 @@ export interface IInternalItemSpecification {
     metalColorID:number;
     productTypeID:number;
     image:string;
-    supplierID:number;
-    page:string;
-    variation:string;
+    // supplierID:number;
+    // page:string;
+    // variation:string;
 }
 
 export interface IProductTypeMapItem {

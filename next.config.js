@@ -3,7 +3,10 @@ module.exports = {
         ignoreDuringBuilds: true,
     },
     experimental:{
-        webpackMemoryOptimizations: true
+        webpackMemoryOptimizations: true,
+        staleTimes: {
+            dynamic: 0,
+        },
     },
     async rewrites() {
         return [

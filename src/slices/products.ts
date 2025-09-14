@@ -74,7 +74,7 @@ const slice = createSlice({
             if (!!action.payload.inventoryMovements && !!action.payload.inventoryMovements.length) {
                 state.inventoryMovements = [...action.payload.inventoryMovements];
                 if (state.preselectLatestPurchaseOrder && (!state.showMovementIDs || !state.showMovementIDs.length)) {
-                    let purchaseOrders = state.inventoryMovements.filter(e => e.movementTypeID === 1)
+                    const purchaseOrders = state.inventoryMovements.filter(e => e.movementTypeID === 1)
                     if (!!purchaseOrders.length) {
                         purchaseOrders.sort((a,b)=>b.receiptDT - a.receiptDT)
                         state.showMovementIDs = [purchaseOrders[0].movementID]
@@ -190,9 +190,38 @@ const slice = createSlice({
         },
         labelsAddCurrentViewItemsWithLatestReceivedQuantity:(state,action:PayloadAction<string[]>)=>{
             if (!action.payload.length || !state.inventoryMovements || !state.internalItems || !state.skuMapItems || !state.externalItems) return
+            if (!state.showMovementIDs || !state.showMovementIDs.length) return
             const dt = Date.now()
             const externalSkuIDs = action.payload
             const skuMapItems = state.skuMapItems
+
+            const showMovementIDs = [...state.showMovementIDs]
+
+            const purchaseOrderIDs = state.inventoryMovements.filter(e => e.movementTypeID === 1 && showMovementIDs.includes(e.movementID)).map(e => e.movementID)
+            const internalSKUs = state.internalItems.filter(e => purchaseOrderIDs.includes(e.movementID))
+
+            if (!internalSKUs.length) return
+
+            for (const externalSkuID of externalSkuIDs){
+                const item = state.externalItems.find(e => e.externalSkuID === externalSkuID)
+                if (!item) continue
+
+                const matchingInternalSKUs = skuMapItems.filter(e => e.external === externalSkuID).map(e => e.internal)
+                if (!matchingInternalSKUs.length) continue
+
+                let minQtyReceived = 0
+
+                for (const internalSkuID of matchingInternalSKUs) {
+                    const thisItemMinQty = internalSKUs.filter(e => e.internalSkuID === internalSkuID).map(e => e.quantity).reduce((a,b)=>a+b,0)
+                    if (!minQtyReceived || thisItemMinQty < minQtyReceived) minQtyReceived = thisItemMinQty;
+                }
+
+                if (!minQtyReceived) continue
+                if (!item.labelQty) item.dtUpdated = dt
+                item.labelQty = minQtyReceived
+            }
+
+            /*
             let purchaseOrders = state.inventoryMovements.filter(e => e.movementTypeID === 1) 
             purchaseOrders.sort((a,b)=>b.receiptDT - a.receiptDT)
             const latestPurchaseOrderID = purchaseOrders[0].movementID
@@ -210,6 +239,7 @@ const slice = createSlice({
                 if (!item.labelQty) item.dtUpdated = dt
                 item.labelQty = minQtyReceived
             }
+            */
         },
         labelsClearQuantities:(state,_:PayloadAction<undefined>)=>{
             if (!state.externalItems) return
@@ -242,9 +272,9 @@ const slice = createSlice({
                 metalColorID:action.payload.metalColorID,
                 productTypeID:action.payload.productTypeID,
                 image:'',
-                supplierID:action.payload.supplierID,
-                page:'',
-                variation:'',
+                // supplierID:action.payload.supplierID,
+                // page:'',
+                // variation:'',
             });
             if (!!state.internalItems) state.internalItems.push({
                 id:Math.round(Math.random() * 1000000),
@@ -255,6 +285,9 @@ const slice = createSlice({
                 costRmb:action.payload.costRmb,
                 purchaseQuantity:action.payload.purchaseQuantity,
                 purchaseQuantityTemp:action.payload.purchaseQuantity,
+                supplierID:action.payload.supplierID,
+                page:'',
+                variation:'',
             });
             if (!!state.skuMapItems) state.skuMapItems.push({
                 external:action.payload.externalID,

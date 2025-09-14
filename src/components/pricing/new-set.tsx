@@ -19,7 +19,7 @@ import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import { httpRequestHeader } from '@misc';
 import { CsrfContext } from '@context'
-import { IExternalItem, IInternalItemSpecification, IPurchaseRecordItem, ISkuMapItem } from 'src/interfaces';
+import { IExternalItem, IPurchaseRecordItem, ISkuMapItem } from 'src/interfaces';
 import { newSetCreated, toggleNewSetDialog } from '@slices/products';
 import { selectAllInternalSKUs } from './selectors';
 
@@ -121,7 +121,7 @@ const Content = () => {
         <DialogContent>
             <ImageList cols={2} sx={{overflow:'hidden'}}>
                 {itemIDs.map(id=>(
-                    <Item {...{key:id,itemID:id,addItem,deleteItem,setTimeoutCalCost}} />
+                    <Item key={id} {...{itemID:id,addItem,deleteItem,setTimeoutCalCost}} />
                 ))}
             </ImageList>
         </DialogContent>
@@ -171,7 +171,16 @@ const Item = (
     const updateSKU = (s:string|null) => setInternalSKU(s)
     const imgSrc = useMemo(()=> !!internalSKU ? `${process.env.NEXT_PUBLIC_FM_ADMIN_IMAGE_URL_PREFIX}${internalSKU}.avif` : '',[internalSKU])
     // const imgSrc = useAppSelector(state => !!internalSKU ? (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID===internalSKU)?.image || '' : '')
-    const url = useAppSelector(state => !!internalSKU ? (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID===internalSKU)?.page || '#' : '#')
+    // const url = useAppSelector(state => !!internalSKU ? (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID===internalSKU)?.page || '#' : '#')
+
+    const url = useAppSelector(state => {
+        if (!state.productsReducer.internalItems) return '#'
+
+        const purchaseRecords = state.productsReducer.internalItems.filter(e => e.internalSkuID === internalSKU)
+        if (!purchaseRecords.length) return '#'
+
+        return purchaseRecords.sort((a,b) => b.movementID - a.movementID)[0].page
+    })
     
     return (
         <ImageListItem sx={{aspectRatio: "1 / 1"}}>

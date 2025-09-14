@@ -3,7 +3,7 @@ import ImageListItemBar from "@mui/material/ImageListItemBar"
 import { useAppSelector } from "@store/hooks"
 import ProductField from "./product-field"
 import ImageList from "@mui/material/ImageList"
-import { IExternalItem, IInternalItemSpecification, ISkuMapItem } from "src/interfaces"
+import { IExternalItem, ISkuMapItem } from "src/interfaces"
 import { selectSingleProductIDs } from "./selectors"
 
 const SingleProduct = ({id}:{id:string})=>{
@@ -17,9 +17,23 @@ const SingleProduct = ({id}:{id:string})=>{
         return !!i ? i.price !== i.priceTemp : false
     })
     const url = useAppSelector(state => {
+        const movementIDs = state.productsReducer.showMovementIDs
+        if (!movementIDs || !movementIDs.length) return '#'
+
         const internalSkuID = (state.productsReducer.skuMapItems as ISkuMapItem[]).find(e=>e.external === id)?.internal || ''
-        return !!internalSkuID ? (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID === internalSkuID)?.page || '#' : '#'
+        if (!internalSkuID) return '#'
+
+        if (!state.productsReducer.internalItems) return '#'
+
+        const purchaseRecords = state.productsReducer.internalItems.filter(e => movementIDs.includes(e.movementID) && e.internalSkuID === internalSkuID)
+        if (!purchaseRecords.length) return '#'
+
+        return purchaseRecords.sort((a,b) => b.movementID - a.movementID)[0].page
     })
+    // const url = useAppSelector(state => {
+    //     const internalSkuID = (state.productsReducer.skuMapItems as ISkuMapItem[]).find(e=>e.external === id)?.internal || ''
+    //     return !!internalSkuID ? (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID === internalSkuID)?.page || '#' : '#'
+    // })
 
     return (
         <ImageListItem sx={{aspectRatio: "1 / 1"}}>

@@ -8,10 +8,12 @@ export const selectProductIDs = createSelector([state],(state)=>{
 
     let items = [...internalItems]
 
+    if (!!showSuppliers.length) items = items.filter(e => showSuppliers.includes(e.supplierID))
+
     let itemSpecs = [...internalItemSpecs]
     if (!!showMetalColors.length) itemSpecs = itemSpecs.filter(e => showMetalColors.includes(e.metalColorID))
     if (!!showProductTypes.length) itemSpecs = itemSpecs.filter(e => showProductTypes.includes(e.productTypeID))
-    if (!!showSuppliers.length) itemSpecs = itemSpecs.filter(e => showSuppliers.includes(e.supplierID))
+    // if (!!showSuppliers.length) itemSpecs = itemSpecs.filter(e => showSuppliers.includes(e.supplierID))
 
     const itemSpecsIDs = itemSpecs.map(e => e.internalSkuID)
 

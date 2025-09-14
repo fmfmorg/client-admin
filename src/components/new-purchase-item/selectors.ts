@@ -6,5 +6,5 @@ export const selectInternalProductIDs = createSelector([state],state=>{
     const {internalItems} = state.productsReducer
     if (!internalItems) return []
 
-    return internalItems.map(e => e.internalSkuID)
+    return [...new Set(internalItems.map(e => e.internalSkuID))].sort()
 })

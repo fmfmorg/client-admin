@@ -11,7 +11,7 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material';
 import { selectMultiProductIDs } from './selectors';
-import { IInternalItemSpecification, IPurchaseRecordItem, ISkuMapItem } from 'src/interfaces';
+import { IPurchaseRecordItem, ISkuMapItem } from 'src/interfaces';
 
 const SetProducts = () => {
     const setIDs = useAppSelector(selectMultiProductIDs)
@@ -44,7 +44,7 @@ const SetProduct = ({id}:{id:string}) => {
             <TableCell>
                 <ImageList cols={columns} sx={{overflow:'hidden'}} gap={8}>
                     {internalSkuIDs.map(id=>(
-                        <ImageItem {...{internalSkuID:id,key:id}} />
+                        <ImageItem key={id} {...{internalSkuID:id}} />
                     ))}
                 </ImageList>
             </TableCell>
@@ -54,7 +54,19 @@ const SetProduct = ({id}:{id:string}) => {
 
 const ImageItem = ({internalSkuID}:{internalSkuID:string}) => {
     // const imgSrc = useAppSelector(state => (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID === internalSkuID)?.image || '')
-    const url = useAppSelector(state => (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID === internalSkuID)?.page || '#')
+    // const url = useAppSelector(state => (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID === internalSkuID)?.page || '#')
+
+    const url = useAppSelector(state => {
+        const movementIDs = state.productsReducer.showMovementIDs
+        if (!movementIDs || !movementIDs.length) return '#'
+        
+        if (!state.productsReducer.internalItems) return '#'
+
+        const purchaseRecords = state.productsReducer.internalItems.filter(e => movementIDs.includes(e.movementID) && e.internalSkuID === internalSkuID)
+        if (!purchaseRecords.length) return '#'
+
+        return purchaseRecords.sort((a,b) => b.movementID - a.movementID)[0].page
+    })
     
     return (
         <ImageListItem sx={{aspectRatio: "1 / 1"}}>

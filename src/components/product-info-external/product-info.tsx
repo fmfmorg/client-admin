@@ -3,11 +3,12 @@ import ImageListItem from "@mui/material/ImageListItem"
 import ImageListItemBar from "@mui/material/ImageListItemBar"
 import Typography from "@mui/material/Typography"
 import { useAppSelector } from "@store/hooks"
-import { IExternalItem, IInternalItemSpecification, ISkuMapItem } from "src/interfaces"
+import { IExternalItem, IPurchaseRecordItem, ISkuMapItem } from "src/interfaces"
 
 const ImageItem = ({id}:{id:string}) => {
     // const imgSrc = useAppSelector(state => (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID ===id)?.image || '')
-    const url = useAppSelector(state => (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID ===id)?.page || '#')
+    // const url = useAppSelector(state => (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e => e.internalSkuID ===id)?.page || '#')
+    const url = useAppSelector(state => (state.productsReducer.internalItems as IPurchaseRecordItem[]).find(e => e.internalSkuID === id)?.page || '#')
 
     return (
         <ImageListItem sx={{aspectRatio: "1 / 1"}}>
@@ -41,7 +42,7 @@ const ProductInformation = () => {
         <>
         <Typography variant='h6'>Price: <strong>£ {price}</strong></Typography>
         {!!intenralIDs.length && <ImageList cols={5} sx={{overflow:'hidden'}} gap={8}>
-            {intenralIDs.map(id => <ImageItem {...{id}} />)}
+            {intenralIDs.map(id => <ImageItem key={id} {...{id}} />)}
         </ImageList>}
         </>
     )

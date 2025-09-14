@@ -31,7 +31,7 @@ const OldItemForm = (
     const onChange = (_:any,v:string|null) => {
         if (!!v) setProductID(v)
     }
-    const quantityOnChange = (v: number | null, _: Event | undefined) => {
+    const quantityOnChange = (v: number | null, _: NumberField.Root.ChangeEventDetails) => {
         if (v !== null) setQuantity(v)
     }
 
