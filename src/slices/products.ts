@@ -268,6 +268,7 @@ const slice = createSlice({
                 supplierID:action.payload.supplierID,
                 page:'',
                 variation:'',
+                productSupplierID:0,
             });
             if (!!state.skuMapItems) state.skuMapItems.push({
                 external:action.payload.externalID,

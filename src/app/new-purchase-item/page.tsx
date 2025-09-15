@@ -2,6 +2,7 @@ import NewPurchaseItem from "@components/new-purchase-item"
 import { fetchCSRF } from "../fetch-csrf"
 import { httpRequestHeader } from "@misc"
 import { IState } from "@slices/products"
+import { IProductSupplierItem } from "src/interfaces"
 
 const NewPurchaseItemPage = async() => {
     const csrf = await fetchCSRF() || ''
@@ -16,7 +17,11 @@ const NewPurchaseItemPage = async() => {
             cache:'no-store',
         })
     ])
-    const {_external,_internal} = await productIdResp.json() as {_external:string;_internal:string;}
+    const {_external,_internal,_productSupplierItems} = await productIdResp.json() as {
+        _external:string;
+        _internal:string;
+        _productSupplierItems:IProductSupplierItem[];
+    }
     const initialState = await resp.json() as IState
 
     return <NewPurchaseItem {...{csrf,_internal,_external,initialState}} />

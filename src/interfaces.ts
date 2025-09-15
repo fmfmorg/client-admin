@@ -15,6 +15,7 @@ export interface IPurchaseRecordItem {
     supplierID:number;
     page:string;
     variation:string;
+    productSupplierID:number;
 }
 
 export interface IInternalMovementRecord {
@@ -50,4 +51,10 @@ export interface IExternalItem {
     priceTemp:number;
     labelQty:number;
     dtUpdated:number;
+}
+
+export interface IProductSupplierItem {
+    productSupplierID:number;
+    supplierID:number;
+    internalSkuID:string;
 }
