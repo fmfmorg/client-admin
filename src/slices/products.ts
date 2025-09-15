@@ -220,26 +220,6 @@ const slice = createSlice({
                 if (!item.labelQty) item.dtUpdated = dt
                 item.labelQty = minQtyReceived
             }
-
-            /*
-            let purchaseOrders = state.inventoryMovements.filter(e => e.movementTypeID === 1) 
-            purchaseOrders.sort((a,b)=>b.receiptDT - a.receiptDT)
-            const latestPurchaseOrderID = purchaseOrders[0].movementID
-            const internalSKUs = state.internalItems.filter(e => e.movementID === latestPurchaseOrderID)
-            if (!internalSKUs.length) return
-
-            for (const externalSkuID of externalSkuIDs) {
-                const item = state.externalItems.find(e => e.externalSkuID === externalSkuID)
-                if (!item) continue
-
-                const matchingInternalSKUs = skuMapItems.filter(e => e.external === externalSkuID).map(e => e.internal)
-                if (!matchingInternalSKUs.length) continue
-                const minQtyReceived = Math.min(...internalSKUs.filter(e => matchingInternalSKUs.includes(e.internalSkuID)).map(e => e.quantity))
-                if (!minQtyReceived) continue
-                if (!item.labelQty) item.dtUpdated = dt
-                item.labelQty = minQtyReceived
-            }
-            */
         },
         labelsClearQuantities:(state,_:PayloadAction<undefined>)=>{
             if (!state.externalItems) return

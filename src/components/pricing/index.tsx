@@ -9,7 +9,7 @@ import FilterDialog from "./filter";
 import SingleProducts from "./single-products";
 import NewSetDialog from "./new-set";
 import SetProducts from "./set-products";
-import { initData, IState } from "@slices/products";
+import { initData, IState, updateMovements } from "@slices/products";
 
 const Pricing = (
     {
@@ -25,6 +25,7 @@ const Pricing = (
     const showSets = useAppSelector(state => !!state.productsReducer.showSets)
     
     useEffect(()=>{
+        dispatch(updateMovements([]))
         dispatch(initData(initialState))
     },[])
     
