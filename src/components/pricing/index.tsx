@@ -25,8 +25,8 @@ const Pricing = (
     const showSets = useAppSelector(state => !!state.productsReducer.showSets)
     
     useEffect(()=>{
-        dispatch(updateMovements([]))
         dispatch(initData(initialState))
+        dispatch(updateMovements([]))
     },[])
     
     return (
