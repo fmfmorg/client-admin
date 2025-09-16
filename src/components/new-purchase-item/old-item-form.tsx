@@ -177,7 +177,7 @@ const OldItemForm = (
             </Stack>
             <Grid container direction='row'>
                 <Grid size={6}>
-                    <FormControlLabel control={<Checkbox onChange={toggleNewSupplier} checked={isNewSupplier} />} label='New Item' sx={{width:'fit-content'}} />
+                    <FormControlLabel control={<Checkbox onChange={toggleNewSupplier} checked={isNewSupplier} />} label='New Supplier' sx={{width:'fit-content'}} />
                 </Grid>
                 {!isNewSupplier && !!currentSupplier && <Grid size={6}>
                     <FormControl fullWidth>
