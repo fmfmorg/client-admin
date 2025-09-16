@@ -20,7 +20,7 @@ import Grid from '@mui/material/Grid2'
 import { IProductSupplierItem, IPurchaseRecordItem, ISpecification } from "src/interfaces";
 import { useStore } from "react-redux";
 import { RootState } from "@store/store";
-// import { selectSupplierList } from "@components/pricing/selectors";
+import { selectSupplierList } from "@components/pricing/selectors";
 
 const OldItemForm = (
     {
@@ -52,30 +52,6 @@ const OldItemForm = (
         if (v !== null) setQuantity(v)
     }
 
-    /*
-    const currentSupplierList = useAppSelector(state => {
-        if (!productID) return []
-
-        const purchaseRecords = (state.productsReducer.internalItems as IPurchaseRecordItem[]).filter(e => e.internalSkuID === productID)
-        if (!purchaseRecords.length) return []
-
-        const productSupplierIDs = [...new Set(purchaseRecords.sort((a,b)=>b.movementID - a.movementID).map(e => e.productSupplierID))]
-
-        let arr:ISpecification[] = []
-
-        for (const ps of productSupplierIDs){
-            const supplierID = productSupplierItems.current.get(ps)
-            if (!supplierID) continue
-
-            const supplier = (state.productsReducer.suppliers as ISpecification[]).find(e => e.id === supplierID)
-            if (!supplier) continue
-
-            arr = [...arr,{id:ps,name:supplier.name}]
-        }
-
-        return arr
-    })
-    */
     const currentSupplierList = useMemo(()=>{
         if (!productID) return []
 
@@ -100,7 +76,7 @@ const OldItemForm = (
 
         return arr
     },[productID])
-    
+
     const [currentSupplier,setCurrentSupplier] = useState(0)
     const currentSupplierOnSelect = (e:SelectChangeEvent<number>) => setCurrentSupplier(e.target.value as number)
 
@@ -109,9 +85,9 @@ const OldItemForm = (
     const [isNewSupplier,setIsNewSupplier] = useState(false)
 
 
-    // const newSupplierList = useAppSelector(selectSupplierList)
-    // const [newSupplier,setNewSupplier] = useState(newSupplierList[0].id)
-    // const newSuppliersOnChange = (e:SelectChangeEvent<number>) => setNewSupplier(e.target.value as number)
+    const newSupplierList = useAppSelector(selectSupplierList)
+    const [newSupplier,setNewSupplier] = useState(newSupplierList[0].id)
+    const newSuppliersOnChange = (e:SelectChangeEvent<number>) => setNewSupplier(e.target.value as number)
 
     const movementIDsOnChange = (e:SelectChangeEvent<number>) => setMovement(e.target.value as number)
     const toggleNewSupplier = (e:ChangeEvent<HTMLInputElement>) => setIsNewSupplier(e.target.checked)
@@ -212,14 +188,14 @@ const OldItemForm = (
                         </Select>
                     </FormControl>
                 </Grid>}
-                {/* {isNewSupplier && <Grid size={6}>
+                {isNewSupplier && <Grid size={6}>
                     <FormControl fullWidth>
                         <InputLabel id={newSupplierLabelID}>Suppliers</InputLabel>
                         <Select labelId={newSupplierLabelID} label='Suppliers' value={newSupplier} onChange={newSuppliersOnChange}>
                             {newSupplierList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>    
-                </Grid>} */}
+                </Grid>}
             </Grid>
             <Stack direction='row' spacing={2} display={isNewSupplier ? 'flex' : 'none'}>
                 <TextField fullWidth label='URL' required inputRef={urlRef} />
