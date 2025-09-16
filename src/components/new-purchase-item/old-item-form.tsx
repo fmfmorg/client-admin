@@ -188,14 +188,14 @@ const OldItemForm = (
                         </Select>
                     </FormControl>
                 </Grid>}
-                {isNewSupplier && <Grid size={6}>
+                {/* {isNewSupplier && <Grid size={6}>
                     <FormControl fullWidth>
                         <InputLabel id={newSupplierLabelID}>Suppliers</InputLabel>
                         <Select labelId={newSupplierLabelID} label='Suppliers' value={newSupplier} onChange={newSuppliersOnChange}>
                             {newSupplierList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>    
-                </Grid>}
+                </Grid>} */}
             </Grid>
             <Stack direction='row' spacing={2} display={isNewSupplier ? 'flex' : 'none'}>
                 <TextField fullWidth label='URL' required inputRef={urlRef} />
