@@ -3,7 +3,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { useAppSelector } from "@store/hooks"
 import { selectInternalProductIDs } from "./selectors"
-import { ChangeEvent, FormEvent, useContext, useEffect, useId, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useEffect, useId, useMemo, useRef, useState } from "react";
 import styles from './index.module.css';
 import { NumberField } from '@base-ui-components/react/number-field';
 import { httpRequestHeader, MinusIcon, PlusIcon } from "@misc";
@@ -18,6 +18,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Grid from '@mui/material/Grid2'
 import { IProductSupplierItem, IPurchaseRecordItem, ISpecification } from "src/interfaces";
+import { useStore } from "react-redux";
+import { RootState } from "@store/store";
 // import { selectSupplierList } from "@components/pricing/selectors";
 
 const OldItemForm = (
@@ -29,6 +31,7 @@ const OldItemForm = (
         _productSupplierItems:IProductSupplierItem[];
     }
 ) => {
+    const store = useStore()
     const quantityFieldID = useId()
     const newSupplierLabelID = useId()
     const currentSupplierLabelID = useId()
@@ -49,6 +52,7 @@ const OldItemForm = (
         if (v !== null) setQuantity(v)
     }
 
+    /*
     const currentSupplierList = useAppSelector(state => {
         if (!productID) return []
 
@@ -71,6 +75,32 @@ const OldItemForm = (
 
         return arr
     })
+    */
+    const currentSupplierList = useMemo(()=>{
+        if (!productID) return []
+
+        const state = store.getState() as RootState
+
+        const purchaseRecords = (state.productsReducer.internalItems as IPurchaseRecordItem[]).filter(e => e.internalSkuID === productID)
+        if (!purchaseRecords.length) return []
+
+        const productSupplierIDs = [...new Set(purchaseRecords.sort((a,b)=>b.movementID - a.movementID).map(e => e.productSupplierID))]
+
+        let arr:ISpecification[] = []
+
+        for (const ps of productSupplierIDs){
+            const supplierID = productSupplierItems.current.get(ps)
+            if (!supplierID) continue
+
+            const supplier = (state.productsReducer.suppliers as ISpecification[]).find(e => e.id === supplierID)
+            if (!supplier) continue
+
+            arr = [...arr,{id:ps,name:supplier.name}]
+        }
+
+        return arr
+    },[productID])
+    
     const [currentSupplier,setCurrentSupplier] = useState(0)
     const currentSupplierOnSelect = (e:SelectChangeEvent<number>) => setCurrentSupplier(e.target.value as number)
 
@@ -132,10 +162,6 @@ const OldItemForm = (
         if (!!currentSupplierList.length) setCurrentSupplier(currentSupplierList[0].id);
         else setCurrentSupplier(0);
     },[currentSupplierList])
-
-    useEffect(()=>{
-        console.log(currentSupplier)
-    },[currentSupplier])
 
     return (
         <Stack direction='column' spacing={2} component='form' onSubmit={onSubmit}>
