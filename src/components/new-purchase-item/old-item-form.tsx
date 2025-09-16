@@ -7,7 +7,7 @@ import { ChangeEvent, FormEvent, useContext, useEffect, useId, useRef, useState 
 import styles from './index.module.css';
 import { NumberField } from '@base-ui-components/react/number-field';
 import { httpRequestHeader, MinusIcon, PlusIcon } from "@misc";
-// import Button from "@mui/material/Button";
+import Button from "@mui/material/Button";
 import { selectMovementList } from "@components/purchase-quantity/selectors";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
@@ -33,8 +33,8 @@ const OldItemForm = (
     // const newSupplierLabelID = useId()
     // const currentSupplierLabelID = useId()
 
-    // const urlRef = useRef<HTMLInputElement>(null)
-    // const subitemNameRef = useRef<HTMLInputElement>(null)
+    const urlRef = useRef<HTMLInputElement>(null)
+    const subitemNameRef = useRef<HTMLInputElement>(null)
 
     const productIDs = useAppSelector(selectInternalProductIDs)
     const initialProductID = useRef('')
@@ -191,11 +191,11 @@ const OldItemForm = (
                     </FormControl>    
                 </Grid>} */}
             </Grid>
-            {/* <Stack direction='row' spacing={2} display={isNewSupplier ? 'flex' : 'none'}>
+            <Stack direction='row' spacing={2} display={isNewSupplier ? 'flex' : 'none'}>
                 <TextField fullWidth label='URL' required inputRef={urlRef} />
                 <TextField fullWidth label='Subitem Name' inputRef={subitemNameRef} />
             </Stack>
-            <Button type='submit' variant="contained" disabled={!productID} fullWidth>Submit</Button> */}
+            <Button type='submit' variant="contained" disabled={!productID} fullWidth>Submit</Button>
         </Stack>
     )
 }
