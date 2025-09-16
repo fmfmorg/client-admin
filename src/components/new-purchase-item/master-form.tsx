@@ -6,14 +6,17 @@ import NewItemForm from "./new-item-form";
 import OldItemForm from "./old-item-form";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import { IProductSupplierItem } from "src/interfaces";
 
 const MasterForm = (
     {
         _external,
         _internal,
+        _productSupplierItems,
     }:{
         _external:string;
         _internal:string;
+        _productSupplierItems:IProductSupplierItem[];
     }
 ) => {
     const [external,setExternal] = useState(_external)
@@ -30,7 +33,9 @@ const MasterForm = (
         <Stack direction='row' justifyContent='center'>
             <Stack direction='column' spacing={2} sx={{maxWidth:'800px',width:'100%'}}>
                 <FormControlLabel control={<Checkbox onChange={newItemCheckboxOnChange} checked={newItem} />} label='New Item' sx={{width:'fit-content'}} />
-                {newItem ? <NewItemForm {...{external,internal,updateExternal,updateInternal,uploadLoading}} /> : <OldItemForm {...{uploadLoading}} />}
+                {newItem 
+                ? <NewItemForm {...{external,internal,updateExternal,updateInternal,uploadLoading}} /> 
+                : <OldItemForm {...{uploadLoading,_productSupplierItems}} />}
             </Stack>
         </Stack>
         <Backdrop 

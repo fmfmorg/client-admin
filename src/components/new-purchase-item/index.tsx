@@ -5,6 +5,7 @@ import { initData, IState, preselectLatestPurchaseOrder } from "@slices/products
 import { useAppDispatch } from "@store/hooks";
 import { useEffect } from "react";
 import Form from "./master-form";
+import { IProductSupplierItem } from "src/interfaces";
 
 const NewPurchaseItem = (
     {
@@ -12,17 +13,18 @@ const NewPurchaseItem = (
         _external,
         _internal,
         initialState,
+        _productSupplierItems,
     }:{
         csrf:string;
         _external:string;
         _internal:string;
         initialState:IState;
+        _productSupplierItems:IProductSupplierItem[];
     }
 ) => {
     const dispatch = useAppDispatch();
 
     useEffect(()=>{
-        console.log(initialState)
         dispatch(preselectLatestPurchaseOrder())
         dispatch(initData(initialState))
     },[])
@@ -30,7 +32,7 @@ const NewPurchaseItem = (
     return (
         <SignedInWrapper {...{
             csrf,
-            children:<Form {...{_external,_internal}} />
+            children:<Form {...{_external,_internal,_productSupplierItems}} />
         }} />
     )
 }

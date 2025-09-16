@@ -24,7 +24,7 @@ const NewPurchaseItemPage = async() => {
     }
     const initialState = await resp.json() as IState
 
-    return <NewPurchaseItem {...{csrf,_internal,_external,initialState}} />
+    return <NewPurchaseItem {...{csrf,_internal,_external,initialState,_productSupplierItems}} />
 }
 
 export default NewPurchaseItemPage
