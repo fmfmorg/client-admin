@@ -128,10 +128,10 @@ const OldItemForm = (
         if (!!movementList.length) setMovement(movementList[0].id)
     },[movementList])
 
-    // useEffect(()=>{
-    //     if (!!currentSupplierList.length) setCurrentSupplier(currentSupplierList[0].id);
-    //     else setCurrentSupplier(0);
-    // },[currentSupplierList])
+    useEffect(()=>{
+        if (!!currentSupplierList.length) setCurrentSupplier(currentSupplierList[0].id);
+        else setCurrentSupplier(0);
+    },[currentSupplierList])
 
     return (
         <Stack direction='column' spacing={2} component='form' onSubmit={onSubmit}>
