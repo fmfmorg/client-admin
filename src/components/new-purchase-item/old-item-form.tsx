@@ -133,6 +133,10 @@ const OldItemForm = (
         else setCurrentSupplier(0);
     },[currentSupplierList])
 
+    useEffect(()=>{
+        console.log(currentSupplier)
+    },[currentSupplier])
+
     return (
         <Stack direction='column' spacing={2} component='form' onSubmit={onSubmit}>
             <Stack direction='row' spacing={2}>
