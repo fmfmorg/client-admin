@@ -77,8 +77,8 @@ const OldItemForm = (
         return arr
     },[productID])
 
-    const [currentSupplier,setCurrentSupplier] = useState(0)
-    const currentSupplierOnSelect = (e:SelectChangeEvent<number>) => setCurrentSupplier(e.target.value as number)
+    const [currentProductSupplier,setCurrentProductSupplier] = useState(0)
+    const currentSupplierOnSelect = (e:SelectChangeEvent<number>) => setCurrentProductSupplier(e.target.value as number)
 
     const movementList = useAppSelector(selectMovementList)
     const [movement,setMovement] = useState(0)
@@ -96,16 +96,18 @@ const OldItemForm = (
     const {csrfToken} = useContext(CsrfContext)
 
     const reset = () => {
-        if (!costRef.current) return
+        if (!costRef.current || !urlRef.current || !subitemNameRef.current) return
         setProductID(initialProductID.current)
         setQuantity(initialQuantity.current)
         costRef.current.value = ''
+        urlRef.current.value = ''
+        subitemNameRef.current.value = ''
         uploadLoading(false)
     }
 
     const onSubmit = async(e:FormEvent) => {
         e.preventDefault()
-        if (!costRef.current) return
+        if (!costRef.current || !urlRef.current || !subitemNameRef.current) return
 
         uploadLoading(true)
 
@@ -116,7 +118,12 @@ const OldItemForm = (
                 productID,
                 quantity,
                 movement,
-                costRMB:Math.round(+costRef.current.value.trim() * 100)
+                costRMB:Math.round(+costRef.current.value.trim() * 100),
+                isNewSupplier,
+                currentProductSupplier,
+                url:urlRef.current.value,
+                subitemName:subitemNameRef.current.value,
+                newSupplier,
             })
         })
 
@@ -135,8 +142,8 @@ const OldItemForm = (
     },[movementList])
 
     useEffect(()=>{
-        if (!!currentSupplierList.length) setCurrentSupplier(currentSupplierList[0].id);
-        else setCurrentSupplier(0);
+        if (!!currentSupplierList.length) setCurrentProductSupplier(currentSupplierList[0].id);
+        else setCurrentProductSupplier(0);
     },[currentSupplierList])
 
     useEffect(()=>{
@@ -179,12 +186,12 @@ const OldItemForm = (
                 <Grid size={6}>
                     <FormControlLabel control={<Checkbox onChange={toggleNewSupplier} checked={isNewSupplier} />} label='New Supplier' sx={{width:'fit-content'}} />
                 </Grid>
-                {!isNewSupplier && !!currentSupplier && <Grid size={6}>
+                {!isNewSupplier && !!currentProductSupplier && <Grid size={6}>
                     <FormControl fullWidth>
                         <InputLabel id={currentSupplierLabelID}>Supplier</InputLabel>
                         <Select
                             labelId={currentSupplierLabelID}
-                            value={currentSupplier}
+                            value={currentProductSupplier}
                             label='Supplier'
                             onChange={currentSupplierOnSelect}
                         >
@@ -202,7 +209,7 @@ const OldItemForm = (
                 </Grid>}
             </Grid>
             <Stack direction='row' spacing={2} display={isNewSupplier ? 'flex' : 'none'}>
-                <TextField fullWidth label='URL' required inputRef={urlRef} />
+                <TextField fullWidth label='URL' required={isNewSupplier} inputRef={urlRef} />
                 <TextField fullWidth label='Subitem Name' inputRef={subitemNameRef} />
             </Stack>
             <Button type='submit' variant="contained" disabled={!productID} fullWidth>Submit</Button>
