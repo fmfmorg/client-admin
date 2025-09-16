@@ -30,15 +30,15 @@ const OldItemForm = (
     }
 ) => {
     const quantityFieldID = useId()
-    // const newSupplierLabelID = useId()
-    // const currentSupplierLabelID = useId()
+    const newSupplierLabelID = useId()
+    const currentSupplierLabelID = useId()
 
     const urlRef = useRef<HTMLInputElement>(null)
     const subitemNameRef = useRef<HTMLInputElement>(null)
 
     const productIDs = useAppSelector(selectInternalProductIDs)
     const initialProductID = useRef('')
-    // const productSupplierItems = useRef(new Map<number,number>(_productSupplierItems.map(e => ([e.productSupplierID,e.supplierID]))))
+    const productSupplierItems = useRef(new Map<number,number>(_productSupplierItems.map(e => ([e.productSupplierID,e.supplierID]))))
     const [productID,setProductID] = useState(initialProductID.current)
     const initialQuantity = useRef(3)
     const [quantity,setQuantity] = useState(initialQuantity.current)
@@ -49,30 +49,30 @@ const OldItemForm = (
         if (v !== null) setQuantity(v)
     }
 
-    // const currentSupplierList = useAppSelector(state => {
-    //     if (!productID) return []
+    const currentSupplierList = useAppSelector(state => {
+        if (!productID) return []
 
-    //     const purchaseRecords = (state.productsReducer.internalItems as IPurchaseRecordItem[]).filter(e => e.internalSkuID === productID)
-    //     if (!purchaseRecords.length) return []
+        const purchaseRecords = (state.productsReducer.internalItems as IPurchaseRecordItem[]).filter(e => e.internalSkuID === productID)
+        if (!purchaseRecords.length) return []
 
-    //     const productSupplierIDs = [...new Set(purchaseRecords.sort((a,b)=>b.movementID - a.movementID).map(e => e.productSupplierID))]
+        const productSupplierIDs = [...new Set(purchaseRecords.sort((a,b)=>b.movementID - a.movementID).map(e => e.productSupplierID))]
 
-    //     let arr:ISpecification[] = []
+        let arr:ISpecification[] = []
 
-    //     for (const ps of productSupplierIDs){
-    //         const supplierID = productSupplierItems.current.get(ps)
-    //         if (!supplierID) continue
+        for (const ps of productSupplierIDs){
+            const supplierID = productSupplierItems.current.get(ps)
+            if (!supplierID) continue
 
-    //         const supplier = (state.productsReducer.suppliers as ISpecification[]).find(e => e.id === supplierID)
-    //         if (!supplier) continue
+            const supplier = (state.productsReducer.suppliers as ISpecification[]).find(e => e.id === supplierID)
+            if (!supplier) continue
 
-    //         arr = [...arr,{id:ps,name:supplier.name}]
-    //     }
+            arr = [...arr,{id:ps,name:supplier.name}]
+        }
 
-    //     return arr
-    // })
-    // const [currentSupplier,setCurrentSupplier] = useState(0)
-    // const currentSupplierOnSelect = (e:SelectChangeEvent<number>) => setCurrentSupplier(e.target.value as number)
+        return arr
+    })
+    const [currentSupplier,setCurrentSupplier] = useState(0)
+    const currentSupplierOnSelect = (e:SelectChangeEvent<number>) => setCurrentSupplier(e.target.value as number)
 
     const movementList = useAppSelector(selectMovementList)
     const [movement,setMovement] = useState(0)
@@ -169,7 +169,7 @@ const OldItemForm = (
                 <Grid size={6}>
                     <FormControlLabel control={<Checkbox onChange={toggleNewSupplier} checked={isNewSupplier} />} label='New Item' sx={{width:'fit-content'}} />
                 </Grid>
-                {/* {!isNewSupplier && !!currentSupplier && <Grid size={6}>
+                {!isNewSupplier && !!currentSupplier && <Grid size={6}>
                     <FormControl fullWidth>
                         <InputLabel id={currentSupplierLabelID}>Supplier</InputLabel>
                         <Select
@@ -182,7 +182,7 @@ const OldItemForm = (
                         </Select>
                     </FormControl>
                 </Grid>}
-                {isNewSupplier && <Grid size={6}>
+                {/* {isNewSupplier && <Grid size={6}>
                     <FormControl fullWidth>
                         <InputLabel id={newSupplierLabelID}>Suppliers</InputLabel>
                         <Select labelId={newSupplierLabelID} label='Suppliers' value={newSupplier} onChange={newSuppliersOnChange}>
