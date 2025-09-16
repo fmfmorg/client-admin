@@ -86,8 +86,8 @@ const OldItemForm = (
 
 
     const newSupplierList = useAppSelector(selectSupplierList)
-    const [newSupplier,setNewSupplier] = useState(newSupplierList[0].id)
-    const newSuppliersOnChange = (e:SelectChangeEvent<number>) => setNewSupplier(e.target.value as number)
+    // const [newSupplier,setNewSupplier] = useState(newSupplierList[0].id)
+    // const newSuppliersOnChange = (e:SelectChangeEvent<number>) => setNewSupplier(e.target.value as number)
 
     const movementIDsOnChange = (e:SelectChangeEvent<number>) => setMovement(e.target.value as number)
     const toggleNewSupplier = (e:ChangeEvent<HTMLInputElement>) => setIsNewSupplier(e.target.checked)
