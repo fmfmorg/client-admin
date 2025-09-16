@@ -86,8 +86,8 @@ const OldItemForm = (
 
 
     const newSupplierList = useAppSelector(selectSupplierList)
-    const [newSupplier,setNewSupplier] = useState(newSupplierList[0].id)
-    // const newSuppliersOnChange = (e:SelectChangeEvent<number>) => setNewSupplier(e.target.value as number)
+    const [newSupplier,setNewSupplier] = useState(0)
+    const newSuppliersOnChange = (e:SelectChangeEvent<number>) => setNewSupplier(e.target.value as number)
 
     const movementIDsOnChange = (e:SelectChangeEvent<number>) => setMovement(e.target.value as number)
     const toggleNewSupplier = (e:ChangeEvent<HTMLInputElement>) => setIsNewSupplier(e.target.checked)
@@ -139,6 +139,10 @@ const OldItemForm = (
         else setCurrentSupplier(0);
     },[currentSupplierList])
 
+    useEffect(()=>{
+        if (!!newSupplierList.length) setNewSupplier(newSupplierList[0].id)
+    },[newSupplierList])
+
     return (
         <Stack direction='column' spacing={2} component='form' onSubmit={onSubmit}>
             <Stack direction='row' spacing={2}>
@@ -188,14 +192,14 @@ const OldItemForm = (
                         </Select>
                     </FormControl>
                 </Grid>}
-                {/* {isNewSupplier && <Grid size={6}>
+                {isNewSupplier && <Grid size={6}>
                     <FormControl fullWidth>
                         <InputLabel id={newSupplierLabelID}>Suppliers</InputLabel>
                         <Select labelId={newSupplierLabelID} label='Suppliers' value={newSupplier} onChange={newSuppliersOnChange}>
                             {newSupplierList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                         </Select>
                     </FormControl>    
-                </Grid>} */}
+                </Grid>}
             </Grid>
             <Stack direction='row' spacing={2} display={isNewSupplier ? 'flex' : 'none'}>
                 <TextField fullWidth label='URL' required inputRef={urlRef} />
