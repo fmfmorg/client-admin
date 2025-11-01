@@ -71,7 +71,7 @@ const FilterDialog = () => {
                                     renderInput={p => <TextField {...p} label='Suppliers' />}
                                     multiple
                                     value={showSuppliers}
-                                    onChange={e => console.log(e)}
+                                    onChange={(_,v) => console.log(v)}
                                 />
                             </FormControl>
                         </Grid>
