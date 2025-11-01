@@ -10,6 +10,8 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Grid2'
 import Button from '@mui/material/Button';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import { RowEqualWidth } from '@misc';
 import { selectMetalColorList, selectMovementList, selectProductIDs, selectProductTypeList, selectSupplierList } from './selectors';
 import { toggleFilter, updateMovements, updateProductType, updateShowMetalColor, updateSuppliers } from '@slices/products';
@@ -22,8 +24,14 @@ const FilterDialog = () => {
     const filterOnClose = () => dispatch(toggleFilter())
 
     const supplierList = useAppSelector(selectSupplierList)
-    const showSuppliers = useAppSelector(state => state.productsReducer.showSuppliers)
-    const suppliersOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateSuppliers(e.target.value as number[]))
+    // const showSuppliers = useAppSelector(state => state.productsReducer.showSuppliers || [])
+    // const suppliersOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateSuppliers(e.target.value as number[]))
+    const showSuppliers = useAppSelector(state => {
+        if (!state.productsReducer.suppliers || !state.productsReducer.suppliers.length || !state.productsReducer.showSuppliers || !state.productsReducer.showSuppliers.length) return []
+        const s = state.productsReducer.showSuppliers
+        return state.productsReducer.suppliers.filter(e => s.includes(e.id))
+    })
+    // const suppliersOnChange = (event: any, newValue: string | null) => 
 
     const movementList = useAppSelector(selectMovementList)
     const showMovementIDs = useAppSelector(state => state.productsReducer.showMovementIDs)
@@ -53,10 +61,18 @@ const FilterDialog = () => {
                         </Grid>
                         <Grid size={8}>
                             <FormControl fullWidth>
-                                <InputLabel id='supplier-id'>Suppliers</InputLabel>
-                                <Select multiple labelId='supplier-id' label='Suppliers' value={showSuppliers} onChange={suppliersOnChange}>
+                                {/* <InputLabel id='supplier-id'>Suppliers</InputLabel> */}
+                                {/* <Select multiple labelId='supplier-id' label='Suppliers' value={showSuppliers} onChange={suppliersOnChange}>
                                     {supplierList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
-                                </Select>
+                                </Select> */}
+                                <Autocomplete 
+                                    options={supplierList}
+                                    getOptionLabel={e => e.name}
+                                    renderInput={p => <TextField {...p} label='Suppliers' />}
+                                    multiple
+                                    value={showSuppliers}
+                                    onChange={e => console.log(e)}
+                                />
                             </FormControl>
                         </Grid>
                     </Grid>
