@@ -15,6 +15,7 @@ import TextField from '@mui/material/TextField';
 import { RowEqualWidth } from '@misc';
 import { selectMetalColorList, selectMovementList, selectProductIDs, selectProductTypeList, selectSupplierList } from './selectors';
 import { toggleFilter, updateMovements, updateProductType, updateShowMetalColor, updateSuppliers } from '@slices/products';
+import { ISpecification } from 'src/interfaces';
 
 const FilterDialog = () => {
     const count = useAppSelector(selectProductIDs).length
@@ -31,7 +32,7 @@ const FilterDialog = () => {
         const s = state.productsReducer.showSuppliers
         return state.productsReducer.suppliers.filter(e => s.includes(e.id))
     })
-    // const suppliersOnChange = (event: any, newValue: string | null) => 
+    const suppliersOnChange = (_: any, v: ISpecification[] | null) => dispatch(updateSuppliers(!!v ? v.map(e => e.id) : []))
 
     const movementList = useAppSelector(selectMovementList)
     const showMovementIDs = useAppSelector(state => state.productsReducer.showMovementIDs)
@@ -71,7 +72,7 @@ const FilterDialog = () => {
                                     renderInput={p => <TextField {...p} label='Suppliers' />}
                                     multiple
                                     value={showSuppliers}
-                                    onChange={(_,v) => console.log(v)}
+                                    onChange={suppliersOnChange}
                                 />
                             </FormControl>
                         </Grid>
