@@ -25,8 +25,6 @@ const FilterDialog = () => {
     const filterOnClose = () => dispatch(toggleFilter())
 
     const supplierList = useAppSelector(selectSupplierList)
-    // const showSuppliers = useAppSelector(state => state.productsReducer.showSuppliers || [])
-    // const suppliersOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateSuppliers(e.target.value as number[]))
     const showSuppliers = useAppSelector(state => {
         if (!state.productsReducer.suppliers || !state.productsReducer.suppliers.length || !state.productsReducer.showSuppliers || !state.productsReducer.showSuppliers.length) return []
         const s = state.productsReducer.showSuppliers
@@ -62,10 +60,6 @@ const FilterDialog = () => {
                         </Grid>
                         <Grid size={8}>
                             <FormControl fullWidth>
-                                {/* <InputLabel id='supplier-id'>Suppliers</InputLabel> */}
-                                {/* <Select multiple labelId='supplier-id' label='Suppliers' value={showSuppliers} onChange={suppliersOnChange}>
-                                    {supplierList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
-                                </Select> */}
                                 <Autocomplete 
                                     options={supplierList}
                                     getOptionLabel={e => e.name}
