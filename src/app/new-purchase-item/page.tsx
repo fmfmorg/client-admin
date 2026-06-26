@@ -18,7 +18,7 @@ const NewPurchaseItemPage = async() => {
                 cache:'no-store',
             })
         ])
-        console.log(productIdResp.status,resp.status)
+        console.log(resp.statusText)
         const {_external,_internal,_productSupplierItems} = await productIdResp.json() as {
             _external:string;
             _internal:string;
