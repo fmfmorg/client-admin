@@ -11,10 +11,12 @@ const PurchaseQuantityPage = async() => {
     
     try {
         const resp = await fetch(`${process.env.FM_CLIENT_ADMIN_API_URL}/admin/purchase-quantity-page-init`,{
-            headers:httpRequestHeader(true,'SSR',true),
+            headers:httpRequestHeader(true,'SSR',false),
             cache:'no-store',
             signal: controller.signal
         })
+
+        console.log(resp.status)
 
         if (resp.ok){
             const initialState = await resp.json() as IState
@@ -31,7 +33,8 @@ const PurchaseQuantityPage = async() => {
 
     } catch (e) {
         console.log(e)
-        return <div>ERROR ERROR ERROR</div>
+        const message = e instanceof Error ? e.message : String(e)
+        return <div>{message}</div>
     } finally {
         clearTimeout(timeout)
     }
