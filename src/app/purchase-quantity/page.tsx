@@ -26,13 +26,12 @@ const PurchaseQuantityPage = async() => {
             const errorText = await resp.text()
             console.log(resp.status, resp.statusText, errorText)
 
-            return <></>
+            return <div>{resp.status} ERROR</div>
         }
 
-        
     } catch (e) {
         console.log(e)
-        return <></>
+        return <div>ERROR ERROR ERROR</div>
     } finally {
         clearTimeout(timeout)
     }
