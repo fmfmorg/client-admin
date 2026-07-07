@@ -13,7 +13,7 @@ import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/system';
-import { csrfBroadcastChannel, httpRequestHeader } from '@misc';
+import { httpRequestHeader } from '@misc';
 
 const StyledContainer = styled(Container)({
     display: 'flex',
@@ -84,7 +84,7 @@ const SignInForm = ({csrf}:{csrf:string}) => {
   };
 
   useEffect(()=>{
-    const csrfBcChannel = csrfBroadcastChannel()
+    const csrfBcChannel = new BroadcastChannel('csrf')
     csrfBcChannel.postMessage(csrfToken)
     csrfBcChannel.onmessage = (ev:MessageEvent<string>) => setCsrfToken(ev.data)
   },[])
