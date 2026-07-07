@@ -5,7 +5,7 @@ import { useAppSelector } from "@store/hooks"
 import { selectInternalProductIDs } from "./selectors"
 import { ChangeEvent, FormEvent, useContext, useEffect, useId, useMemo, useRef, useState } from "react";
 import styles from './index.module.css';
-import { NumberField } from '@base-ui-components/react/number-field';
+import { NumberField } from '@base-ui/react/number-field';
 import { httpRequestHeader, MinusIcon, PlusIcon } from "@misc";
 import Button from "@mui/material/Button";
 import { selectMovementList } from "@components/purchase-quantity/selectors";

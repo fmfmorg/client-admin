@@ -12,7 +12,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { httpRequestHeader } from "@misc/http-request-header";
 import { CsrfContext } from "@context";
-import { NumberField } from "@base-ui-components/react/number-field";
+import { NumberField } from "@base-ui/react/number-field";
 import styles from './index.module.css';
 import { MinusIcon, PlusIcon } from "@misc";
 import { addNewPurchaseItem } from "@slices/products";
