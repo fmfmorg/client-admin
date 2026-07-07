@@ -1,8 +1,9 @@
 import UpdatePurchaseQuantity from "@components/purchase-quantity";
 import { fetchCSRF } from "../fetch-csrf";
-import { httpRequestHeader } from "@misc";
-import { IState } from "@slices/products";
+// import { httpRequestHeader } from "@misc";
+// import { IState } from "@slices/products";
 
+/*
 const PurchaseQuantityPage = async() => {
     const csrf = await fetchCSRF() || ''
 
@@ -44,6 +45,12 @@ const PurchaseQuantityPage = async() => {
     // finally {
     //     clearTimeout(timeout)
     // }
+}
+*/
+
+const PurchaseQuantityPage = async() => {
+    const csrf = await fetchCSRF() || ''
+    return <UpdatePurchaseQuantity {...{csrf}} />
 }
 
 export default PurchaseQuantityPage

@@ -14,7 +14,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { httpRequestHeader, RowEqualWidth } from '@misc';
 import { CsrfContext } from '@context';
-import { IInternalItemSpecification } from 'src/interfaces';
+import { IInternalItemSpecification } from '../../../src/interfaces';
 import { toggleEditDialog, updateItemSpec } from '@slices/products';
 import { selectMetalColorList, selectProductTypeList } from './selectors';
 
@@ -69,7 +69,7 @@ const EditDialog = () => {
         <Dialog open={!!editItemID} onClose={dialogOnClose} fullWidth>
             <DialogTitle>Edit {editItemID}</DialogTitle>
             <DialogContent>
-                <Stack direction='column' rowGap={2} marginTop={1} component='form' onSubmit={onSubmit}>
+                <Stack direction='column' sx={{rowGap:2,marginTop:1}} component='form' onSubmit={onSubmit}>
                     <RowEqualWidth>
                         <>
                         <FormControl fullWidth required>

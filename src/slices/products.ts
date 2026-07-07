@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IExternalItem, IInternalItemSpecification, IInternalMovementRecord, IProductTypeMapItem, IPurchaseRecordItem, ISkuMapItem, ISpecification } from "src/interfaces";
+import { IExternalItem, IInternalItemSpecification, IInternalMovementRecord, IProductTypeMapItem, IPurchaseRecordItem, ISkuMapItem, ISpecification } from "../../src/interfaces";
 
 export interface IState {
     internalItems?:IPurchaseRecordItem[];

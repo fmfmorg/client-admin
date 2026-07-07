@@ -11,7 +11,7 @@ import { CsrfContext } from "@context";
 import { useContext } from "react";
 import { httpRequestHeader } from "@misc";
 import { quantityPurchasedUpdated, quantityReceivedUpdated, toggleFilter, updateColumns } from "@slices/products";
-import { IPurchaseRecordItem } from "src/interfaces";
+import { IPurchaseRecordItem } from "../../../src/interfaces";
 
 const PurchaseQuantityControlBar = () => {
     const store = useStore()
@@ -61,7 +61,7 @@ const PurchaseQuantityControlBar = () => {
     }
 
     return (
-        <Stack direction='row' columnGap={2}>
+        <Stack direction='row' sx={{columnGap:2}}>
             <Stack direction='column'>
                 <Typography>Columns</Typography>
                 <Slider sx={{width:'150px'}} min={4} max={12} step={1} shiftStep={1} value={columns} onChange={sliderOnChange} />

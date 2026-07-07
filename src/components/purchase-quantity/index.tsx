@@ -2,7 +2,7 @@
 
 import SignedInWrapper from "../signed-in-wrapper"
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Stack from '@mui/material/Stack';
 import ImageList from "@mui/material/ImageList";
 import Product from "./product";
@@ -11,24 +11,45 @@ import EditDialog from "./edit";
 import PurchaseQuantityControlBar from "./header";
 import { initData, IState, preselectLatestPurchaseOrder } from "@slices/products";
 import { selectProductIDs } from "./selectors";
+import { httpRequestHeader } from "@misc";
 
 const UpdatePurchaseQuantity = (
     {
         csrf,
-        initialState,
+        // initialState,
     }:{
         csrf:string;
-        initialState:IState;
+        // initialState:IState;
     }
 ) => {
     const dispatch = useAppDispatch();
     const ids = useAppSelector(selectProductIDs)
     const columns = useAppSelector(state => state.productsReducer.columns)
+    const [loading,setLoading] = useState(true)
+    const [loadingText,setLoadingText] = useState('LOADING...')
+
+    const init = async() => {
+        try {
+            const resp = await fetch('/api/admin/purchase-quantity-page-init',{
+                headers:httpRequestHeader(false,'client',true,csrf),
+                cache:'no-store',
+            })
+            const initialState = await resp.json() as IState
+            dispatch(initData(initialState))
+            setLoading(false)
+        } catch (e) {
+            const message = e instanceof Error ? e.message : String(e)
+            setLoadingText(message)
+        }
+    }
 
     useEffect(()=>{
         dispatch(preselectLatestPurchaseOrder())
-        dispatch(initData(initialState))
+        init()
+        // dispatch(initData(initialState))
     },[])
+
+    if (loading) return <div>{loadingText}</div>
     
     return (
         <SignedInWrapper {...{

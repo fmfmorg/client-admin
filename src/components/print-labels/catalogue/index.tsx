@@ -1,4 +1,4 @@
-import Grid from '@mui/material/Grid2'
+import Grid from '@mui/material/Grid'
 import Header from './header'
 import { useAppSelector } from '@store/hooks'
 import SingleProducts from './single-products'

@@ -14,7 +14,7 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -25,14 +25,13 @@
         "name": "next"
       }
     ],
-    "baseUrl": ".",
     "paths": {
-      "@components/*": ["src/components/*"],
-      "@misc": ["src/misc/index"],
-      "@misc/*": ["src/misc/*"],
-      "@context": ["src/contexts/index"],
-      "@store/*": ["src/store/*"],
-      "@slices/*": ["src/slices/*"],
+      "@components/*": ["./src/components/*"],
+      "@misc": ["./src/misc/index"],
+      "@misc/*": ["./src/misc/*"],
+      "@context": ["./src/contexts/index"],
+      "@store/*": ["./src/store/*"],
+      "@slices/*": ["./src/slices/*"],
     }
   },
   "include": [

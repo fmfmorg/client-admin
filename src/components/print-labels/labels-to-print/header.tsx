@@ -45,7 +45,7 @@ const Header = () => {
 
     return (
         <AppBar position='sticky'>
-            <Stack direction='row' columnGap={2}>
+            <Stack direction='row' sx={{columnGap:2}}>
                 <Button variant='contained' color='error' startIcon={<DeleteIcon />} onClick={clearLabelQty}>Clear</Button>
                 <Button variant='contained' color='info' startIcon={<DownloadIcon />} onClick={exportCSV}>Download CSV</Button>
             </Stack>

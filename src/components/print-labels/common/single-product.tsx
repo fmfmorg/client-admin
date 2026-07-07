@@ -1,7 +1,7 @@
 import { useAppSelector } from "@store/hooks"
 import ImageListItem from "@mui/material/ImageListItem"
 import ImageListItemBar from "@mui/material/ImageListItemBar"
-import { IExternalItem, ISkuMapItem } from "src/interfaces"
+import { IExternalItem, ISkuMapItem } from "../../../../src/interfaces"
 import ProductField from "./product-field"
 
 const SingleProduct = ({id,isCatalogue}:{id:string;isCatalogue?:boolean;})=> {

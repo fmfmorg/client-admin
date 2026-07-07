@@ -37,7 +37,7 @@ const Content = () => {
     },[])
 
     return (
-        <Stack direction='column' rowGap={2} p={2}>
+        <Stack direction='column' sx={{rowGap:2,p:2}}>
             <Autocomplete 
                 options={options}
                 renderInput={(params) => <TextField {...params} label="SKU #" />}

@@ -53,7 +53,7 @@ const FilterDialog = () => {
         <Dialog open={filterOn} onClose={filterOnClose} fullWidth>
             <DialogTitle>Filter</DialogTitle>
             <DialogContent>
-                <Stack direction='column' marginTop={1} rowGap={2}>
+                <Stack direction='column' sx={{marginTop:1,rowGap:2}}>
                     <RowEqualWidth>
                         <>
                         <FormControl fullWidth>

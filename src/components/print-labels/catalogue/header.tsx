@@ -33,7 +33,7 @@ const Header = () => {
     
     return (
         <AppBar position='sticky'>
-            <Stack direction='row' columnGap={2}>
+            <Stack direction='row' sx={{columnGap:2}}>
                 <Button variant='contained' color='info' startIcon={<FilterAltIcon />} onClick={filterBtnOnClick}>Filter</Button>
                 <Button variant='contained' color='warning' startIcon={<UpdateIcon />} onClick={updateAllSinglesInView}>Current view, Latest Receipt Quantity</Button>
             </Stack>

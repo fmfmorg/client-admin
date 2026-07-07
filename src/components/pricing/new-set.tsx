@@ -19,7 +19,7 @@ import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import { httpRequestHeader } from '@misc';
 import { CsrfContext } from '@context'
-import { IExternalItem, IPurchaseRecordItem, ISkuMapItem } from 'src/interfaces';
+import { IExternalItem, IPurchaseRecordItem, ISkuMapItem } from '../../../src/interfaces';
 import { newSetCreated, toggleNewSetDialog } from '@slices/products';
 import { selectAllInternalSKUs } from './selectors';
 
@@ -144,7 +144,7 @@ const Content = () => {
                     },
                 }}
             />
-            <Stack direction='row' columnGap={2}>
+            <Stack direction='row' sx={{columnGap:2}}>
                 <Button variant='outlined' color='error' onClick={clearOnClick}>Clear</Button>
                 <Button variant='contained' onClick={createOnClick}>Create</Button>
                 <Button variant='outlined' onClick={dialogOnClose}>Close</Button>
@@ -225,8 +225,8 @@ const ImageContent = (
     }
 
     return (
-        <Stack direction='row' columnGap={1}>
-            <Stack direction='column' rowGap={1} sx={{flexGrow:1}}>
+        <Stack direction='row' sx={{columnGap:1}}>
+            <Stack direction='column' sx={{flexGrow:1,rowGap:1}}>
                 <Autocomplete 
                     options={allInternalSKUs}
                     value={internalSKU}

@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks"
-import { IExternalItem } from "src/interfaces"
+import { IExternalItem } from "../../../../src/interfaces"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import { NumberField } from '@base-ui-components/react/number-field';

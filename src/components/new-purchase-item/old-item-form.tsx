@@ -16,8 +16,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { CsrfContext } from "@context";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Grid from '@mui/material/Grid2'
-import { IProductSupplierItem, IPurchaseRecordItem, ISpecification } from "src/interfaces";
+import Grid from '@mui/material/Grid'
+import { IProductSupplierItem, IPurchaseRecordItem, ISpecification } from "../../../src/interfaces";
 import { useStore } from "react-redux";
 import { RootState } from "@store/store";
 import { selectSupplierList } from "@components/pricing/selectors";
@@ -42,9 +42,9 @@ const OldItemForm = (
     const productIDs = useAppSelector(selectInternalProductIDs)
     const initialProductID = useRef('')
     const productSupplierItems = useRef(new Map<number,number>(_productSupplierItems.map(e => ([e.productSupplierID,e.supplierID]))))
-    const [productID,setProductID] = useState(initialProductID.current)
+    const [productID,setProductID] = useState('')
     const initialQuantity = useRef(3)
-    const [quantity,setQuantity] = useState(initialQuantity.current)
+    const [quantity,setQuantity] = useState(3)
     const onChange = (_:any,v:string|null) => {
         if (!!v) setProductID(v)
     }
@@ -208,7 +208,7 @@ const OldItemForm = (
                     </FormControl>    
                 </Grid>}
             </Grid>
-            <Stack direction='row' spacing={2} display={isNewSupplier ? 'flex' : 'none'}>
+            <Stack direction='row' spacing={2} sx={{display:isNewSupplier ? 'flex' : 'none'}}>
                 <TextField fullWidth label='URL' required={isNewSupplier} inputRef={urlRef} />
                 <TextField fullWidth label='Subitem Name' inputRef={subitemNameRef} />
             </Stack>

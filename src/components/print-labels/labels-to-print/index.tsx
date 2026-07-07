@@ -1,7 +1,7 @@
-import Grid from '@mui/material/Grid2'
+import Grid from '@mui/material/Grid'
 import Header from './header'
 import { useAppSelector } from '@store/hooks'
-import { IExternalItem, ISkuMapItem } from 'src/interfaces'
+import { IExternalItem, ISkuMapItem } from '../../../../src/interfaces'
 import SingleProducts from './single-products'
 import SetProducts from './set-products'
 

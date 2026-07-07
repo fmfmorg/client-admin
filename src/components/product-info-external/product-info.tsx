@@ -3,7 +3,7 @@ import ImageListItem from "@mui/material/ImageListItem"
 import ImageListItemBar from "@mui/material/ImageListItemBar"
 import Typography from "@mui/material/Typography"
 import { useAppSelector } from "@store/hooks"
-import { IExternalItem, IPurchaseRecordItem, ISkuMapItem } from "src/interfaces"
+import { IExternalItem, IPurchaseRecordItem, ISkuMapItem } from "../../../src/interfaces"
 
 const ImageItem = ({id}:{id:string}) => {
     // const imgSrc = useAppSelector(state => (state.productsReducer.internalItemSpecs as IInternalItemSpecification[]).find(e=>e.internalSkuID ===id)?.image || '')

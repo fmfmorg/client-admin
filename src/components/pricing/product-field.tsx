@@ -5,7 +5,7 @@ import { ChangeEvent } from "react"
 import TextField from "@mui/material/TextField"
 import InputAdornment from "@mui/material/InputAdornment"
 import { updatePriceTemp } from "@slices/products"
-import { IExternalItem, IPurchaseRecordItem, ISkuMapItem } from "src/interfaces"
+import { IExternalItem, IPurchaseRecordItem, ISkuMapItem } from "../../../src/interfaces"
 
 const ProductField = ({id,isSingle}:{id:string;isSingle?:boolean;}) => {
     const currentPrice = useAppSelector(state => ((state.productsReducer.externalItems as IExternalItem[]).find(e => e.externalSkuID === id)?.price || 0).toFixed(2))

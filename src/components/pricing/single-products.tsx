@@ -3,7 +3,7 @@ import ImageListItemBar from "@mui/material/ImageListItemBar"
 import { useAppSelector } from "@store/hooks"
 import ProductField from "./product-field"
 import ImageList from "@mui/material/ImageList"
-import { IExternalItem, ISkuMapItem } from "src/interfaces"
+import { IExternalItem, ISkuMapItem } from "../../../src/interfaces"
 import { selectSingleProductIDs } from "./selectors"
 
 const SingleProduct = ({id}:{id:string})=>{

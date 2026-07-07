@@ -1,6 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "@store/store";
-import { IExternalItem } from "src/interfaces";
+import { IExternalItem } from "../../../src/interfaces";
 
 const state = (state:RootState) => state
 

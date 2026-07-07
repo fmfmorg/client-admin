@@ -7,7 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import Stack from '@mui/material/Stack';
 import { ChangeEvent } from 'react';
-import { IPurchaseRecordItem } from 'src/interfaces';
+import { IPurchaseRecordItem } from '../../../src/interfaces';
 import { toggleEditDialog, updateQuantityPurchasedTemp, updateQuantityReceivedTemp } from '@slices/products';
 
 const Product = ({id}:{id:number}) => {
@@ -47,7 +47,7 @@ const Description = ({id}:{id:number}) => {
     return (
         <Stack direction='column'>
             <Typography variant='body2'>{internalSkuID} - {qty}pc</Typography>
-            <Stack direction='row' columnGap={1}>
+            <Stack direction='row' sx={{columnGap:1}}>
                 <EditQuantityReceived {...{id}} />
                 <EditQuantityPurchased {...{id}} />
             </Stack>

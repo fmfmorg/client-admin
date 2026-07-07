@@ -58,7 +58,7 @@ const NewItemForm = (
     const quantityFieldID = useId()
 
     const initialQuantity = useRef(3)
-    const [quantity,setQuantity] = useState(initialQuantity.current)
+    const [quantity,setQuantity] = useState(3)
     const quantityOnChange = (v: number | null, _: NumberField.Root.ChangeEventDetails) => {
         if (v !== null) setQuantity(v)
     }

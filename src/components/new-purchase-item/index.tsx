@@ -5,7 +5,7 @@ import { initData, IState, preselectLatestPurchaseOrder } from "@slices/products
 import { useAppDispatch } from "@store/hooks";
 import { useEffect } from "react";
 import Form from "./master-form";
-import { IProductSupplierItem } from "src/interfaces";
+import { IProductSupplierItem } from "../../../src/interfaces";
 
 const NewPurchaseItem = (
     {

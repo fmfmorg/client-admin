@@ -6,7 +6,7 @@ import NewItemForm from "./new-item-form";
 import OldItemForm from "./old-item-form";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import { IProductSupplierItem } from "src/interfaces";
+import { IProductSupplierItem } from "../../interfaces";
 
 const MasterForm = (
     {
@@ -30,7 +30,7 @@ const MasterForm = (
 
     return (
         <>
-        <Stack direction='row' justifyContent='center'>
+        <Stack direction='row' sx={{justifyContent:'center'}}>
             <Stack direction='column' spacing={2} sx={{maxWidth:'800px',width:'100%'}}>
                 <FormControlLabel control={<Checkbox onChange={newItemCheckboxOnChange} checked={newItem} />} label='New Item' sx={{width:'fit-content'}} />
                 {newItem 

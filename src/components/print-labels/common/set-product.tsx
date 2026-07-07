@@ -6,7 +6,7 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Typography from '@mui/material/Typography';
-import { ISkuMapItem } from "src/interfaces";
+import { ISkuMapItem } from "../../../../src/interfaces";
 import ProductField from "./product-field";
 
 const ImageItem = ({internalSkuID}:{internalSkuID:string}) => {

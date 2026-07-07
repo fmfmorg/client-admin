@@ -8,14 +8,14 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import Grid from '@mui/material/Grid2'
+import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { RowEqualWidth } from '@misc';
 import { selectMetalColorList, selectMovementList, selectProductIDs, selectProductTypeList, selectSupplierList } from './selectors';
 import { toggleFilter, updateMovements, updateProductType, updateShowMetalColor, updateSuppliers } from '@slices/products';
-import { ISpecification } from 'src/interfaces';
+import { ISpecification } from '../../../src/interfaces';
 
 const FilterDialog = () => {
     const count = useAppSelector(selectProductIDs).length
@@ -48,8 +48,8 @@ const FilterDialog = () => {
         <Dialog open={filterOn} onClose={filterOnClose} fullWidth>
             <DialogTitle>Filter</DialogTitle>
             <DialogContent>
-                <Stack direction='column' marginTop={1} rowGap={2}>
-                    <Grid container direction='row' columnSpacing={2} width='100%'>
+                <Stack direction='column' sx={{marginTop:1,rowGap:2}}>
+                    <Grid container direction='row' columnSpacing={2} sx={{width:'100%'}}>
                         <Grid size={4}>
                             <FormControl fullWidth>
                                 <InputLabel id='movement-id'>Date</InputLabel>

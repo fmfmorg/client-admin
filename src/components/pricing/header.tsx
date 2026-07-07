@@ -11,7 +11,7 @@ import PublishIcon from '@mui/icons-material/Publish';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { RootState } from "@store/store"
 import { httpRequestHeader } from "@misc"
-import { IExternalItem } from "src/interfaces"
+import { IExternalItem } from "../../../src/interfaces"
 import { pricesUpdated, toggleFilter, toggleNewSetDialog, updateColumns } from "@slices/products"
 
 const Header = () => {
@@ -40,7 +40,7 @@ const Header = () => {
     }
 
     return (
-        <Stack direction='row' columnGap={2}>
+        <Stack direction='row' sx={{columnGap:2}}>
             <Stack direction='column'>
                 <Typography>Columns</Typography>
                 <Slider sx={{width:'150px'}} min={4} max={8} step={1} shiftStep={1} value={columns} onChange={sliderOnChange} />
