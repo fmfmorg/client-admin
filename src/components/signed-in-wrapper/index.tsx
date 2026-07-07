@@ -16,7 +16,6 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Link from 'next/link';
 import { CsrfContext } from '@context';
-import { csrfBroadcastChannel } from '@misc';
 import { IMenuItem } from './interfaces';
 import AccordionMenu from './accordion-menu';
 
@@ -68,7 +67,7 @@ export default function SignedInWrapper(props: Props) {
     const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
     useEffect(()=>{
-        const csrfBcChannel = csrfBroadcastChannel()
+        const csrfBcChannel = new BroadcastChannel('csrf')
         csrfBcChannel.postMessage(csrfToken)
         csrfBcChannel.onmessage = (ev:MessageEvent<string>) => setCsrfToken(ev.data)
     },[])
