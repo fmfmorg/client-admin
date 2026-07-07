@@ -11,7 +11,7 @@ import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material';
 import { selectMultiProductIDs } from './selectors';
-import { IPurchaseRecordItem, ISkuMapItem } from 'src/interfaces';
+import { IPurchaseRecordItem, ISkuMapItem } from '../../../src/interfaces';
 
 const SetProducts = () => {
     const setIDs = useAppSelector(selectMultiProductIDs)
