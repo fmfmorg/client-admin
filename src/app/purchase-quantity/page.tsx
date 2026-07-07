@@ -19,15 +19,15 @@ const PurchaseQuantityPage = async() => {
             // signal: controller.signal
         })
 
-        console.log(resp.status)
+        // console.log(resp.status)
 
         if (resp.ok){
-            const initialState = await resp.json() as IState
-            console.log(initialState)
+            // const initialState = await resp.json() as IState
+            // console.log(initialState)
 
             return (
                 // <UpdatePurchaseQuantity {...{csrf,initialState}} />
-                <div>initialState no problem</div>
+                <div>initialState no problem {resp.status}</div>
             )
         } else {
             const errorText = await resp.text()
