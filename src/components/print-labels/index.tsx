@@ -3,7 +3,6 @@
 import { initData, IState, preselectLatestPurchaseOrder, toggleShowNonPricedItems } from "@slices/products";
 import { useEffect, useState } from "react";
 import Grid from '@mui/material/Grid'
-import { csrfBroadcastChannel } from "@misc";
 import { CsrfContext } from "@context";
 import { useAppDispatch } from "@store/hooks";
 import Catalogue from "./catalogue";
@@ -23,7 +22,7 @@ const PrintLabels = (
     const [csrfToken, setCsrfToken] = useState(csrf)
     
     useEffect(()=>{
-        const csrfBcChannel = csrfBroadcastChannel()
+        const csrfBcChannel = new BroadcastChannel('csrf')
         csrfBcChannel.postMessage(csrfToken)
         csrfBcChannel.onmessage = (ev:MessageEvent<string>) => setCsrfToken(ev.data)
 
