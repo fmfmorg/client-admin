@@ -22,8 +22,8 @@ const PurchaseQuantityPage = async() => {
         // console.log(resp.status)
 
         if (resp.ok){
-            // const initialState = await resp.json() as IState
-            // console.log(initialState)
+            const initialState = await resp.json() as IState
+            console.log(initialState.metalColors)
 
             return (
                 // <UpdatePurchaseQuantity {...{csrf,initialState}} />
