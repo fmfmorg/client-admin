@@ -1,7 +1,7 @@
 'use client'
 
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SignedInWrapper from "@components/signed-in-wrapper";
 import Stack from "@mui/material/Stack";
 import Header from "./header";
@@ -10,6 +10,7 @@ import SingleProducts from "./single-products";
 import NewSetDialog from "./new-set";
 import SetProducts from "./set-products";
 import { initData, IState, updateMovements } from "@slices/products";
+import ShowListContext from "./context";
 
 const Pricing = (
     {
@@ -23,6 +24,9 @@ const Pricing = (
     const dispatch = useAppDispatch();
     const showSingles = useAppSelector(state => !!state.productsReducer.showSingles)
     const showSets = useAppSelector(state => !!state.productsReducer.showSets)
+
+    const [showList,setShowList] = useState(false)
+    const updateShowList = (v:boolean) => setShowList(v)
     
     useEffect(()=>{
         dispatch(initData(initialState))
@@ -34,11 +38,13 @@ const Pricing = (
             csrf,
             children:(
                 <>
-                <Stack direction='column'>
+                {showList && <Stack direction='column'>
                     {showSingles && <SingleProducts />}
                     {showSets && <SetProducts />}
-                </Stack>
-                <FilterDialog />
+                </Stack>}
+                <ShowListContext value={{updateShowList}}>
+                    <FilterDialog />
+                </ShowListContext>
                 <NewSetDialog />
                 </>
             ),

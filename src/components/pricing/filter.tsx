@@ -12,13 +12,23 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from "@mui/material/TextField";
 import { toggleFilter, toggleShowNonPricedItems, toggleShowPricedItems, toggleShowSets, toggleShowSingles, updateProductType, updateShowMetalColor, updateSuppliers } from '@slices/products';
 import { selectMetalColorList, selectProductTypeList, selectSupplierList } from './selectors';
+import { useContext } from 'react';
+import ShowListContext from './context';
+import { ISpecification } from '../../interfaces';
 
 const FilterDialog = () => {
     const dispatch = useAppDispatch();
+    const {updateShowList} = useContext(ShowListContext)
     const filterOn = useAppSelector(state => !!state.productsReducer.filterMode)
     const filterOnClose = () => dispatch(toggleFilter())
+    const updateList = () => {
+        updateShowList(true)
+        filterOnClose()
+    }
 
     const metalColorList = useAppSelector(selectMetalColorList)
     const showMetalColors = useAppSelector(state => state.productsReducer.showMetalColors || [])
@@ -29,8 +39,14 @@ const FilterDialog = () => {
     const productTypesOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateProductType(e.target.value as number[]))
 
     const supplierList = useAppSelector(selectSupplierList)
-    const showSuppliers = useAppSelector(state => state.productsReducer.showSuppliers || [])
-    const suppliersOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateSuppliers(e.target.value as number[]))
+    // const showSuppliers = useAppSelector(state => state.productsReducer.showSuppliers || [])
+    const showSuppliers = useAppSelector(state => {
+        if (!state.productsReducer.suppliers || !state.productsReducer.suppliers.length || !state.productsReducer.showSuppliers || !state.productsReducer.showSuppliers.length) return []
+        const s = state.productsReducer.showSuppliers
+        return state.productsReducer.suppliers.filter(e => s.includes(e.id))
+    })
+    // const suppliersOnChange = (e:SelectChangeEvent<number[]>) => dispatch(updateSuppliers(e.target.value as number[]))
+    const suppliersOnChange = (_: unknown, v: ISpecification[] | null) => dispatch(updateSuppliers(!!v ? v.map(e => e.id) : []))
 
     const showSingles = useAppSelector(state => state.productsReducer.showSingles)
     const showSinglesOnChange = () => dispatch(toggleShowSingles());
@@ -50,10 +66,18 @@ const FilterDialog = () => {
             <DialogContent>
                 <Stack direction='column' sx={{marginTop:1,rowGap:2}}>
                     <FormControl fullWidth>
-                        <InputLabel id='supplier-id'>Suppliers</InputLabel>
+                        {/* <InputLabel id='supplier-id'>Suppliers</InputLabel>
                         <Select multiple labelId='supplier-id' label='Suppliers' value={showSuppliers} onChange={suppliersOnChange}>
                             {supplierList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
-                        </Select>
+                        </Select> */}
+                        <Autocomplete 
+                            options={supplierList}
+                            getOptionLabel={e => e.name}
+                            renderInput={p => <TextField {...p} label='Suppliers' />}
+                            multiple
+                            value={showSuppliers}
+                            onChange={suppliersOnChange}
+                        />
                     </FormControl>
                     <RowEqualWidth>
                         <>
@@ -87,6 +111,7 @@ const FilterDialog = () => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={filterOnClose}>Close Filter</Button>
+                <Button onClick={updateList}>Update List</Button>
             </DialogActions>
         </Dialog>
     )

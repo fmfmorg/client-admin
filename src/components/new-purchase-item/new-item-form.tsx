@@ -43,7 +43,7 @@ const NewItemForm = (
     const supplierList = useAppSelector(selectSupplierList)
     const [supplier,setSupplier] = useState(supplierList[0])
     const suppliersOnChange = (_: unknown, v: ISpecification | null) => {
-        if (!!v) setSupplier(v)
+        if (!!v) setSupplier({...v})
     }
 
     const productTypeList = useAppSelector(selectProductTypeList)
@@ -144,9 +144,6 @@ const NewItemForm = (
                     </Select>
                 </FormControl>
                 <FormControl fullWidth>
-                    {/* <Select labelId='supplier-id' label='Suppliers' value={supplier} onChange={suppliersOnChange}>
-                        {supplierList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
-                    </Select> */}
                     <Autocomplete 
                         options={supplierList}
                         getOptionLabel={e => e.name}
