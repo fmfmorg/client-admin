@@ -144,7 +144,6 @@ const NewItemForm = (
                     </Select>
                 </FormControl>
                 <FormControl fullWidth>
-                    <InputLabel id='supplier-id'>Suppliers</InputLabel>
                     {/* <Select labelId='supplier-id' label='Suppliers' value={supplier} onChange={suppliersOnChange}>
                         {supplierList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
                     </Select> */}
