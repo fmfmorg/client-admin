@@ -30,7 +30,7 @@ const FilterDialog = () => {
         const s = state.productsReducer.showSuppliers
         return state.productsReducer.suppliers.filter(e => s.includes(e.id))
     })
-    const suppliersOnChange = (_: any, v: ISpecification[] | null) => dispatch(updateSuppliers(!!v ? v.map(e => e.id) : []))
+    const suppliersOnChange = (_: unknown, v: ISpecification[] | null) => dispatch(updateSuppliers(!!v ? v.map(e => e.id) : []))
 
     const movementList = useAppSelector(selectMovementList)
     const showMovementIDs = useAppSelector(state => state.productsReducer.showMovementIDs)

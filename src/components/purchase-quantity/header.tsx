@@ -18,7 +18,7 @@ const PurchaseQuantityControlBar = () => {
     const dispatch = useAppDispatch()
     const {csrfToken} = useContext(CsrfContext)
     const columns = useAppSelector(state => state.productsReducer.columns)
-    const sliderOnChange = (_:any, newValue: number | number[]) => dispatch(updateColumns(newValue as number))
+    const sliderOnChange = (_:unknown, newValue: number | number[]) => dispatch(updateColumns(newValue as number))
     const filterBtnOnClick = () => dispatch(toggleFilter())
     const hasQtyReceivedEdited = useAppSelector(state => !!(state.productsReducer.internalItems as IPurchaseRecordItem[]).filter(e => e.quantity !== e.quantityTemp).length)
     const hasQtyPurchasedEdited = useAppSelector(state => !!(state.productsReducer.internalItems as IPurchaseRecordItem[]).filter(e => e.purchaseQuantity !== e.purchaseQuantityTemp).length)

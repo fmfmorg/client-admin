@@ -9,6 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
+import Autocomplete from '@mui/material/Autocomplete';
 import Button from "@mui/material/Button";
 import { httpRequestHeader } from "@misc/http-request-header";
 import { CsrfContext } from "@context";
@@ -16,6 +17,7 @@ import { NumberField } from "@base-ui/react/number-field";
 import styles from './index.module.css';
 import { MinusIcon, PlusIcon } from "@misc";
 import { addNewPurchaseItem } from "@slices/products";
+import { ISpecification } from "../../interfaces";
 
 const NewItemForm = (
     {
@@ -39,8 +41,10 @@ const NewItemForm = (
     const dispatch = useAppDispatch()
 
     const supplierList = useAppSelector(selectSupplierList)
-    const [supplier,setSupplier] = useState(supplierList[0].id)
-    const suppliersOnChange = (e:SelectChangeEvent<number>) => setSupplier(e.target.value as number)
+    const [supplier,setSupplier] = useState(supplierList[0])
+    const suppliersOnChange = (_: unknown, v: ISpecification | null) => {
+        if (!!v) setSupplier(v)
+    }
 
     const productTypeList = useAppSelector(selectProductTypeList)
     const [productType,setProductType] = useState(productTypeList[0].id)
@@ -111,7 +115,7 @@ const NewItemForm = (
             internalID:internal,
             metalColorID:metalColor,
             productTypeID:productType,
-            supplierID:supplier,
+            supplierID:supplier.id,
             page:url,
             variation:subitemName,
             costRmb:costRMB,
@@ -141,9 +145,16 @@ const NewItemForm = (
                 </FormControl>
                 <FormControl fullWidth>
                     <InputLabel id='supplier-id'>Suppliers</InputLabel>
-                    <Select labelId='supplier-id' label='Suppliers' value={supplier} onChange={suppliersOnChange}>
+                    {/* <Select labelId='supplier-id' label='Suppliers' value={supplier} onChange={suppliersOnChange}>
                         {supplierList.map(({id,name})=>(<MenuItem key={id} value={id}>{name}</MenuItem>))}
-                    </Select>
+                    </Select> */}
+                    <Autocomplete 
+                        options={supplierList}
+                        getOptionLabel={e => e.name}
+                        renderInput={p => <TextField {...p} label='Suppliers' />}
+                        value={supplier}
+                        onChange={suppliersOnChange}
+                    />
                 </FormControl>
             </Stack>
             <Stack direction='row' spacing={2}>
