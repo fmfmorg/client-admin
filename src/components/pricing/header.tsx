@@ -19,7 +19,7 @@ const Header = () => {
     const dispatch = useAppDispatch()
     const {csrfToken} = useContext(CsrfContext)
     const columns = useAppSelector(state => state.productsReducer.columns)
-    const sliderOnChange = (_:any, newValue: number | number[]) => dispatch(updateColumns(newValue as number))
+    const sliderOnChange = (_:unknown, newValue: number | number[]) => dispatch(updateColumns(newValue as number))
     const filterBtnOnClick = () => dispatch(toggleFilter())
     const newSetBtnOnClick = () => dispatch(toggleNewSetDialog())
     const hasPriceEdited = useAppSelector(state => !!(state.productsReducer.externalItems as IExternalItem[]).filter(e => e.price !== e.priceTemp).length)

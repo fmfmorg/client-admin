@@ -24,6 +24,7 @@ const Pricing = (
     const dispatch = useAppDispatch();
     const showSingles = useAppSelector(state => !!state.productsReducer.showSingles)
     const showSets = useAppSelector(state => !!state.productsReducer.showSets)
+    const filterOn = useAppSelector(state => !!state.productsReducer.filterMode)
 
     const [showList,setShowList] = useState(false)
     const updateShowList = (v:boolean) => setShowList(v)
@@ -43,7 +44,7 @@ const Pricing = (
                     {showSets && <SetProducts />}
                 </Stack>}
                 <ShowListContext value={{updateShowList}}>
-                    <FilterDialog />
+                    {filterOn && <FilterDialog />}
                 </ShowListContext>
                 <NewSetDialog />
                 </>
