@@ -97,7 +97,7 @@ const NewItemForm = (
                 costRMB,
                 url,
                 subitemName,
-                supplier,
+                supplier:supplier.id,
                 productType,
                 metalColor,
             })
